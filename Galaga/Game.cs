@@ -7,6 +7,8 @@ using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System.Collections.Generic;
+using DIKUArcade.Physics;
+
 
 
 namespace Galaga
@@ -15,6 +17,9 @@ namespace Galaga
         private GameEventBus eventBus;
         private Player player;
         private EntityContainer<Enemy> enemies;
+        private EntityContainer<PlayerShot> playerShots;
+        private IBaseImage playerShotImage;
+
 
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
@@ -45,9 +50,33 @@ namespace Galaga
                     new ImageStride(80, images)));
             }
                 
-
-
+            //Adding shooting functionality
+            playerShots = new EntityContainer<PlayerShot>();
+            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
+            
         }
+
+        private void IterateShots() {
+            playerShots.Iterate(shot => {
+                // TODO: move the shot's shape
+                shot.Shape.Move(new Vec2F(0.0f, 0.1f));//How to use direction to move the shot?
+                if (shot.Shape.Position.Y > 1.0f ) {
+                    // TODO: delete shot
+                    shot.DeleteEntity();
+                } else {
+                    enemies.Iterate(enemy => {
+                    // TODO: if collision btw shot and enemy -> delete both entities
+                        if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision) {
+                            shot.DeleteEntity();
+                            enemy.DeleteEntity();
+                        }
+                    });
+                    
+                }
+            });
+        }
+                
+            
 
         private void KeyPress(KeyboardKey key) {
             // TODO: Close window if escape is pressed
@@ -75,6 +104,10 @@ namespace Galaga
                 case KeyboardKey.Right:
                     player.SetMoveRight(false);
                     break;
+                case KeyboardKey.Space:
+                    playerShots.AddEntity(new PlayerShot(
+                        player.Get_Pos(), playerShotImage));        
+                    break;
             }
 
 
@@ -98,10 +131,13 @@ namespace Galaga
             //TODO: Render Game Entities
             player.Render();
             enemies.RenderEntities();
+            playerShots.RenderEntities();
         }
         public override void Update() {
             window.PollEvents();
             player.Move();
+            IterateShots();
+
         }
     }
 }
