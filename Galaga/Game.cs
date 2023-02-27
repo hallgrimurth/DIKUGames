@@ -19,9 +19,14 @@ namespace Galaga
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
+            // player = new Player(
+            //     new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
+            //     new Image(Path.Combine("Assets", "Images", "Player.png")));
+            List<Image> playerimages = ImageStride.CreateStrides
+                (4, Path.Combine("Assets", "Images", "PlayerAnimation.png"));
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
+                new ImageStride(80, playerimages));
 
 
             eventBus = new GameEventBus();
