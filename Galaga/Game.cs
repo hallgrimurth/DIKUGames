@@ -6,13 +6,7 @@ using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
-<<<<<<< HEAD
-using DIKUArcade.Events;
 using System.Collections.Generic;
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
 
 
 namespace Galaga
@@ -20,6 +14,8 @@ namespace Galaga
     public class Game : DIKUGame, IGameEventProcessor {
         private GameEventBus eventBus;
         private Player player;
+        private EntityContainer<Enemy> enemies;
+
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
@@ -28,24 +24,24 @@ namespace Galaga
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
 
 
-=======
-using System.Collections.Generic;
-
-namespace Galaga
-{
-    public class Game : DIKUGame, IGameEventProcessor
-    {
-        private GameEventBus eventBus;
-        private Player player;
-        public Game(WindowArgs windowArgs) : base(windowArgs) {
-
->>>>>>> workingbranch
             eventBus = new GameEventBus();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
             window.SetKeyEventHandler(KeyHandler);
             eventBus.Subscribe(GameEventType.InputEvent, this);
 
-<<<<<<< HEAD
+            //Adding Enemies
+            List<Image> images = ImageStride.CreateStrides
+                (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+            const int numEnemies = 8;
+            enemies = new EntityContainer<Enemy>(numEnemies);
+            for (int i = 0; i < numEnemies; i++) {
+                enemies.AddEntity(new Enemy(
+                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
+                    new ImageStride(80, images)));
+            }
+                
+
+
         }
 
         private void KeyPress(KeyboardKey key) {
@@ -64,64 +60,6 @@ namespace Galaga
             }
 
             
-=======
-
-            player = new Player(
-                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
-        
-        }
-            // TODO: Set key event handler (inherited window field of DIKUGame class)
-        
-        private void KeyPress(KeyboardKey key) {
-            // TODO: Close window if escape is pressed
-            // TODO: switch on key string and set the player's move direction
-            switch (key) {
-                case KeyboardKey.Left:
-                    player.SetMoveLeft(true);
-                    break;
-                case KeyboardKey.Right:
-                    player.SetMoveRight(true);
-                    break;
-                case KeyboardKey.Escape:
-                    window.CloseWindow();
-                    break;
-            }
-        }
-        private void KeyRelease(KeyboardKey key) {
-            // TODO: switch on key string and disable the player's move direction
-            switch (key) {
-                case KeyboardKey.Left:
-                    player.SetMoveLeft(false);
-                    break;
-                case KeyboardKey.Right:
-                    player.SetMoveRight(false);
-                    break;
-            }
-        }
-
-        private void KeyHandler(KeyboardAction action, KeyboardKey key) {
-            switch (action) {
-                case KeyboardAction.KeyPress:
-                    KeyPress(key);
-                    break;
-                case KeyboardAction.KeyRelease:
-                    KeyRelease(key);
-                    break;
-            }
-        } // TODO: Outcomment
-
-        public void ProcessEvent(GameEvent gameEvent) {
-            // Leave this empty for now
-        }
-
-
-        public override void Render()
-        {
-            //TODO: Render Game Entities
-            // window.Clear();
-            player.Render();
->>>>>>> workingbranch
         }
         private void KeyRelease(KeyboardKey key) {
             // TODO: switch on key string and disable the player's move direction
@@ -134,7 +72,6 @@ namespace Galaga
                     break;
             }
 
-<<<<<<< HEAD
 
         }
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
@@ -155,12 +92,9 @@ namespace Galaga
         public override void Render() {
             //TODO: Render Game Entities
             player.Render();
+            enemies.RenderEntities();
         }
         public override void Update() {
-=======
-        public override void Update()
-        {
->>>>>>> workingbranch
             window.PollEvents();
             player.Move();
         }
