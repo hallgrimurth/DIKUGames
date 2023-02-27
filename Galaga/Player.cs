@@ -50,7 +50,7 @@ namespace Galaga {
             shape.Direction.X = moveLeft + moveRight;
         }
         public Vec2F Get_Pos() {
-            return shape.Position;
+            return new Vec2F(shape.Position.X+(shape.Extent.X/2), shape.Position.Y); //Temporary fix for centering the bullets
         }
 
 

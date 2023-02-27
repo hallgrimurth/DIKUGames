@@ -31,7 +31,7 @@ namespace Galaga
                 (4, Path.Combine("Assets", "Images", "PlayerAnimation.png"));
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new ImageStride(80, playerimages));
+                new ImageStride(160, playerimages));
 
 
             eventBus = new GameEventBus();
@@ -129,12 +129,14 @@ namespace Galaga
 
         public override void Render() {
             //TODO: Render Game Entities
+            window.Clear();
             player.Render();
             enemies.RenderEntities();
             playerShots.RenderEntities();
+
         }
         public override void Update() {
-            window.PollEvents();
+            // window.PollEvents();
             player.Move();
             IterateShots();
 
