@@ -77,8 +77,8 @@ namespace Galaga {
             shape.Direction.X = moveLeft + moveRight;
             shape.Direction.Y = moveUp + moveDown;
         }
-        public Vec2F Get_Pos() {
-            return new Vec2F(shape.Position.X+(shape.Extent.X/2), shape.Position.Y); //Temporary fix for centering the bullets
+        public Shape Get_Pos() {
+            return shape; //Temporary fix for centering the bullets
         }
 
 

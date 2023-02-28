@@ -64,7 +64,6 @@ namespace Galaga
             playerShots.Iterate(shot => {
                 // TODO: move the shot's shape
                 shot.Shape.Move(new Vec2F(0.0f, 0.1f));//How to use direction to move the shot?
-                System.Console.WriteLine(shot.Shape.Position); 
 
                 if (shot.Shape.Position.Y > 1.0f ) {
                     // TODO: delete shot
@@ -74,7 +73,6 @@ namespace Galaga
 
                         // TODO: if collision btw shot and enemy -> delete both entities
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision) {
-                            System.Console.WriteLine("Collision detected");
                             enemy.DeleteEntity();
                             shot.DeleteEntity();
                             AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
@@ -130,8 +128,10 @@ namespace Galaga
                     player.SetMoveDown(false);
                     break;
                 case KeyboardKey.Space:
+                    Vec2F pos = player.Get_Pos().Position;
+                    Vec2F ex = player.Get_Pos().Extent;
                     playerShots.AddEntity(new PlayerShot(
-                        player.Get_Pos(), playerShotImage));        
+                        new Vec2F(pos.X+(ex.X/2), pos.Y), playerShotImage));        
                     break;
             }
         }
