@@ -19,6 +19,9 @@ namespace Galaga
         private EntityContainer<Enemy> enemies;
         private EntityContainer<PlayerShot> playerShots;
         private IBaseImage playerShotImage;
+        private AnimationContainer enemyExplosions;
+        private List<Image> explosionStrides;
+        private const int EXPLOSION_LENGTH_MS = 500;
 
 
 
@@ -28,7 +31,7 @@ namespace Galaga
             //     new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
             //     new Image(Path.Combine("Assets", "Images", "Player.png")));
             List<Image> playerimages = ImageStride.CreateStrides
-                (4, Path.Combine("Assets", "Images", "PlayerAnimation.png"));
+                (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerimages));
@@ -53,6 +56,11 @@ namespace Galaga
             //Adding shooting functionality
             playerShots = new EntityContainer<PlayerShot>();
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
+
+            //Adding explosions
+            enemyExplosions = new AnimationContainer(numEnemies);
+            explosionStrides = ImageStride.CreateStrides(8,
+            Path.Combine("Assets", "Images", "Explosion.png"));
             
         }
 
@@ -60,6 +68,7 @@ namespace Galaga
             playerShots.Iterate(shot => {
                 // TODO: move the shot's shape
                 shot.Shape.Move(new Vec2F(0.0f, 0.1f));//How to use direction to move the shot?
+
                 if (shot.Shape.Position.Y > 1.0f ) {
                     // TODO: delete shot
                     shot.DeleteEntity();
@@ -67,13 +76,25 @@ namespace Galaga
                     enemies.Iterate(enemy => {
                     // TODO: if collision btw shot and enemy -> delete both entities
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision) {
-                            shot.DeleteEntity();
+                            System.Console.WriteLine("Collision detected");
                             enemy.DeleteEntity();
+                            shot.DeleteEntity();
+                            AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         }
-                    });
-                    
+
+                    });     
+            
                 }
             });
+        }
+
+        public void AddExplosion(Vec2F position, Vec2F extent){
+            // TODO: add explosion to the AnimationContainer
+            enemyExplosions.AddAnimation(
+                new StationaryShape(position, extent), 
+                80,
+                new ImageStride(EXPLOSION_LENGTH_MS / 8, explosionStrides));
+
         }
                 
             
@@ -87,6 +108,12 @@ namespace Galaga
                     break;
                 case KeyboardKey.Right:
                     player.SetMoveRight(true);
+                    break;
+                case KeyboardKey.Up:
+                    player.SetMoveUp(true);
+                    break;
+                case KeyboardKey.Down:
+                    player.SetMoveDown(true);
                     break;
                 case KeyboardKey.Escape:
                     window.CloseWindow();
@@ -103,6 +130,12 @@ namespace Galaga
                     break;
                 case KeyboardKey.Right:
                     player.SetMoveRight(false);
+                    break;
+                case KeyboardKey.Up:
+                    player.SetMoveUp(false);
+                    break;
+                case KeyboardKey.Down:
+                    player.SetMoveDown(false);
                     break;
                 case KeyboardKey.Space:
                     playerShots.AddEntity(new PlayerShot(
@@ -133,12 +166,16 @@ namespace Galaga
             player.Render();
             enemies.RenderEntities();
             playerShots.RenderEntities();
+            enemyExplosions.RenderAnimations();
+
 
         }
         public override void Update() {
             // window.PollEvents();
-            player.Move();
             IterateShots();
+
+            player.Move();
+            
 
         }
     }
