@@ -27,20 +27,17 @@ namespace Galaga
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
-            // player = new Player(
-            //     new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-            //     new Image(Path.Combine("Assets", "Images", "Player.png")));
+            eventBus = new GameEventBus();
+            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
+            window.SetKeyEventHandler(KeyHandler);
+            eventBus.Subscribe(GameEventType.InputEvent, this);
+
+            //Adding player
             List<Image> playerimages = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerimages));
-
-
-            eventBus = new GameEventBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
-            window.SetKeyEventHandler(KeyHandler);
-            eventBus.Subscribe(GameEventType.InputEvent, this);
 
             //Adding Enemies
             List<Image> images = ImageStride.CreateStrides
@@ -52,38 +49,37 @@ namespace Galaga
                     new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, images)));
             }
-                
+      
             //Adding shooting functionality
             playerShots = new EntityContainer<PlayerShot>();
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
-
+                
             //Adding explosions
             enemyExplosions = new AnimationContainer(numEnemies);
             explosionStrides = ImageStride.CreateStrides(8,
-            Path.Combine("Assets", "Images", "Explosion.png"));
-            
+                Path.Combine("Assets", "Images", "Explosion.png"));
         }
 
         private void IterateShots() {
             playerShots.Iterate(shot => {
                 // TODO: move the shot's shape
                 shot.Shape.Move(new Vec2F(0.0f, 0.1f));//How to use direction to move the shot?
+                System.Console.WriteLine(shot.Shape.Position); 
 
                 if (shot.Shape.Position.Y > 1.0f ) {
                     // TODO: delete shot
                     shot.DeleteEntity();
                 } else {
                     enemies.Iterate(enemy => {
-                    // TODO: if collision btw shot and enemy -> delete both entities
+
+                        // TODO: if collision btw shot and enemy -> delete both entities
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision) {
                             System.Console.WriteLine("Collision detected");
                             enemy.DeleteEntity();
                             shot.DeleteEntity();
                             AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         }
-
                     });     
-            
                 }
             });
         }
@@ -94,11 +90,8 @@ namespace Galaga
                 new StationaryShape(position, extent), 
                 80,
                 new ImageStride(EXPLOSION_LENGTH_MS / 8, explosionStrides));
-
         }
                 
-            
-
         private void KeyPress(KeyboardKey key) {
             // TODO: Close window if escape is pressed
             // TODO: switch on key string and set the player's move direction
@@ -118,10 +111,9 @@ namespace Galaga
                 case KeyboardKey.Escape:
                     window.CloseWindow();
                     break;
-            }
-
-            
+            }     
         }
+
         private void KeyRelease(KeyboardKey key) {
             // TODO: switch on key string and disable the player's move direction
             switch(key) {
@@ -142,9 +134,8 @@ namespace Galaga
                         player.Get_Pos(), playerShotImage));        
                     break;
             }
-
-
         }
+
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
             // TODO: Switch on KeyBoardAction and call proper method
             switch(action) {
@@ -156,6 +147,7 @@ namespace Galaga
                     break;
             }
         }
+
         public void ProcessEvent(GameEvent gameEvent) {
             // Leave this empty for now
         }
@@ -164,19 +156,15 @@ namespace Galaga
             //TODO: Render Game Entities
             window.Clear();
             player.Render();
-            enemies.RenderEntities();
             playerShots.RenderEntities();
+            enemies.RenderEntities();
             enemyExplosions.RenderAnimations();
-
-
         }
+
         public override void Update() {
-            // window.PollEvents();
             IterateShots();
-
+            // window.PollEvents();
             player.Move();
-            
-
         }
     }
 }
