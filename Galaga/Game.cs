@@ -8,6 +8,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System.Collections.Generic;
 using DIKUArcade.Physics;
+using System;
 
 
 
@@ -22,8 +23,8 @@ namespace Galaga
         private AnimationContainer enemyExplosions;
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
-
-
+        private Score score;
+        private Random rand = new Random();
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
@@ -58,14 +59,18 @@ namespace Galaga
             enemyExplosions = new AnimationContainer(numEnemies);
             explosionStrides = ImageStride.CreateStrides(8,
                 Path.Combine("Assets", "Images", "Explosion.png"));
+
+            //Adding score
+            score = new Score();
         }
 
         private void IterateShots() {
             playerShots.Iterate(shot => {
                 // TODO: move the shot's shape
-                shot.Shape.Move(new Vec2F(0.0f, 0.1f));//How to use direction to move the shot?
+                shot.Shape.Move(shot.Direction);//How to use direction to move the shot?
 
-                if (shot.Shape.Position.Y > 1.0f ) {
+                if (shot.Shape.Position.Y < 0.0f || shot.Shape.Position.Y > 1.0f || 
+                    shot.Shape.Position.X < 0.0f || shot.Shape.Position.X > 1.0f) {
                     // TODO: delete shot
                     shot.DeleteEntity();
                 } else {
@@ -76,9 +81,34 @@ namespace Galaga
                             enemy.DeleteEntity();
                             shot.DeleteEntity();
                             AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                            score.AddPoint();
                         }
                     });     
                 }
+            });
+        }
+
+        // Adding enemies when all enemies are dead
+        private void AddMoreEnemies() {
+            List<Image> images = ImageStride.CreateStrides
+                (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+            const int numEnemies = 8;
+
+            if (enemies.CountEntities() == 0) {
+                for (int i = 0; i < numEnemies; i++) {
+                    enemies.AddEntity(new Enemy(
+                        new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), new Vec2F(0.1f, 0.1f)),
+                        new ImageStride(80, images)));
+                }
+            }
+        }
+
+        // Moving enemies down at random speeds
+        private void MoveEnemiesDown() {
+            enemies.Iterate(enemy => {
+                float speed = rand.Next(1, 100) / 25000.0f;
+
+                enemy.Shape.MoveY(-speed);
             });
         }
 
@@ -89,7 +119,7 @@ namespace Galaga
                 80,
                 new ImageStride(EXPLOSION_LENGTH_MS / 8, explosionStrides));
         }
-                
+
         private void KeyPress(KeyboardKey key) {
             // TODO: Close window if escape is pressed
             // TODO: switch on key string and set the player's move direction
@@ -159,12 +189,15 @@ namespace Galaga
             playerShots.RenderEntities();
             enemies.RenderEntities();
             enemyExplosions.RenderAnimations();
+            score.RenderScore();
         }
 
         public override void Update() {
             IterateShots();
             // window.PollEvents();
             player.Move();
+            AddMoreEnemies();
+            MoveEnemiesDown();
         }
     }
 }
