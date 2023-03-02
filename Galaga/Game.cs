@@ -18,13 +18,15 @@ namespace Galaga
         private GameEventBus eventBus;
         private Player player;
         private EntityContainer<Enemy> enemies;
+        private int numEnemies = 8;
         private EntityContainer<PlayerShot> playerShots;
         private IBaseImage playerShotImage;
         private AnimationContainer enemyExplosions;
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
         private Score score;
-        private Random rand = new Random();
+        private Random rand = new Random(); // For randomizing enemy speed
+        private float enemySpeed = 0.0f; // For increasing speed of enemies
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
@@ -33,17 +35,16 @@ namespace Galaga
             window.SetKeyEventHandler(KeyHandler);
             eventBus.Subscribe(GameEventType.InputEvent, this);
 
-            //Adding player
+            // Adding player
             List<Image> playerimages = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerimages));
 
-            //Adding Enemies
+            // Adding Enemies
             List<Image> images = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-            const int numEnemies = 8;
             enemies = new EntityContainer<Enemy>(numEnemies);
             for (int i = 0; i < numEnemies; i++) {
                 enemies.AddEntity(new Enemy(
@@ -51,33 +52,32 @@ namespace Galaga
                     new ImageStride(80, images)));
             }
       
-            //Adding shooting functionality
+            // Adding shooting functionality
             playerShots = new EntityContainer<PlayerShot>();
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
                 
-            //Adding explosions
+            // Adding explosions
             enemyExplosions = new AnimationContainer(numEnemies);
             explosionStrides = ImageStride.CreateStrides(8,
                 Path.Combine("Assets", "Images", "Explosion.png"));
 
-            //Adding score
+            // Adding score
             score = new Score();
         }
 
+        // Check for collisions and delete entities if they collide - also add point to score
+        // If shot is out of bounds, delete it
         private void IterateShots() {
             playerShots.Iterate(shot => {
-                // TODO: move the shot's shape
-                shot.Shape.Move(shot.Direction);//How to use direction to move the shot?
+                shot.Shape.Move(shot.Direction); // Using the Direction property from PlayerShot.cs
 
                 if (shot.Shape.Position.Y < 0.0f || shot.Shape.Position.Y > 1.0f || 
                     shot.Shape.Position.X < 0.0f || shot.Shape.Position.X > 1.0f) {
-                    // TODO: delete shot
                     shot.DeleteEntity();
                 } else {
                     enemies.Iterate(enemy => {
-
-                        // TODO: if collision btw shot and enemy -> delete both entities
-                        if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision) {
+                        if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape)
+                            .Collision) {
                             enemy.DeleteEntity();
                             shot.DeleteEntity();
                             AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
@@ -88,32 +88,38 @@ namespace Galaga
             });
         }
 
-        // Adding enemies when all enemies are dead
+        // Adding enemies when all enemies are dead and increasing their speed
         private void AddMoreEnemies() {
             List<Image> images = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-            const int numEnemies = 8;
 
             if (enemies.CountEntities() == 0) {
+                enemySpeed += 0.0005f;
                 for (int i = 0; i < numEnemies; i++) {
                     enemies.AddEntity(new Enemy(
-                        new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), new Vec2F(0.1f, 0.1f)),
+                        new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), 
+                            new Vec2F(0.1f, 0.1f)),
                         new ImageStride(80, images)));
                 }
             }
         }
 
-        // Moving enemies down at random speeds
+        // Moving enemies down at random speeds and deleting them if they are out of bounds
+        // Also resetting score and enemy speed if enemy is out of bounds
         private void MoveEnemiesDown() {
             enemies.Iterate(enemy => {
-                float speed = rand.Next(1, 100) / 25000.0f;
-
+                float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
                 enemy.Shape.MoveY(-speed);
+
+                if (enemy.Shape.Position.Y < -0.1f) {
+                    enemy.DeleteEntity();
+                    score.ResetScore();
+                    enemySpeed = 0.0f;
+                }
             });
         }
 
         public void AddExplosion(Vec2F position, Vec2F extent){
-            // TODO: add explosion to the AnimationContainer
             enemyExplosions.AddAnimation(
                 new StationaryShape(position, extent), 
                 80,
@@ -121,8 +127,6 @@ namespace Galaga
         }
 
         private void KeyPress(KeyboardKey key) {
-            // TODO: Close window if escape is pressed
-            // TODO: switch on key string and set the player's move direction
             switch(key) {
                 case KeyboardKey.Left:
                     player.SetMoveLeft(true);
@@ -143,7 +147,6 @@ namespace Galaga
         }
 
         private void KeyRelease(KeyboardKey key) {
-            // TODO: switch on key string and disable the player's move direction
             switch(key) {
                 case KeyboardKey.Left:
                     player.SetMoveLeft(false);
@@ -158,16 +161,15 @@ namespace Galaga
                     player.SetMoveDown(false);
                     break;
                 case KeyboardKey.Space:
-                    Vec2F pos = player.Get_Pos().Position;
-                    Vec2F ex = player.Get_Pos().Extent;
+                    Vec2F pos = player.GetPosition().Position;
+                    Vec2F ex = player.GetPosition().Extent;
                     playerShots.AddEntity(new PlayerShot(
-                        new Vec2F(pos.X+(ex.X/2), pos.Y), playerShotImage));        
+                        new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));        
                     break;
             }
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
-            // TODO: Switch on KeyBoardAction and call proper method
             switch(action) {
                 case KeyboardAction.KeyPress:
                     KeyPress(key);
@@ -183,13 +185,12 @@ namespace Galaga
         }
 
         public override void Render() {
-            //TODO: Render Game Entities
             window.Clear();
             player.Render();
             playerShots.RenderEntities();
             enemies.RenderEntities();
             enemyExplosions.RenderAnimations();
-            score.RenderScore();
+            score.Render();
         }
 
         public override void Update() {

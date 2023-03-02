@@ -9,12 +9,8 @@ public class PlayerShot : Entity {
         get { return direction; }
     }
 
-    //Making a new constructor for the PlayerShot class that uses extent and direction
     public PlayerShot(Vec2F pos, IBaseImage image)
         : base(new DynamicShape(pos, extent), image) {
         Shape.AsDynamicShape().Direction = direction;
     }
-    // public PlayerShot(Vec2F pos, IBaseImage image)
-    //     : base(new DynamicShape(pos, extent), image) {}
-
 }

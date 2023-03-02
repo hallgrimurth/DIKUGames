@@ -18,7 +18,6 @@ namespace Galaga {
         }
 
         public void Move() {
-            // TODO: move the shape and guard against the window borders
             shape.Move();
 
             if(shape.Position.X  < 0.0f) {
@@ -32,7 +31,6 @@ namespace Galaga {
             } else if(shape.Position.Y > 0.9f) {
                 shape.Position.Y = 0.9f;
             }
-         
         }
 
         public void SetMoveUp(bool val) {
@@ -64,7 +62,6 @@ namespace Galaga {
         }
 
         public void SetMoveRight(bool val) {
-            // TODO:set moveRight appropriately and call UpdateDirection()
             if(val) {
                 moveRight = MOVEMENT_SPEED;
             } else {
@@ -77,13 +74,11 @@ namespace Galaga {
             shape.Direction.X = moveLeft + moveRight;
             shape.Direction.Y = moveUp + moveDown;
         }
-        public Shape Get_Pos() {
-            return shape; //Temporary fix for centering the bullets
+        public Shape GetPosition() {
+            return shape;
         }
 
-
         public void Render() {
-            // TODO: render the player entity
             entity.RenderEntity();
         }
     }
