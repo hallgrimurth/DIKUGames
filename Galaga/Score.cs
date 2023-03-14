@@ -4,28 +4,23 @@ using DIKUArcade.Math;
 
 namespace Galaga;
 public class Score {
-    private DynamicShape shape;
-    private Text scoreText;
-    private int score;
+    private Text display;
+    private int score = 1;
 
-    public Score() {
-        shape = new DynamicShape(new Vec2F(0.0f, 0.9f), new Vec2F(0.3f, 0.1f));
-        scoreText = new Text("0", new Vec2F(0.0f, -0.55f), new Vec2F(0.65f, 0.65f));
-        scoreText.SetColor(new Vec3I(255, 255, 255));
-        scoreText.SetFontSize(30);
+    public Score(Vec2F position, Vec2F extent) {
+        // shape = new DynamicShape(new Vec2F(0.0f, 0.9f), new Vec2F(0.3f, 0.1f));
+        display = new Text("level:" + score.ToString(), position, extent);
+        display.SetColor(new Vec3I(0, 255, 255));
+        display.SetFontSize(30);
     }
 
     public void AddPoint() {
         score++;
-        scoreText.SetText(score.ToString());
+        display.SetText("level:" + score.ToString());
     }
 
     public void Render() {
-        scoreText.RenderText();
+        display.RenderText();
     }
 
-    public void ResetScore() {
-        score = 0;
-        scoreText.SetText(score.ToString());
-    }
 }

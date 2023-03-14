@@ -14,6 +14,7 @@ namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
         private GameEventBus eventBus;
         private Player player;
+        private Health health;
         private EntityContainer<Enemy> enemies;
         private List<Image> enemyStridesRed;
         private int numEnemies = 8;
@@ -35,6 +36,11 @@ namespace Galaga {
             eventBus.Subscribe(GameEventType.PlayerEvent, this);
             eventBus.Subscribe(GameEventType.MovementEvent, this);
 
+            //Adding Health
+            health = new Health( new Vec2F(0.75f, -0.2f), new Vec2F(0.4f, 0.4f));
+            // Adding score
+            score = new Score(new Vec2F(0.75f, -0.3f), new Vec2F(0.4f, 0.4f));
+
             // Adding player
             List<Image> playerimages = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
@@ -43,7 +49,7 @@ namespace Galaga {
                 new ImageStride(160, playerimages));
 
             // Adding Enemies
-            List<Image> enemyStridesRed = ImageStride.CreateStrides
+            enemyStridesRed = ImageStride.CreateStrides
                 (2, Path.Combine("Assets", "Images", "RedMonster.png"));
             List<Image> BlueMonster = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
@@ -80,11 +86,8 @@ namespace Galaga {
             // enemies in columns on the left and right
             for (int i = 0; i < numEnemies/2; i++) {
                 enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.1f, 0.9f - (float)i*0.1f), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, BlueMonster), new ImageStride(80, enemyStridesRed)));
-                enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.8f, 0.9f - (float)i*0.1f), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, BlueMonster), new ImageStride(80, enemyStridesRed)));
+                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
+                    new ImageStride(80, BlueMonster), new ImageStride(40, enemyStridesRed)));
             }
 
       
@@ -97,8 +100,7 @@ namespace Galaga {
             explosionStrides = ImageStride.CreateStrides(8,
                 Path.Combine("Assets", "Images", "Explosion.png"));
 
-            // Adding score
-            score = new Score();
+            
         }
 
         // Check for collisions and delete entities if they collide - also add point to score
@@ -119,7 +121,7 @@ namespace Galaga {
                             if (enemy.Hitpoints == 0) {
                                 enemy.DeleteEntity();
                                 AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                                score.AddPoint();         
+                                // score.AddPoint();         
                             }
                             //change monster to red when hitpoints are low
                             if (enemy.Hitpoints == 1) {
@@ -137,12 +139,13 @@ namespace Galaga {
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
 
             if (enemies.CountEntities() == 0) {
+                score.AddPoint();
                 enemySpeed += 0.0005f;
                 for (int i = 0; i < numEnemies; i++) {
                     enemies.AddEntity(new Enemy(
                         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), 
                             new Vec2F(0.1f, 0.1f)),
-                        new ImageStride(80, images), new ImageStride(80, enemyStridesRed)));
+                        new ImageStride(80, images), new ImageStride(40, enemyStridesRed)));
                 }
             }
         }
@@ -172,7 +175,7 @@ namespace Galaga {
         private void KeyPress(KeyboardKey key) {
             switch(key) {
                 case KeyboardKey.Left:
-                    GameEvent Moveleft = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_LEFT" });
+                    GameEvent MoveLeft = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_LEFT" });
                     eventBus.RegisterEvent(MoveLeft);
                     break;
                 case KeyboardKey.Right:
@@ -198,16 +201,20 @@ namespace Galaga {
         private void KeyRelease(KeyboardKey key) {
             switch(key) {
                 case KeyboardKey.Left:
-                    player.SetMoveLeft(false);
+                    GameEvent MoveLeft = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_LEFT" });
+                    // player.SetMoveLeft(false);
                     break;
                 case KeyboardKey.Right:
-                    player.SetMoveRight(false);
+                    GameEvent MoveRight = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_RIGHT" });
+                    // player.SetMoveRight(false);
                     break;
                 case KeyboardKey.Up:
-                    player.SetMoveUp(false);
+                    GameEvent MoveUp = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_UP" });
+                    // player.SetMoveUp(false);
                     break;
                 case KeyboardKey.Down:
-                    player.SetMoveDown(false);
+                    GameEvent MoveDown = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_DOWN" });
+                    // player.SetMoveDown(false);
                     break;
                 case KeyboardKey.Space:
                     Vec2F pos = player.GetPosition().Position;
@@ -237,38 +244,24 @@ namespace Galaga {
                     break;
                 }
             }
-            else if (gameEvent.EventType == GameEventType.MovementEvent) {
-                switch(gameEvent.Message){
-                    case "MOVE_LEFT":
-                        player.SetMoveLeft(true);
-                        break;
-                    case "MOVE_RIGHT":
-                        player.SetMoveRight(true);
-                        break;
-                    case "MOVE_UP":
-                        player.SetMoveUp(true);
-                        break;
-                    case "MOVE_DOWN":
-                        player.SetMoveDown(true);
-                        break;
-                }
-                
-            }
         }
             
             
 
         public override void Render() {
             window.Clear();
+            health.RenderHealth();
             player.Render();
             playerShots.RenderEntities();
             enemies.RenderEntities();
             enemyExplosions.RenderAnimations();
             score.Render();
+
         }
 
         public override void Update() {
             IterateShots();
+            eventBus.ProcessEvents();
             window.PollEvents();
             eventBus.ProcessEventsSequentially();
             player.Move();
