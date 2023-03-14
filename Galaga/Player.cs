@@ -22,14 +22,14 @@ namespace Galaga {
 
             if(shape.Position.X  < 0.0f) {
                 shape.Position.X = 0.0f;
-            } else if(shape.Position.X > 0.9f) {
-                shape.Position.X = 0.9f;
+            } else if(shape.Position.X > 1.0f - shape.Extent.X) {
+                shape.Position.X = 1.0f - shape.Extent.X;
             }
 
             if(shape.Position.Y < 0.0f) {
                 shape.Position.Y = 0.0f;
-            } else if(shape.Position.Y > 0.9f) {
-                shape.Position.Y = 0.9f;
+            } else if(shape.Position.Y > 1.0f - shape.Extent.Y) {
+                shape.Position.Y = 1.0f - shape.Extent.Y;
             }
         }
 

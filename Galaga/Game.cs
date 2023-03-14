@@ -10,10 +10,7 @@ using System.Collections.Generic;
 using DIKUArcade.Physics;
 using System;
 
-
-
-namespace Galaga
-{
+namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
         private GameEventBus eventBus;
         private Player player;
@@ -25,15 +22,16 @@ namespace Galaga
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
         private Score score;
-        private Random rand = new Random(); // For randomizing enemy speed
-        private float enemySpeed = 0.0f; // For increasing speed of enemies
+        // private Random rand = new Random(); // For randomizing enemy speed
+        // private float enemySpeed = 0.0f; // For increasing speed of enemies
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
             eventBus = new GameEventBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
+            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent});
             window.SetKeyEventHandler(KeyHandler);
             eventBus.Subscribe(GameEventType.InputEvent, this);
+            eventBus.Subscribe(GameEventType.WindowEvent, this);
 
             // Adding player
             List<Image> playerimages = ImageStride.CreateStrides
@@ -48,9 +46,41 @@ namespace Galaga
             enemies = new EntityContainer<Enemy>(numEnemies);
             for (int i = 0; i < numEnemies; i++) {
                 enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
+                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f)), new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, images)));
             }
+
+            // // zigzag pattern
+            // for (int i = 0; i < numEnemies; i++) {
+            //     enemies.AddEntity(new Enemy(
+            //         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f - ((float)i*0.1f%0.2f))), new Vec2F(0.1f, 0.1f)),
+            //         new ImageStride(80, images)));
+            // }
+
+            // // wave pattern
+            // for (int i = 0; i < numEnemies; i++) {
+            //     enemies.AddEntity(new Enemy(
+            //         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f - (float)i*0.03f)), new Vec2F(0.1f, 0.1f)),
+            //         new ImageStride(80, images)));
+            // }
+
+            // // enemies in a circle
+            // for (int i = 0; i < numEnemies; i++) {
+            //     enemies.AddEntity(new Enemy(
+            //         new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/numEnemies)*0.2f, 0.6f + (float)Math.Sin(i*2*Math.PI/numEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
+            //         new ImageStride(80, images)));
+            // }
+
+            // // enemies in columns on the left and right
+            // for (int i = 0; i < numEnemies/2; i++) {
+            //     enemies.AddEntity(new Enemy(
+            //         new DynamicShape(new Vec2F(0.1f, 0.9f - (float)i*0.1f), new Vec2F(0.1f, 0.1f)),
+            //         new ImageStride(80, images)));
+            //     enemies.AddEntity(new Enemy(
+            //         new DynamicShape(new Vec2F(0.8f, 0.9f - (float)i*0.1f), new Vec2F(0.1f, 0.1f)),
+            //         new ImageStride(80, images)));
+            // }
+
       
             // Adding shooting functionality
             playerShots = new EntityContainer<PlayerShot>();
@@ -88,36 +118,36 @@ namespace Galaga
             });
         }
 
-        // Adding enemies when all enemies are dead and increasing their speed
-        private void AddMoreEnemies() {
-            List<Image> images = ImageStride.CreateStrides
-                (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        // // Adding enemies when all enemies are dead and increasing their speed
+        // private void AddMoreEnemies() {
+        //     List<Image> images = ImageStride.CreateStrides
+        //         (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
 
-            if (enemies.CountEntities() == 0) {
-                enemySpeed += 0.0005f;
-                for (int i = 0; i < numEnemies; i++) {
-                    enemies.AddEntity(new Enemy(
-                        new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), 
-                            new Vec2F(0.1f, 0.1f)),
-                        new ImageStride(80, images)));
-                }
-            }
-        }
+        //     if (enemies.CountEntities() == 0) {
+        //         enemySpeed += 0.0005f;
+        //         for (int i = 0; i < numEnemies; i++) {
+        //             enemies.AddEntity(new Enemy(
+        //                 new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), 
+        //                     new Vec2F(0.1f, 0.1f)),
+        //                 new ImageStride(80, images)));
+        //         }
+        //     }
+        // }
 
-        // Moving enemies down at random speeds and deleting them if they are out of bounds
-        // Also resetting score and enemy speed if enemy is out of bounds
-        private void MoveEnemiesDown() {
-            enemies.Iterate(enemy => {
-                float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
-                enemy.Shape.MoveY(-speed);
+        // // Moving enemies down at random speeds and deleting them if they are out of bounds
+        // // Also resetting score and enemy speed if enemy is out of bounds
+        // private void MoveEnemiesDown() {
+        //     enemies.Iterate(enemy => {
+        //         float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
+        //         enemy.Shape.MoveY(-speed);
 
-                if (enemy.Shape.Position.Y < -0.1f) {
-                    enemy.DeleteEntity();
-                    score.ResetScore();
-                    enemySpeed = 0.0f;
-                }
-            });
-        }
+        //         if (enemy.Shape.Position.Y < -0.1f) {
+        //             enemy.DeleteEntity();
+        //             score.ResetScore();
+        //             enemySpeed = 0.0f;
+        //         }
+        //     });
+        // }
 
         public void AddExplosion(Vec2F position, Vec2F extent){
             enemyExplosions.AddAnimation(
@@ -141,7 +171,8 @@ namespace Galaga
                     player.SetMoveDown(true);
                     break;
                 case KeyboardKey.Escape:
-                    window.CloseWindow();
+                    GameEvent closeWindowEvent = new GameEvent{EventType = GameEventType.WindowEvent, To = this, Message = "CLOSE_WINDOW"};
+                    eventBus.RegisterEvent(closeWindowEvent);
                     break;
             }     
         }
@@ -181,7 +212,13 @@ namespace Galaga
         }
 
         public void ProcessEvent(GameEvent gameEvent) {
-            // Leave this empty for now
+            if (gameEvent.EventType == GameEventType.WindowEvent) {
+                switch (gameEvent.Message) {
+                    case "CLOSE_WINDOW":
+                        window.CloseWindow();
+                    break;
+                }
+            }
         }
 
         public override void Render() {
@@ -195,10 +232,11 @@ namespace Galaga
 
         public override void Update() {
             IterateShots();
-            // window.PollEvents();
+            window.PollEvents();
+            eventBus.ProcessEventsSequentially();
             player.Move();
-            AddMoreEnemies();
-            MoveEnemiesDown();
+            // AddMoreEnemies();
+            // MoveEnemiesDown();
         }
     }
 }
