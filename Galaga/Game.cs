@@ -155,7 +155,8 @@ namespace Galaga
                     player.SetMoveDown(true);
                     break;
                 case KeyboardKey.Escape:
-                    window.CloseWindow();
+                    GameEvent CloseWindowEvent = (new GameEvent {EventType = GameEventType.WindowEvent, From = this, Message = "CLOSE_WINDOW"});
+                    eventBus.RegisterEvent(CloseWindowEvent);
                     break;
             }     
         }
@@ -239,6 +240,7 @@ namespace Galaga
             player.Move();
             AddMoreEnemies();
             MoveEnemiesDown();
+            eventBus.ProcessEventsSequentially();
         }
     }
 }
