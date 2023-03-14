@@ -237,23 +237,23 @@ namespace Galaga {
                     break;
                 }
             }
-            // else if (gameEvent.EventType == GameEventType.MovementEvent) {
-            //     switch(gameEvent.Message){
-            //         case "MOVE_LEFT":
-            //             player.SetMoveLeft(true);
-            //             break;
-            //         case "MOVE_RIGHT":
-            //             player.SetMoveRight(true);
-            //             break;
-            //         case "MOVE_UP":
-            //             player.SetMoveUp(true);
-            //             break;
-            //         case "MOVE_DOWN":
-            //             player.SetMoveDown(true);
-            //             break;
-            //     }
+            else if (gameEvent.EventType == GameEventType.MovementEvent) {
+                switch(gameEvent.Message){
+                    case "MOVE_LEFT":
+                        player.SetMoveLeft(true);
+                        break;
+                    case "MOVE_RIGHT":
+                        player.SetMoveRight(true);
+                        break;
+                    case "MOVE_UP":
+                        player.SetMoveUp(true);
+                        break;
+                    case "MOVE_DOWN":
+                        player.SetMoveDown(true);
+                        break;
+                }
                 
-            // }
+            }
         }
             
             
