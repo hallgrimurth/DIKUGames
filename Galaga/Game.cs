@@ -201,19 +201,23 @@ namespace Galaga {
         private void KeyRelease(KeyboardKey key) {
             switch(key) {
                 case KeyboardKey.Left:
-                    GameEvent MoveLeft = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_LEFT" });
+                    GameEvent StopLEft = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_LEFT" });
+                    eventBus.RegisterEvent(StopLEft);
                     // player.SetMoveLeft(false);
                     break;
                 case KeyboardKey.Right:
-                    GameEvent MoveRight = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_RIGHT" });
+                    GameEvent StopRight = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_RIGHT" });
+                    eventBus.RegisterEvent(StopRight);
                     // player.SetMoveRight(false);
                     break;
                 case KeyboardKey.Up:
-                    GameEvent MoveUp = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_UP" });
+                    GameEvent StopUp = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_UP" });
+                    eventBus.RegisterEvent(StopUp);
                     // player.SetMoveUp(false);
                     break;
                 case KeyboardKey.Down:
-                    GameEvent MoveDown = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_DOWN" });
+                    GameEvent StopDown = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "STOP_DOWN" });
+                    eventBus.RegisterEvent(StopDown);
                     // player.SetMoveDown(false);
                     break;
                 case KeyboardKey.Space:
