@@ -21,6 +21,9 @@ public class Enemy : Entity {
         if (hitpoints == 0) {
             DeleteEntity();
         }
+        else if (hitpoints == 1) {
+            Enrage();
+        }
     }
     //enrage enemies when hirpoints are low 
     public void Enrage() {
