@@ -132,7 +132,6 @@ namespace Galaga
 
                 if (enemy.Shape.Position.Y < -0.1f) {
                     enemy.DeleteEntity();
-                    score.ResetScore();
                     enemySpeed = 0.0f;
                 }
             });
@@ -148,8 +147,8 @@ namespace Galaga
         private void KeyPress(KeyboardKey key) {
             switch(key) {
                 case KeyboardKey.Left:
-                    // eventBus.RegisterEvent(new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_LEFT" });
-                    player.SetMoveLeft(true);
+                    eventBus.RegisterEvent(new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_LEFT" });
+                    // player.SetMoveLeft(true);
                     break;
                 case KeyboardKey.Right:
                     player.SetMoveRight(true);
@@ -160,7 +159,7 @@ namespace Galaga
                 case KeyboardKey.Down:
                     player.SetMoveDown(true);
                     break;
-                case KeyboardKey.Escape:
+                   case KeyboardKey.Escape:
                     window.CloseWindow();
                     break;
             }     
@@ -226,6 +225,7 @@ namespace Galaga
 
         public override void Update() {
             IterateShots();
+            eventBus.ProcessEvents();
             window.PollEvents();
             player.Move();
             AddMoreEnemies();

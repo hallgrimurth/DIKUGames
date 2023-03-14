@@ -17,6 +17,10 @@ public class Health {
         display.SetText(health.ToString());
 
     }
+
+    public void GameOver(){
+        throw new NotImplementedException();
+    }
     public void RenderHealth () {
         display.RenderText();
     }

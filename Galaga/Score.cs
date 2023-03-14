@@ -23,8 +23,4 @@ public class Score {
         display.RenderText();
     }
 
-    public void ResetScore() {
-        score = 0;
-        display.SetText("level:" + score.ToString());
-    }
 }
