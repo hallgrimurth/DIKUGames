@@ -172,17 +172,20 @@ namespace Galaga {
         private void KeyPress(KeyboardKey key) {
             switch(key) {
                 case KeyboardKey.Left:
-                    eventBus.RegisterEvent(new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_LEFT" });
-                    //player.SetMoveLeft(true);
+                    GameEvent Moveleft = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_LEFT" });
+                    eventBus.RegisterEvent(MoveLeft);
                     break;
                 case KeyboardKey.Right:
-                    player.SetMoveRight(true);
+                    GameEvent MoveRight = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_RIGHT" });
+                    eventBus.RegisterEvent(MoveRight);
                     break;
                 case KeyboardKey.Up:
-                    player.SetMoveUp(true);
+                    GameEvent MoveUp = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_UP" });
+                    eventBus.RegisterEvent(MoveUp);
                     break;
                 case KeyboardKey.Down:
-                    player.SetMoveDown(true);
+                    GameEvent MoveDown = (new GameEvent{EventType = GameEventType.MovementEvent, From = this, To = player, Message = "MOVE_DOWN" });
+                    eventBus.RegisterEvent(MoveDown);
                     break;
                 case KeyboardKey.Escape:
                     GameEvent closeWindowEvent = new GameEvent{EventType = GameEventType.WindowEvent, To = this, Message = "CLOSE_WINDOW"};
