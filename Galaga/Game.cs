@@ -96,11 +96,11 @@ namespace Galaga {
             // }
 
             // enemies in a circle
-            for (int i = 0; i < numEnemies; i++) {
-                enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/numEnemies)*0.2f, 0.6f + (float)Math.Sin(i*2*Math.PI/numEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
-            }
+            // for (int i = 0; i < numEnemies; i++) {
+            //     enemies.AddEntity(new Enemy(
+            //         new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/numEnemies)*0.2f, 0.6f + (float)Math.Sin(i*2*Math.PI/numEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
+            //         new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
+            // }
             // // enemies in columns on the left and right
             // for (int i = 0; i < numEnemies/2; i++) {
             //     enemies.AddEntity(new Enemy(
@@ -153,7 +153,7 @@ namespace Galaga {
         // // Also resetting score and enemy speed if enemy is out of bounds
         private void MoveEnemiesDown() {
             enemies.Iterate(enemy => {
-                // float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
+                float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
                 enemy.Shape.MoveY(enemy.speed);
 
                 if (health.HealthPoints == 0) {
@@ -278,7 +278,7 @@ namespace Galaga {
                 window.PollEvents();
                 eventBus.ProcessEventsSequentially();
                 player.Move();
-                AddMoreEnemies();
+               // AddMoreEnemies();
                 MoveEnemiesDown();
             }
         }

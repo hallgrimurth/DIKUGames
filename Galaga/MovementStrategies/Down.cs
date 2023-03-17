@@ -18,7 +18,7 @@ namespace Galaga.MovementStrategy {
             if (enemy.Shape.Position.Y < -0.1f) {
                     enemy.DeleteEntity();
                     //score.ResetScore();
-                    enemySpeed = 0.0f;
+                    //enemySpeed = 0.0f;
                 }
 
         }
