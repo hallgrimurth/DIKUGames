@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using System.Collections.Generic;
+using DIKUArcade.Math;
 
 namespace Galaga;
 public class Enemy : Entity {
