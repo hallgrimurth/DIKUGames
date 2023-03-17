@@ -96,7 +96,7 @@ namespace Galaga {
             //     case Circle:
             //         Squadron.Circle.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             //         break;
-            // }
+            // } /
             throw new NotImplementedException();
         }
 
