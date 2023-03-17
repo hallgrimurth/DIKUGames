@@ -38,12 +38,7 @@ namespace Galaga {
         private List<GameEventType> eventQueue;
         private bool GameOver = false;
 
-        public float EnemySpeed{
-            get
-            {
-                return this.enemySpeed;
-            }
-        }
+        //public float EnemySpeed{get{this.enemySpeed = enemySpeed;}}
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
             //Setting up eventbus and subscribing to events
