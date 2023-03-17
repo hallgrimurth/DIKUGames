@@ -14,13 +14,14 @@ public class Health {
     //when losing health.
     public void LoseHealth () {
         health--;
-        display.SetText(health.ToString());
+        display.SetText("HP:" + health.ToString());
 
     }
 
     public void GameOver(){
         throw new NotImplementedException();
     }
+    
     public void RenderHealth () {
         display.RenderText();
     }

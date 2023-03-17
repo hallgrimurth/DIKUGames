@@ -125,11 +125,9 @@ namespace Galaga {
                             .Collision) {
                             shot.DeleteEntity();
                             enemy.DecreaseHitpoints();
-
                             if (enemy.Hitpoints == 0) {
                                 enemy.DeleteEntity();
                                 AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                                // score.AddPoint();         
                             }
                         }
                     });     
@@ -154,18 +152,19 @@ namespace Galaga {
 
         // // Moving enemies down at random speeds and deleting them if they are out of bounds
         // // Also resetting score and enemy speed if enemy is out of bounds
-        // private void MoveEnemiesDown() {
-        //     enemies.Iterate(enemy => {
-        //         float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
-        //         enemy.Shape.MoveY(-speed);
+        private void MoveEnemiesDown() {
+            enemies.Iterate(enemy => {
+                // float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
+                enemy.Shape.MoveY(enemy.speed);
 
-        //         if (enemy.Shape.Position.Y < -0.1f) {
-        //             enemy.DeleteEntity();
-        //             score.ResetScore();
-        //             enemySpeed = 0.0f;
-        //         }
-        //     });
-        // }
+                if (enemy.Shape.Position.Y < -0.1f) {
+                    health.LoseHealth();
+                    enemy.DeleteEntity();
+                    // score.ResetScore();
+                    enemySpeed = 0.0f;
+                }
+            });
+        }
 
         public void AddExplosion(Vec2F position, Vec2F extent){
             enemyExplosions.AddAnimation(
@@ -247,8 +246,6 @@ namespace Galaga {
                 }
             }
         }
-            
-            
 
         public override void Render() {
             window.Clear();
@@ -266,8 +263,8 @@ namespace Galaga {
             window.PollEvents();
             eventBus.ProcessEventsSequentially();
             player.Move();
-            // AddMoreEnemies();
-            // MoveEnemiesDown();
+            AddMoreEnemies();
+            MoveEnemiesDown();
         }
     }
 }
