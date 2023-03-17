@@ -11,15 +11,15 @@ using DIKUArcade.Physics;
 using System;
 
 namespace Galaga.Squadron {
-    public class Wave : ISquadron {
+    public class Row : ISquadron {
         public EntityContainer<Enemy> Enemies {get;}
         public int MaxEnemies {get;}
          public  Random rand = new Random(); 
         public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride){
-            // wave pattern
+            // normal enemies in a row
             for (int i = 0; i < MaxEnemies; i++) {
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f - (float)i*0.03f)), new Vec2F(0.1f, 0.1f)),
+                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride)));
             }
         }

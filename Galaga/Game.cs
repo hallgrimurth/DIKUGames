@@ -9,6 +9,7 @@ using DIKUArcade.Input;
 using System.Collections.Generic;
 using DIKUArcade.Physics;
 using System;
+using Galaga.Squadron;
 
 
 namespace Galaga {
@@ -22,6 +23,7 @@ namespace Galaga {
         private EntityContainer<PlayerShot> playerShots;
         private Score score;
         private Random rand = new Random(); // For randomizing enemy speed
+        private List<String> FormationShape;
 
         //Strides and Animations
         private List<Image> enemyStridesBlue;
@@ -74,39 +76,28 @@ namespace Galaga {
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
 
-            // // normal enemies in a row
-            // for (int i = 0; i < numEnemies; i++) {
-            //     enemies.AddEntity(new Enemy(
-            //         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-            //         new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
-            // }
+        }
 
-            // // zigzag pattern
-            // for (int i = 0; i < numEnemies; i++) {
-            //     enemies.AddEntity(new Enemy(
-            //         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f - ((float)i*0.1f%0.2f))), new Vec2F(0.1f, 0.1f)),
-            //         new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
-            // }
+        private void SetEnemyFormation(){
 
-            // // wave pattern
-            // for (int i = 0; i < numEnemies; i++) {
-            //     enemies.AddEntity(new Enemy(
-            //         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f - (float)i*0.03f)), new Vec2F(0.1f, 0.1f)),
-            //         new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
+            // switch(List<String> FormationShape) {
+            //      case Row:
+            //          Squadron.Row.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            //         break;
+            //     case Column:
+            //         Squadron.Column.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            //         break;
+            //     case Wave:
+            //         Squadron.Wave.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            //         break;
+            //     case ZigZag:
+            //         Squadron.ZigZag.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            //         break;
+            //     case Circle:
+            //         Squadron.Circle.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            //         break;
             // }
-
-            // enemies in a circle
-            // for (int i = 0; i < numEnemies; i++) {
-            //     enemies.AddEntity(new Enemy(
-            //         new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/numEnemies)*0.2f, 0.6f + (float)Math.Sin(i*2*Math.PI/numEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
-            //         new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
-            // }
-            // // enemies in columns on the left and right
-            // for (int i = 0; i < numEnemies/2; i++) {
-            //     enemies.AddEntity(new Enemy(
-            //         new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-            //         new ImageStride(80, enemyStridesBlue), new ImageStride(40, enemyStridesRed)));
-            // }
+            throw new NotImplementedException();
         }
 
         // Check for collisions and delete entities if they collide - also add point to score

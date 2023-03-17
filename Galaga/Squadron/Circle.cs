@@ -15,8 +15,7 @@ namespace Galaga.Squadron {
         public EntityContainer<Enemy> Enemies {get;}
         public int MaxEnemies {get;}
     
-        public  Random rand = new Random(); // For randomizing enemy speed
-
+        public  Random rand = new Random(); 
         public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride){
             // enemies in a circle
             for (int i = 0; i < MaxEnemies; i++) {
