@@ -160,6 +160,7 @@ namespace Galaga {
 
                 if (health.HealthPoints == 0) {
                     GameOver = true;
+                    score.FinalScore();
                 }
 
                 if (enemy.Shape.Position.Y < -0.1f) {
@@ -253,14 +254,20 @@ namespace Galaga {
         }
 
         public override void Render() {
-            window.Clear();
-            health.RenderHealth();
-            player.Render();
-            playerShots.RenderEntities();
-            enemies.RenderEntities();
-            enemyExplosions.RenderAnimations();
-            score.Render();
+            if (GameOver) {
+                score.Render();
+            }
+            else{
+                window.Clear();
+                health.RenderHealth();
+                player.Render();
+                playerShots.RenderEntities();
+                enemies.RenderEntities();
+                enemyExplosions.RenderAnimations();
+                score.Render();
+            }
         }
+        
 
         public override void Update() {
             //make new window and display game over text
