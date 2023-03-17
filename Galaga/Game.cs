@@ -96,8 +96,9 @@ namespace Galaga {
             //     case Circle:
             //         Squadron.Circle.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             //         break;
-            // } /
+            // }
             throw new NotImplementedException();
+            //
         }
 
         // Check for collisions and delete entities if they collide - also add point to score
