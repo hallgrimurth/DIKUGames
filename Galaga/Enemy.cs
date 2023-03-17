@@ -16,7 +16,7 @@ public class Enemy : Entity {
     }
 
     public DynamicShape shape;
-    public Vec2F startPos;
+    public Vec2F startPos {get;}
     public Enemy(DynamicShape shape, IBaseImage image, IBaseImage redImage)
         : base(shape, image) {
         this.redImage = redImage;
