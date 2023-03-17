@@ -36,6 +36,7 @@ namespace Galaga {
         private const int EXPLOSION_LENGTH_MS = 500;
         private float enemySpeed = 0.0f; // For increasing speed of enemies
         private List<GameEventType> eventQueue;
+        private bool GameOver = false;
 
     
         public Game(WindowArgs windowArgs) : base(windowArgs) {
@@ -157,11 +158,15 @@ namespace Galaga {
                 // float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
                 enemy.Shape.MoveY(enemy.speed);
 
+                if (health.HealthPoints == 0) {
+                    GameOver = true;
+                }
+
                 if (enemy.Shape.Position.Y < -0.1f) {
                     health.LoseHealth();
                     enemy.DeleteEntity();
                     // score.ResetScore();
-                    enemySpeed = 0.0f;
+                    // enemySpeed = 0.0f;
                 }
             });
         }
@@ -258,13 +263,27 @@ namespace Galaga {
         }
 
         public override void Update() {
-            IterateShots();
-            eventBus.ProcessEvents();
-            window.PollEvents();
-            eventBus.ProcessEventsSequentially();
-            player.Move();
-            AddMoreEnemies();
-            MoveEnemiesDown();
+            //make new window and display game over text
+            if (GameOver) {
+                enemies.ClearContainer();
+                playerShots.ClearContainer();
+                eventBus.ProcessEvents();
+
+
+            }
+
+            else{
+            
+
+                IterateShots();
+                eventBus.ProcessEvents();
+                window.PollEvents();
+                eventBus.ProcessEventsSequentially();
+                player.Move();
+                AddMoreEnemies();
+                MoveEnemiesDown();
+            }
         }
+
     }
 }

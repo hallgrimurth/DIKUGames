@@ -4,6 +4,9 @@ using DIKUArcade.Math;
 using System;
 public class Health {
     private int health;
+    public int HealthPoints {
+        get { return health; }
+    }
     private Text display;
     public Health (Vec2F position, Vec2F extent) {
         health = 3;
