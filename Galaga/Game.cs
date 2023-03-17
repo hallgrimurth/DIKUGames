@@ -54,7 +54,7 @@ namespace Galaga {
             List<Image> BlueMonster = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
            
-            enemies = new EntityContainer<Enemy>(numEnemies);
+            // enemies = new EntityContainer<Enemy>(numEnemies);
             // // normal enemies in a row
             // for (int i = 0; i < numEnemies; i++) {
             //     enemies.AddEntity(new Enemy(
@@ -82,6 +82,7 @@ namespace Galaga {
             //         new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/numEnemies)*0.2f, 0.6f + (float)Math.Sin(i*2*Math.PI/numEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
             //         new ImageStride(80, BlueMonster), new ImageStride(80, enemyStridesRed)));
             // }
+
 
             // enemies in columns on the left and right
             for (int i = 0; i < numEnemies/2; i++) {
@@ -157,9 +158,9 @@ namespace Galaga {
         //         float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
         //         enemy.Shape.MoveY(-speed);
 
-        //         if (enemy.Shape.Position.Y < -0.1f) {
+        //        if (enemy.Shape.Position.Y < -0.1f) {
         //             enemy.DeleteEntity();
-        //             score.ResetScore();
+                    //score.ResetScore();
         //             enemySpeed = 0.0f;
         //         }
         //     });
