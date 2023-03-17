@@ -4,6 +4,9 @@ using DIKUArcade.Math;
 using System;
 public class Health {
     private int health;
+    public int HealthPoints {
+        get { return health; }
+    }
     private Text display;
     public Health (Vec2F position, Vec2F extent) {
         health = 3;
@@ -14,13 +17,14 @@ public class Health {
     //when losing health.
     public void LoseHealth () {
         health--;
-        display.SetText(health.ToString());
+        display.SetText("HP:" + health.ToString());
 
     }
 
     public void GameOver(){
         throw new NotImplementedException();
     }
+    
     public void RenderHealth () {
         display.RenderText();
     }
