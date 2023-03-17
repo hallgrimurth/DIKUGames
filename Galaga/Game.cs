@@ -61,7 +61,6 @@ namespace Galaga {
                 (2, Path.Combine("Assets", "Images", "RedMonster.png"));
             enemyStridesBlue = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-            
 
             //Adding Entities
             health = new Health(
@@ -74,7 +73,6 @@ namespace Galaga {
             enemies = new EntityContainer<Enemy>(numEnemies);
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
-
 
             // // normal enemies in a row
             // for (int i = 0; i < numEnemies; i++) {
