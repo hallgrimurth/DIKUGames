@@ -24,7 +24,7 @@ namespace Galaga.Squadron {
             for (int i = 0; i < MaxEnemies; i++) {
                 Enemies.AddEntity(new Enemy(
                     new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/this.MaxEnemies)*0.2f, 0.6f + (float)Math.Sin(i*2*Math.PI/this.MaxEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, BlueMonster), new ImageStride(80, enemyStridesRed)));
+                    new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
             }
 
         }
