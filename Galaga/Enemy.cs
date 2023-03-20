@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using System.Collections.Generic;
+using DIKUArcade.Math;
 
 namespace Galaga;
 public class Enemy : Entity {
@@ -9,15 +10,20 @@ public class Enemy : Entity {
     public float speed = -0.002f;
     private IBaseImage redImage;
 
+    public DynamicShape shape;
+    public Vec2F startPos {get;}
+    
      
     public int Hitpoints {
         get { return hitpoints; }
     }
+
     public Enemy(DynamicShape shape, IBaseImage image, IBaseImage redImage)
         : base(shape, image) {
-        this.redImage = redImage;        
-        }
-
+        this.redImage = redImage;
+        startPos = new Vec2F(this.shape.Position.X, this.shape.Position.Y);
+    }
+        
     public void DecreaseHitpoints() {
         hitpoints--;
         if (hitpoints == 0) {
