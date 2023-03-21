@@ -10,6 +10,7 @@ namespace Galaga.GalagaStates {
     }
     private void SwitchState(GameStateType stateType) {
         switch (stateType) {
+<<<<<<< HEAD
             case GameStateType.GameRunning:
                 ActiveState = GameRunning.GetInstance();
                 break;
@@ -18,6 +19,16 @@ namespace Galaga.GalagaStates {
                 break;
             case GameStateType.GamePaused:
                 ActiveState = GamePaused.GetInstance();
+=======
+            case GameRunning:
+                ActiveState;   
+                break;
+            case GamePaused:
+                ActiveState;
+                break;
+            case MainMenu:
+                ActiveState;   
+>>>>>>> 3ed6ce990cb4c556eefbdbc2be0b07f648cc02a9
                 break;
             case GameStateType.GameOver:
                 ActiveState = GameOver.GetInstance();
@@ -26,4 +37,18 @@ namespace Galaga.GalagaStates {
         }
 
     }
+<<<<<<< HEAD
+=======
+    void ProcessEvent(GameEvent gameEvent){
+        if (gameEvent.EventType == GameStateType.GameRunning) {
+                switch (gameEvent.Message) {
+                    case "GAME RUNNING":
+                        
+                    break;
+                }
+            }
+
+   }
+}
+>>>>>>> 3ed6ce990cb4c556eefbdbc2be0b07f648cc02a9
 }
