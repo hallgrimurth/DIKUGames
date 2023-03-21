@@ -21,8 +21,8 @@ namespace Galaga.Squadron {
             IBaseImage redImage = new ImageStride(40, alternativeEnemyStride);
 
             for (int i = 0; i < MaxEnemies; i++) {
-                this.Enemies.AddEntity(new Enemy(shape, image, redImage));
-                shape.Position.X += 0.1f;
+                Enemies.AddEntity(new Enemy(shape, image, redImage));
+                // shape.Position.X += 0.1f;
                 // shape.Position.Y += 0.1f;
             }
             // normal enemies in a row

@@ -7,7 +7,7 @@ namespace Galaga;
 public class Enemy : Entity {
 
     private int hitpoints = 3;
-    public float speed = -0.001f;
+    public float speed = -0.0003f;
     public IBaseImage redImage;
     public DynamicShape shape;
     public Vec2F startPos {get;}
@@ -37,7 +37,7 @@ public class Enemy : Entity {
     public void Enrage() {
         if (hitpoints == 1) {
             Image = redImage;
-            speed = -0.002f;
+            speed = -0.0002f;
         }
         
     }

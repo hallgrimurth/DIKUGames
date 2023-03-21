@@ -39,7 +39,7 @@ namespace Galaga {
         private int numEnemies = 8;
         private const int EXPLOSION_LENGTH_MS = 500;
         private List<GameEventType> eventQueue;
-        private bool GameOver = false;
+        private bool GameOver = true;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
 
@@ -91,7 +91,8 @@ namespace Galaga {
 
             // add enemies if there are none
             if (squad.Enemies.CountEntities() == 0){
-
+                //increse level
+                score.AddPoint();
                 //change movement strategy
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
@@ -102,7 +103,7 @@ namespace Galaga {
             //move enemies
             movementStrategy.MoveEnemies(squad.Enemies);
 
-            if (health.HealthPoints == 0) {
+            if (health.HealthPoints <= 0) {
                 GameOver = true;
                 score.FinalScore();
             }
@@ -264,19 +265,15 @@ namespace Galaga {
                 enemyExplosions.RenderAnimations();
                 score.Render();
             }
-
         }
         
 
         public override void Update() {
             //make new window and display game over text
             if (GameOver) {
-                Console.WriteLine("Game Over"); 
                 squad.Enemies.ClearContainer();
                 playerShots.ClearContainer();
                 eventBus.ProcessEvents();
-
-
             }
 
             else{
@@ -286,8 +283,7 @@ namespace Galaga {
                 window.PollEvents();
                 eventBus.ProcessEventsSequentially();
                 player.Move();
-               // AddMoreEnemies();
-                // MoveEnemiesDown();
+
             }
         }
 
