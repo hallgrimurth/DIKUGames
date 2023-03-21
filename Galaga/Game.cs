@@ -20,7 +20,7 @@ namespace Galaga {
         private GameEventBus eventBus;
         private Player player;
         private Health health;
-        private ISquadron enemies;
+        private ISquadron squad;
         private IMovementStrategy movementStrategy;
         private EntityContainer<PlayerShot> playerShots;
         private Score score;
@@ -72,7 +72,7 @@ namespace Galaga {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
-            enemies = new Row(numEnemies);
+            squad = new Row(numEnemies);
             movementStrategy = new ZigZagDown();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
@@ -86,19 +86,24 @@ namespace Galaga {
             // ISquadron formation = FormationShape[random];
 
             // //pick movement strategy
-            // List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new NoMove(), new Down(), new ZigZagDown()};
-            // int random2 = rand.Next(movementStrategies.Count);
-            // IMovementStrategy movementStrategy = new MovementStrategy.Down();
+            List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new NoMove(), new Down(), new ZigZagDown()};
+         
 
             // add enemies if there are none
-            if (enemies.Enemies.CountEntities() == 0){
-                enemies.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            if (squad.Enemies.CountEntities() == 0){
+
+                int random2 = rand.Next(movementStrategies.Count);
+                movementStrategy = movementStrategies[random2];
+
+
+
+                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
                 Console.WriteLine("Enemies added");
             }
             
         
             //move enemies
-            movementStrategy.MoveEnemies(enemies.Enemies);
+            movementStrategy.MoveEnemies(squad.Enemies);
         }
 
         // Check for collisions and delete entities if they collide - also add point to score
@@ -111,7 +116,7 @@ namespace Galaga {
                     shot.Shape.Position.X < 0.0f || shot.Shape.Position.X > 1.0f) {
                     shot.DeleteEntity();
                 } else {
-                    enemies.Enemies.Iterate(enemy => {
+                    squad.Enemies.Iterate(enemy => {
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape)
                             .Collision) {
                             shot.DeleteEntity();
@@ -255,7 +260,7 @@ namespace Galaga {
                 health.RenderHealth();
                 player.Render();
                 playerShots.RenderEntities();
-                enemies.Enemies.RenderEntities();
+                squad.Enemies.RenderEntities();
                 enemyExplosions.RenderAnimations();
                 score.Render();
             }
@@ -267,7 +272,7 @@ namespace Galaga {
             //make new window and display game over text
             if (GameOver) {
                 Console.WriteLine("Game Over"); 
-                enemies.Enemies.ClearContainer();
+                squad.Enemies.ClearContainer();
                 playerShots.ClearContainer();
                 eventBus.ProcessEvents();
 
