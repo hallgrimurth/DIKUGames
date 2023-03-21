@@ -14,7 +14,11 @@ namespace Galaga.Squadron {
     public class ZigZag : ISquadron {
         public EntityContainer<Enemy> Enemies {get;}
         public int MaxEnemies {get;}
-         public  Random rand = new Random(); // For randomizing enemy speed
+        public  Random rand = new Random(); // For randomizing enemy speed
+        public ZigZag(int maxEnemies) {
+            this.MaxEnemies = maxEnemies;
+            this.Enemies = new EntityContainer<Enemy>();
+        }
         public void CreateEnemies (List<Image> enemyStride,List<Image> alternativeEnemyStride){       
             // zigzag pattern
             for (int i = 0; i < MaxEnemies; i++) {
