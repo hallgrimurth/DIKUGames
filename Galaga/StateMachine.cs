@@ -10,17 +10,26 @@ namespace Galaga.GalagaStates {
     }
     private void SwitchState(GameStateType stateType) {
         switch (stateType) {
-            case stateType==GameRunning:
-                    
+            case GameRunning:
+                ActiveState;   
                 break;
-            case stateType==GamePaused:
-                    
+            case GamePaused:
+                ActiveState;
                 break;
-            case stateType==MainMenu:
-                    
+            case MainMenu:
+                ActiveState;   
                 break;
         }
     }
-   // ...
+    void ProcessEvent(GameEvent gameEvent){
+        if (gameEvent.EventType == GameStateType.GameRunning) {
+                switch (gameEvent.Message) {
+                    case "GAME RUNNING":
+                        
+                    break;
+                }
+            }
+
+   }
 }
 }
