@@ -7,7 +7,7 @@ namespace Galaga.GalagaStates {
     public StateMachine() {
         GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
         GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-        ActiveState = MainMenu.GetInstance();
+        ActiveState = GameRunning.GetInstance();
     }
     
     private void SwitchState(GameStateType stateType) {
@@ -29,7 +29,6 @@ namespace Galaga.GalagaStates {
         public void ProcessEvent(GameEvent gameEvent) {
             switch (gameEvent.Message) {
                 case "CHANGE_STATE":
-                    ActiveState = GameRunning.GetInstance();
                     SwitchState(StateTransformer.TransformStringToState(gameEvent.StringArg1));
                     break;
                 

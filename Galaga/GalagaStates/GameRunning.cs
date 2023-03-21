@@ -20,7 +20,6 @@ namespace Galaga.GalagaStates {
         private static GameRunning instance = null;
         //Entities
         // private GameEventBus eventBus;
-        private List<GameEventType> eventQueue;
         private Player player;
         private Health health;
         private ISquadron squad;

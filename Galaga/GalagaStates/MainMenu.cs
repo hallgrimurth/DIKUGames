@@ -14,7 +14,6 @@ namespace Galaga.GalagaStates {
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButtons;
-        private GameEventBus eventBus;
 
         public static MainMenu GetInstance() {
             if (MainMenu.instance == null) {
