@@ -106,7 +106,10 @@ namespace Galaga {
             
             //move enemies
             movementStrategy.MoveEnemies(squad.Enemies);
+        }
 
+        private void IterateHealth() {
+            // Check if player is out of health and end game if they are
             if (health.HealthPoints == 0) {
                 GameOver = true;
                 score.FinalScore();
@@ -114,12 +117,11 @@ namespace Galaga {
 
             // Check if enemies are out of bounds and delete them if they are
             squad.Enemies.Iterate(enemy => {
-                if (enemy.Shape.Position.Y < -0.1f) {
+                if (enemy.Shape.Extent.Y + enemy.Shape.Position.Y < 0.0f) {
                     health.LoseHealth();
                     enemy.DeleteEntity();
                 }
             });
-
         }
 
         // Check for collisions and delete entities if they collide - also add point to score
@@ -251,12 +253,10 @@ namespace Galaga {
                 squad.Enemies.ClearContainer();
                 playerShots.ClearContainer();
                 eventBus.ProcessEvents();
-
-
             }
 
             else{
-            
+                IterateHealth();
                 IterateEnemies();
                 IterateShots();
                 window.PollEvents();

@@ -11,11 +11,7 @@ namespace Galaga.MovementStrategy {
         // // Moving enemies down at random speeds and deleting them if they are out of bounds
         // // Also resetting score and enemy speed if enemy is out of bounds
         public void MoveEnemy (Enemy enemy){
-           
             enemy.Shape.MoveY(enemy.speed);
-            if (enemy.Shape.Position.Y < -0.1f) {
-                    enemy.DeleteEntity();
-                }
         }
 
         public void MoveEnemies (EntityContainer<Enemy> enemies) {
@@ -24,7 +20,6 @@ namespace Galaga.MovementStrategy {
             }     
             
         }
-
     }
 }
 
