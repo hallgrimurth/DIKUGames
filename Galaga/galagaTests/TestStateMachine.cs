@@ -12,6 +12,8 @@ namespace GalagaTests {
         (3) Subscribe the GalagaBus to proper GameEventTypes
         and GameEventProcessors
         */
+        galagaBus = new GalagaBus();
+        stateMachine = new StateMachine();
     }
     [Test]
     public void TestInitialState() {
