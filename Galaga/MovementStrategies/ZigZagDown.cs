@@ -17,8 +17,7 @@ namespace Galaga.MovementStrategy {
         public void MoveEnemy (Enemy enemy){
             s = enemy.speed;
             Vec2F startPos = enemy.startPos;
-            Vec2F enemyPos = enemy.shape.Position
-            ;
+            Vec2F enemyPos = enemy.shape.Position;
             float y = enemyPos.Y + s;
             float x = startPos.X + a*(float)Math.Sin(((2*Math.PI)*(enemyPos.Y-startPos.Y))/p);
             enemy.shape.SetPosition(new Vec2F(x,y));

@@ -38,8 +38,6 @@ public class Enemy : Entity {
         if (hitpoints == 1) {
             Image = redImage;
             speed = -0.002f;
-        }
-        
+        }  
     }
-        
 }
