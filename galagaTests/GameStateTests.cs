@@ -1,3 +1,12 @@
+using DIKUArcade.Events;
+using System.Collections.Generic;
+using Galaga.GalagaStates;
+using Galaga;
+using DIKUArcade.GUI;
+
+
+
+
 namespace GalagaTests {
 
     [TestFixture]
@@ -6,7 +15,7 @@ namespace GalagaTests {
     [SetUp]
     public void InitiateStateMachine() {
         // (1) Initialize a GalagaBus with proper GameEventTypes
-        DIKUArcade.Window.CreateOpenGLContext();
+        Window.CreateOpenGLContext();
         GalagaBus.GetBus().InitializeEventBus(new List<GameEventType> {
             GameEventType.GameStateEvent,
             GameEventType.InputEvent

@@ -58,7 +58,7 @@ namespace Galaga {
 
             //Instantiation of the StateMachine
 
-            stateMachine = new StateMachine();
+            // stateMachine = new StateMachine();
             //Setting up eventbus and subscribing to events
             eventBus = new GameEventBus();
             eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent };
@@ -87,7 +87,7 @@ namespace Galaga {
         private void IterateEnemies(){
 
             List<ISquadron> FormationShape = new List<ISquadron> {new Row(numEnemies), new Wave(numEnemies), new Circle(numEnemies), new ZigZag(numEnemies)};
-            List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new NoMove(), new Down(), new ZigZagDown()};
+            List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new Down(), new ZigZagDown(), new SideLoop()};
          
 
             // add enemies if there are none
