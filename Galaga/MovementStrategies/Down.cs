@@ -21,13 +21,7 @@ namespace Galaga.MovementStrategy {
         public void MoveEnemies (EntityContainer<Enemy> enemies) {
             foreach(Enemy enemy in enemies){
                 MoveEnemy(enemy);
-            }
-
-            // enemies.Iterate(enemy => {
-            //     MoveEnemy(enemy);
-            // });
-
-            
+            }     
             
         }
 
