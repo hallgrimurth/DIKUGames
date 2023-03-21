@@ -72,8 +72,9 @@ namespace Galaga {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
-            squad = new Circle(numEnemies);
-            movementStrategy = new ZigZagDown();
+            squad = new Row(numEnemies);
+            squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
 
@@ -81,17 +82,17 @@ namespace Galaga {
 
         private void IterateEnemies(){
 
-            // List<ISquadron> FormationShape = new List<ISquadron> {new Row(), new Wave()};
-            // int random = rand.Next(FormationShape.Count);
-            // ISquadron formation = FormationShape[random];
-
-            // //pick movement strategy
+            List<ISquadron> FormationShape = new List<ISquadron> {new Row(numEnemies), new Wave(numEnemies), new Circle(numEnemies), new ZigZag(numEnemies)};
             List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new NoMove(), new Down(), new ZigZagDown()};
          
 
             // add enemies if there are none
             if (squad.Enemies.CountEntities() == 0){
-
+                //change level
+                score.AddPoint();
+                //change squadron shape
+                int random = rand.Next(FormationShape.Count);
+                squad = FormationShape[random];
                 //change movement strategy
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
@@ -243,7 +244,6 @@ namespace Galaga {
         public override void Update() {
             //make new window and display game over text
             if (GameOver) {
-                Console.WriteLine("Game Over"); 
                 squad.Enemies.ClearContainer();
                 playerShots.ClearContainer();
                 eventBus.ProcessEvents();
