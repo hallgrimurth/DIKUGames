@@ -142,34 +142,6 @@ namespace Galaga {
             });
         }
 
-        // Adding enemies when all enemies are dead and increasing their speed
-        // private void AddMoreEnemies() {
-
-        //     if (enemies.CountEntities() == 0) {
-        //         score.AddPoint();
-        //         enemySpeed += 0.0005f;
-                
-
-        //         for (int i = 0; i < numEnemies; i++) {
-        //             enemies.AddEntity(new Enemy(
-        //                 new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), 
-        //                     new Vec2F(0.1f, 0.1f)),
-        //                 new ImageStride(80, enemyStridesBlue), new ImageStride(40, enemyStridesRed)));
-        //         }
-        //     }
-        // }
-
-        // // Moving enemies down at random speeds and deleting them if they are out of bounds
-        // // Also resetting score and enemy speed if enemy is out of bounds
-        // private void MoveEnemiesDown() {
-        // // enemies.Iterate(enemy => {
-        // //     float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
-        // //     enemy.Shape.MoveY(enemy.speed);
-
-            
-
-       
-
         public void AddExplosion(Vec2F position, Vec2F extent){
             enemyExplosions.AddAnimation(
                 new StationaryShape(position, extent), 
