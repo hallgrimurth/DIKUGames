@@ -25,7 +25,6 @@ namespace Galaga {
         private EntityContainer<PlayerShot> playerShots;
         private Score score;
         private Random rand = new Random(); // For randomizing enemy speed
-        // private List<String> FormationShape;
 
         //Strides and Animations
         private List<Image> enemyStridesBlue;
@@ -55,6 +54,10 @@ namespace Galaga {
             enemyStridesBlue = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
 
+
+            //Instantiation of the StateMachine
+
+            stateMachine = new StateMachine();
             //Setting up eventbus and subscribing to events
             eventBus = new GameEventBus();
             eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent };
