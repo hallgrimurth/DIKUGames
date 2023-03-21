@@ -8,8 +8,7 @@ public class Enemy : Entity {
 
     private int hitpoints = 3;
     public float speed = -0.002f;
-    private IBaseImage redImage;
-
+    public IBaseImage redImage;
     public DynamicShape shape;
     public Vec2F startPos {get;}
     
@@ -17,11 +16,12 @@ public class Enemy : Entity {
     public int Hitpoints {
         get { return hitpoints; }
     }
-
+    //constructor for enemy
     public Enemy(DynamicShape shape, IBaseImage image, IBaseImage redImage)
         : base(shape, image) {
+
         this.redImage = redImage;
-        startPos = new Vec2F(this.shape.Position.X, this.shape.Position.Y);
+        // this.startPos = new Vec2F(this.shape.Position.X, this.shape.Position.Y);
     }
         
     public void DecreaseHitpoints() {
@@ -36,7 +36,7 @@ public class Enemy : Entity {
     //enrage enemies when hirpoints are low 
     public void Enrage() {
         if (hitpoints == 1) {
-            Image = redImage;
+            Image = Image;
             speed = -0.005f;
         }
         
