@@ -1,4 +1,3 @@
-
 using DIKUArcade.Events;
 
 namespace Galaga {

@@ -6,7 +6,7 @@ namespace Galaga.GalagaStates {
     public StateMachine() {
         GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
         GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-        ActiveState = MainMenu.GetInstance();
+        ActiveState = GameRunning.GetInstance();
     }
     private void SwitchState(GameStateType stateType) {
         switch (stateType) {
