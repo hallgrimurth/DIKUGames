@@ -25,7 +25,6 @@ namespace Galaga {
         private EntityContainer<PlayerShot> playerShots;
         private Score score;
         private Random rand = new Random(); // For randomizing enemy speed
-        // private List<String> FormationShape;
 
         //Strides and Animations
         private List<Image> enemyStridesBlue;
@@ -55,6 +54,10 @@ namespace Galaga {
             enemyStridesBlue = ImageStride.CreateStrides
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
 
+
+            //Instantiation of the StateMachine
+
+            stateMachine = new StateMachine();
             //Setting up eventbus and subscribing to events
             eventBus = new GameEventBus();
             eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent };
@@ -73,7 +76,8 @@ namespace Galaga {
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
             squad = new Row(numEnemies);
-            movementStrategy = new SideLoop();
+            squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
 
@@ -81,17 +85,17 @@ namespace Galaga {
 
         private void IterateEnemies(){
 
-            // List<ISquadron> FormationShape = new List<ISquadron> {new Row(), new Wave()};
-            // int random = rand.Next(FormationShape.Count);
-            // ISquadron formation = FormationShape[random];
-
-            // //pick movement strategy
-            List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new NoMove(), new Down(), new ZigZagDown(), new SideLoop()};
+            List<ISquadron> FormationShape = new List<ISquadron> {new Row(numEnemies), new Wave(numEnemies), new Circle(numEnemies), new ZigZag(numEnemies)};
+            List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new NoMove(), new Down(), new ZigZagDown()};
          
 
             // add enemies if there are none
             if (squad.Enemies.CountEntities() == 0){
-
+                //change level
+                score.AddPoint();
+                //change squadron shape
+                int random = rand.Next(FormationShape.Count);
+                squad = FormationShape[random];
                 //change movement strategy
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
@@ -143,34 +147,6 @@ namespace Galaga {
                 }
             });
         }
-
-        // Adding enemies when all enemies are dead and increasing their speed
-        // private void AddMoreEnemies() {
-
-        //     if (enemies.CountEntities() == 0) {
-        //         score.AddPoint();
-        //         enemySpeed += 0.0005f;
-                
-
-        //         for (int i = 0; i < numEnemies; i++) {
-        //             enemies.AddEntity(new Enemy(
-        //                 new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 1.0f), 
-        //                     new Vec2F(0.1f, 0.1f)),
-        //                 new ImageStride(80, enemyStridesBlue), new ImageStride(40, enemyStridesRed)));
-        //         }
-        //     }
-        // }
-
-        // // Moving enemies down at random speeds and deleting them if they are out of bounds
-        // // Also resetting score and enemy speed if enemy is out of bounds
-        // private void MoveEnemiesDown() {
-        // // enemies.Iterate(enemy => {
-        // //     float speed = enemySpeed + rand.Next(1, 100) / 25000.0f;
-        // //     enemy.Shape.MoveY(enemy.speed);
-
-            
-
-       
 
         public void AddExplosion(Vec2F position, Vec2F extent){
             enemyExplosions.AddAnimation(
@@ -273,7 +249,6 @@ namespace Galaga {
         public override void Update() {
             //make new window and display game over text
             if (GameOver) {
-                Console.WriteLine("Game Over"); 
                 squad.Enemies.ClearContainer();
                 playerShots.ClearContainer();
                 eventBus.ProcessEvents();
