@@ -14,7 +14,11 @@ namespace Galaga.Squadron {
     public class Wave : ISquadron {
         public EntityContainer<Enemy> Enemies {get;}
         public int MaxEnemies {get;}
-         public  Random rand = new Random(); // For randomizing enemy speed
+        public  Random rand = new Random(); // For randomizing enemy speed
+        public Wave(int maxEnemies) {
+            this.MaxEnemies = maxEnemies;
+            this.Enemies = new EntityContainer<Enemy>();
+        }
         public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride){
             // wave pattern
             for (int i = 0; i < MaxEnemies; i++) {
