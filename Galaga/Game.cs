@@ -18,6 +18,8 @@ using Galaga.GalagaStates;
 namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
 
+        //state machine
+        private StateMachine stateMachine ;
         //Entities
         private GameEventBus eventBus;
         private Player player;
@@ -59,15 +61,16 @@ namespace Galaga {
 
             //Instantiation of the StateMachine
 
-            StateMachine stateMachine = new StateMachine();
             //Setting up eventbus and subscribing to events
-            eventBus = new GameEventBus();
-            eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent };
+            eventBus = GalagaBus.GetBus();
+            stateMachine = new StateMachine();
+            eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
             eventBus.InitializeEventBus(eventQueue);
-            // window.SetKeyEventHandler(KeyHandler);
+            window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
             for(int i = 0; i < eventQueue.Count; i++) {
                 eventBus.Subscribe(eventQueue[i], this);
             }
+            //Instantiation of the StateMachine
 
             // //Adding Entities
             // health = new Health(
@@ -237,6 +240,8 @@ namespace Galaga {
             }
             else{
                 window.Clear();
+                stateMachine.ActiveState.RenderState();
+
                 // health.RenderHealth();
                 // player.Render();
                 // playerShots.RenderEntities();
@@ -260,6 +265,7 @@ namespace Galaga {
                 // IterateHealth();
                 // IterateEnemies();
                 // IterateShots();
+                stateMachine.ActiveState.UpdateState();
                 window.PollEvents();
                 eventBus.ProcessEventsSequentially();
                 // player.Move();

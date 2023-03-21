@@ -18,9 +18,8 @@ using Galaga.MovementStrategy;
 namespace Galaga.GalagaStates {
     public class GameRunning : IGameState {
         private static GameRunning instance = null;
-
         //Entities
-        private GameEventBus eventBus;
+        // private GameEventBus eventBus;
         private List<GameEventType> eventQueue;
         private Player player;
         private Health health;
@@ -51,7 +50,8 @@ namespace Galaga.GalagaStates {
             return GameRunning.instance;
         }
 
-        private void InitializeGameState(){
+        public void InitializeGameState(){
+
             //Loading images
             playerShotImage = new Image(Path.Combine
                 ("Assets", "Images", "BulletRed2.png"));
@@ -72,11 +72,14 @@ namespace Galaga.GalagaStates {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
+
+            numEnemies = 8;
             squad = new Row(numEnemies);
             squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
+            // eventBus = GalagaBus.GetBus();
         }
 
         private void IterateEnemies(){
@@ -156,23 +159,23 @@ namespace Galaga.GalagaStates {
 
                         case KeyboardKey.Left:
                             GameEvent MoveLeft = (new GameEvent{EventType = GameEventType.MovementEvent,  To = player, Message = "MOVE_LEFT" });
-                            eventBus.RegisterEvent(MoveLeft);
+                            GalagaBus.GetBus().RegisterEvent(MoveLeft);
                             break;
                         case KeyboardKey.Right:
                             GameEvent MoveRight = (new GameEvent{EventType = GameEventType.MovementEvent,  To = player, Message = "MOVE_RIGHT" });
-                            eventBus.RegisterEvent(MoveRight);
+                            GalagaBus.GetBus().RegisterEvent(MoveRight);
                             break;
                         case KeyboardKey.Up:
                             GameEvent MoveUp = (new GameEvent{EventType = GameEventType.MovementEvent, To = player, Message = "MOVE_UP" });
-                            eventBus.RegisterEvent(MoveUp);
+                            GalagaBus.GetBus().RegisterEvent(MoveUp);
                             break;
                         case KeyboardKey.Down:
                             GameEvent MoveDown = (new GameEvent{EventType = GameEventType.MovementEvent,  To = player, Message = "MOVE_DOWN" });
-                            eventBus.RegisterEvent(MoveDown);
+                            GalagaBus.GetBus().RegisterEvent(MoveDown);
                             break;
                         case KeyboardKey.Escape:
                             GameEvent closeWindowEvent = new GameEvent{EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
-                            eventBus.RegisterEvent(closeWindowEvent);
+                            GalagaBus.GetBus().RegisterEvent(closeWindowEvent);
                             break;
                     }
 
@@ -182,19 +185,19 @@ namespace Galaga.GalagaStates {
                     switch(key) {
                         case KeyboardKey.Left:
                             GameEvent StopLEft = (new GameEvent{EventType = GameEventType.MovementEvent,  To = player, Message = "STOP_LEFT" });
-                            eventBus.RegisterEvent(StopLEft);
+                            GalagaBus.GetBus().RegisterEvent(StopLEft);
                             break;
                         case KeyboardKey.Right:
                             GameEvent StopRight = (new GameEvent{EventType = GameEventType.MovementEvent,  To = player, Message = "STOP_RIGHT" });
-                            eventBus.RegisterEvent(StopRight);
+                            GalagaBus.GetBus().RegisterEvent(StopRight);
                             break;
                         case KeyboardKey.Up:
                             GameEvent StopUp = (new GameEvent{EventType = GameEventType.MovementEvent, To = player, Message = "STOP_UP" });
-                            eventBus.RegisterEvent(StopUp);
+                            GalagaBus.GetBus().RegisterEvent(StopUp);
                             break;
                         case KeyboardKey.Down:
                             GameEvent StopDown = (new GameEvent{EventType = GameEventType.MovementEvent,  To = player, Message = "STOP_DOWN" });
-                            eventBus.RegisterEvent(StopDown);
+                            GalagaBus.GetBus().RegisterEvent(StopDown);
                             break;
                         case KeyboardKey.Space:
                             Vec2F pos = player.GetPosition().Position;
@@ -210,14 +213,24 @@ namespace Galaga.GalagaStates {
 
         public void RenderState() {
 
+            health.RenderHealth();
+            player.Render();
+            playerShots.RenderEntities();
+            squad.Enemies.RenderEntities();
+            enemyExplosions.RenderAnimations();
+            level.Render();
+
         }
 
         public void ResetState(){
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void UpdateState(){
-            throw new System.NotImplementedException();
+            IterateHealth();
+            IterateEnemies();
+            IterateShots();
+            player.Move();
         }
 
 
