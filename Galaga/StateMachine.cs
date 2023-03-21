@@ -10,7 +10,15 @@ namespace Galaga.GalagaStates {
     }
     private void SwitchState(GameStateType stateType) {
         switch (stateType) {
-            // ...
+            case stateType==GameRunning:
+                    
+                break;
+            case stateType==GamePaused:
+                    
+                break;
+            case stateType==MainMenu:
+                    
+                break;
         }
     }
    // ...
