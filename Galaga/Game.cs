@@ -92,18 +92,29 @@ namespace Galaga {
             // add enemies if there are none
             if (squad.Enemies.CountEntities() == 0){
 
+                //change movement strategy
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
-
-
-
+                //create new wave
                 squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-                Console.WriteLine("Enemies added");
             }
             
-        
             //move enemies
             movementStrategy.MoveEnemies(squad.Enemies);
+
+            if (health.HealthPoints == 0) {
+                GameOver = true;
+                score.FinalScore();
+            }
+
+            // Check if enemies are out of bounds and delete them if they are
+            squad.Enemies.Iterate(enemy => {
+                if (enemy.Shape.Position.Y < -0.1f) {
+                    health.LoseHealth();
+                    enemy.DeleteEntity();
+                }
+            });
+
         }
 
         // Check for collisions and delete entities if they collide - also add point to score
@@ -157,18 +168,7 @@ namespace Galaga {
 
             
 
-        //     if (health.HealthPoints == 0) {
-        //         GameOver = true;
-        //         score.FinalScore();
-        //     }
-
-        //     // if (enemy.Shape.Position.Y < -0.1f) {
-        //     //     health.LoseHealth();
-        //     //     enemy.DeleteEntity();
-        //         // score.ResetScore();
-        //         // enemySpeed = 0.0f;
-            
-        // }
+       
 
         public void AddExplosion(Vec2F position, Vec2F extent){
             enemyExplosions.AddAnimation(
