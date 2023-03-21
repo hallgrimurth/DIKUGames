@@ -33,7 +33,8 @@ namespace Galaga.Squadron {
             //                 new Vec2F(0.1f, 0.1f)),
             //             new ImageStride(80, enemyStride), new ImageStride(40, alternativeEnemyStride)));
             //     }
-        }    
+        }
+
     }
 }
 

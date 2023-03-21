@@ -73,7 +73,7 @@ namespace Galaga {
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
             enemies = new Row(numEnemies);
-            movementStrategy = new Down();
+            movementStrategy = new ZigZagDown();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
 
@@ -96,8 +96,9 @@ namespace Galaga {
                 Console.WriteLine("Enemies added");
             }
             
+        
             //move enemies
-                // movementStrategy.MoveEnemies(enemies);
+            movementStrategy.MoveEnemies(enemies.Enemies);
         }
 
         // Check for collisions and delete entities if they collide - also add point to score
@@ -265,6 +266,7 @@ namespace Galaga {
         public override void Update() {
             //make new window and display game over text
             if (GameOver) {
+                Console.WriteLine("Game Over"); 
                 enemies.Enemies.ClearContainer();
                 playerShots.ClearContainer();
                 eventBus.ProcessEvents();

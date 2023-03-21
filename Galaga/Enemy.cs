@@ -7,7 +7,7 @@ namespace Galaga;
 public class Enemy : Entity {
 
     private int hitpoints = 3;
-    public float speed = -0.002f;
+    public float speed = -0.001f;
     public IBaseImage redImage;
     public DynamicShape shape;
     public Vec2F startPos {get;}
@@ -17,11 +17,11 @@ public class Enemy : Entity {
         get { return hitpoints; }
     }
     //constructor for enemy
-    public Enemy(DynamicShape shape, IBaseImage image, IBaseImage redImage)
-        : base(shape, image) {
-
+    public Enemy(DynamicShape Shape, IBaseImage image, IBaseImage redImage)
+        : base(Shape, image) {
+        this.shape = Shape;
         this.redImage = redImage;
-        // this.startPos = new Vec2F(this.shape.Position.X, this.shape.Position.Y);
+        this.startPos = shape.Position;
     }
         
     public void DecreaseHitpoints() {
@@ -36,8 +36,8 @@ public class Enemy : Entity {
     //enrage enemies when hirpoints are low 
     public void Enrage() {
         if (hitpoints == 1) {
-            Image = Image;
-            speed = -0.005f;
+            Image = redImage;
+            speed = -0.002f;
         }
         
     }
