@@ -72,7 +72,7 @@ namespace Galaga {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
-            squad = new Row(numEnemies);
+            squad = new Circle(numEnemies);
             movementStrategy = new ZigZagDown();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
