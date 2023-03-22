@@ -38,9 +38,6 @@ namespace Galaga.GalagaStates {
         private int numEnemies;
         private Random rand = new Random();
 
-
-
-
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
                 GameRunning.instance = new GameRunning();
@@ -232,7 +229,5 @@ namespace Galaga.GalagaStates {
             player.Move();
         }
 
-
-        
     }
 }

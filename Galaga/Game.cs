@@ -1,17 +1,17 @@
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
+
 using DIKUArcade.Math;
 using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
-using DIKUArcade.Input;
+
 using System.Collections.Generic;
 using DIKUArcade.Physics;
 using System;
 using Galaga.Squadron;
 using Galaga.MovementStrategy;
 using Galaga.GalagaStates;
+using DIKUArcade.State;
+
 
 
 
@@ -43,9 +43,18 @@ namespace Galaga {
             if (gameEvent.EventType == GameEventType.WindowEvent) {
                 switch (gameEvent.Message) {
                     case "CLOSE_WINDOW":
+                        System.Console.WriteLine("CLOSE_WINDOW message received in game");
                         window.CloseWindow();
-                    break;
+                        break;
                 }
+            if (gameEvent.EventType == GameEventType.GameStateEvent){
+                switch (gameEvent.Message) {
+                    case "CHANGE_STATE":
+                        System.Console.WriteLine("CHANGE_STATE message received in game");
+                        break;
+                }
+            }
+ 
             }
         }
 
@@ -59,7 +68,7 @@ namespace Galaga {
             //make new window and display game over text
             stateMachine.ActiveState.UpdateState();
             window.PollEvents();
-            eventBus.ProcessEventsSequentially();
+            GalagaBus.GetBus().ProcessEventsSequentially();
 
             }
         }
