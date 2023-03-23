@@ -173,6 +173,7 @@ namespace Galaga.GalagaStates {
                             GameEvent closeWindowEvent = new GameEvent{EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
                             GalagaBus.GetBus().RegisterEvent(closeWindowEvent);
                             break;
+                        
                     }
 
                     break;
@@ -200,6 +201,15 @@ namespace Galaga.GalagaStates {
                             Vec2F ex = player.GetPosition().Extent;
                             playerShots.AddEntity(new PlayerShot(
                                 new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));        
+                            break;
+                        case KeyboardKey.P:
+                            GalagaBus.GetBus().RegisterEvent(
+                                new GameEvent{
+                                    EventType = GameEventType.GameStateEvent,
+                                    Message = "CHANGE_STATE",
+                                    StringArg1 = "GAME_PAUSED"
+                                }
+                            );
                             break;
                     }
                     break;        

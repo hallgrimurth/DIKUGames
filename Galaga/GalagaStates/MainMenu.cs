@@ -61,7 +61,7 @@ namespace Galaga.GalagaStates {
                                 case 0:
                                     GalagaBus.GetBus().RegisterEvent(
                                         new GameEvent{
-                                            EventType = GameEventType.WindowEvent,
+                                            EventType = GameEventType.GameStateEvent,
                                             Message = "CHANGE_STATE",
                                             StringArg1 = "GAME_RUNNING"
                                         }

@@ -22,16 +22,16 @@ namespace Galaga.GalagaStates {
                 case GameStateType.MainMenu:
                     ActiveState = MainMenu.GetInstance();
                     break;
-                // case GameStateType.GamePaused:
-                //     ActiveState = GamePaused.GetInstance();
-                //     break;
+                case GameStateType.GamePaused:
+                    ActiveState = GamePaused.GetInstance();
+                    break;
                 // case GameStateType.GameOver:
                 //     ActiveState = GameOver.GetInstance();
                 //     break;
                 }
             }
             public void ProcessEvent(GameEvent gameEvent) {
-                if (gameEvent.EventType == GameEventType.WindowEvent){
+                if (gameEvent.EventType == GameEventType.GameStateEvent){
                     switch (gameEvent.Message) {
                         case "CHANGE_STATE":
                             System.Console.WriteLine("CHANGE_STATE message received");
