@@ -11,15 +11,15 @@ namespace Galaga.GalagaStates {
     
     public class StateTransformer{
 
-        static public GameStateType TransformStringToState(string state){
+        public static GameStateType TransformStringToState(string state){
             switch(state){
-                case "GAME RUNNING":
+                case "GAME_RUNNING":
                     return GameStateType.GameRunning;
-                case "GAME PAUSED":
+                case "GAME_PAUSED":
                     return GameStateType.GamePaused;
-                case "GAME OVER":
+                case "GAME_OVER":
                     return GameStateType.GameOver;
-                case "MAIN MENU":
+                case "MAIN_MENU":
                     return GameStateType.MainMenu;
                 default:
                     throw(new ArgumentException());
@@ -29,13 +29,13 @@ namespace Galaga.GalagaStates {
         public static string TransformStateToString(GameStateType state){
             switch(state){
                 case GameStateType.GameRunning:
-                    return "GAME RUNNING";
+                    return "GAME_RUNNING";
                 case GameStateType.GamePaused:
-                    return "GAME PAUSED";
+                    return "GAME_PAUSED";
                 case GameStateType.GameOver:
-                    return "GAME OVER";
+                    return "GAME_OVER";
                 case GameStateType.MainMenu:
-                    return "MAIN MENU";
+                    return "MAIN_MENU";
                 default:
                     throw(new ArgumentException());
             }

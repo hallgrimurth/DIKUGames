@@ -1,32 +1,46 @@
 using DIKUArcade.Events;
 using DIKUArcade.State;
+using System.Collections.Generic;
+
+
+
 namespace Galaga.GalagaStates {
     public class StateMachine : IGameEventProcessor {
-    public IGameState ActiveState { get; private set; }
-    public StateMachine() {
-        GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
-        GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-        ActiveState = MainMenu.GetInstance();
-    }
-    private void SwitchState(GameStateType stateType) {
-        switch (stateType) {
-            case GameStateType.GameRunning:
-                ActiveState = GameRunning.GetInstance();
-                break;
-            case GameStateType.MainMenu:
-                ActiveState = MainMenu.GetInstance();
-                break;
-            // case GameStateType.GamePaused:
-            //     ActiveState = GamePaused.GetInstance();
-            //     break;
-            // case GameStateType.GameOver:
-            //     ActiveState = GameOver.GetInstance();
-            //     break;
+        public IGameState ActiveState { get; private set; }
+        public StateMachine() {
+            GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
+            GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, this);
+            ActiveState = MainMenu.GetInstance();
+            // ActiveState = GameRunning.GetInstance();
+        }
+        
+        private void SwitchState(GameStateType stateType) {
+            switch (stateType) {
+                case GameStateType.GameRunning:
+                    ActiveState = GameRunning.GetInstance();
+                    break;
+                case GameStateType.MainMenu:
+                    ActiveState = MainMenu.GetInstance();
+                    break;
+                // case GameStateType.GamePaused:
+                //     ActiveState = GamePaused.GetInstance();
+                //     break;
+                // case GameStateType.GameOver:
+                //     ActiveState = GameOver.GetInstance();
+                //     break;
+                }
             }
-        }
-        public void ProcessEvent(GameEvent gameEvent) {
-       
+            public void ProcessEvent(GameEvent gameEvent) {
+                if (gameEvent.EventType == GameEventType.WindowEvent){
+                    switch (gameEvent.Message) {
+                        case "CHANGE_STATE":
+                            System.Console.WriteLine("CHANGE_STATE message received");
+                            SwitchState(StateTransformer.TransformStringToState(gameEvent.StringArg1));
+                            System.Console.WriteLine("State changed to: " + ActiveState);
+                            break;
+                        }
+                }   
 
-        }
+            }
     }
 }
