@@ -25,8 +25,8 @@ namespace Galaga.GalagaStates {
 
         private void InitializeGameState(){
             //Initialize the menu buttons
-            Text newGameButton = new Text("New Game", new Vec2F(0.3f, 0.2f), new Vec2F(0.6f, 0.5f));
-            Text Quit = new Text("Quit", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f));
+            Text newGameButton = new Text("New Game", new Vec2F(0.1f, 0.2f), new Vec2F(0.5f, 0.5f));
+            Text Quit = new Text("Quit", new Vec2F(0.1f, 0.1f), new Vec2F(0.5f, 0.5f));
             activeMenuButton = 0;
             newGameButton.SetColor(new Vec3I(255, 255, 255));
             Quit.SetColor(new Vec3I(255, 255, 255));

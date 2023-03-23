@@ -64,14 +64,14 @@ namespace Galaga.GalagaStates {
             health = new Health(
                 new Vec2F(0.75f, -0.2f), new Vec2F(0.4f, 0.4f));
             level = new Score(
-                new Vec2F(0.75f, -0.3f), new Vec2F(0.4f, 0.4f));        
+                new Vec2F(0.75f, -0.3f), new Vec2F(0.4f, 0.4f), 1);        
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
 
             numEnemies = 8;
             squad = new Row(numEnemies);
-            squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
             movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
@@ -95,7 +95,7 @@ namespace Galaga.GalagaStates {
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
                 //create new wave
-                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, -0.003f - (level.score * 0.0002f));
             }
             
             //move enemies
