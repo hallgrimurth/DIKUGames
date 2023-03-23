@@ -7,21 +7,22 @@ namespace Galaga;
 public class Enemy : Entity {
 
     private int hitpoints = 3;
-    public float speed = -0.001f;
+    public float speed;
     public IBaseImage redImage;
     public DynamicShape shape;
     public Vec2F startPos {get;}
     
-     
+    
     public int Hitpoints {
         get { return hitpoints; }
     }
     //constructor for enemy
-    public Enemy(DynamicShape Shape, IBaseImage image, IBaseImage redImage)
+    public Enemy(DynamicShape Shape, IBaseImage image, IBaseImage redImage, float speed)
         : base(Shape, image) {
         this.shape = Shape;
         this.redImage = redImage;
         this.startPos = shape.Position;
+        this.speed = speed;
     }
         
     public void DecreaseHitpoints() {
@@ -37,7 +38,7 @@ public class Enemy : Entity {
     public void Enrage() {
         if (hitpoints == 1) {
             Image = redImage;
-            speed = -0.002f;
+            speed = speed*2.0f;
         }  
     }
 }

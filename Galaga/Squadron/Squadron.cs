@@ -16,6 +16,6 @@ public interface ISquadron {
     EntityContainer<Enemy> Enemies {get;}
     int MaxEnemies {get;}
     void CreateEnemies (List<Image> enemyStride,
-        List<Image> alternativeEnemyStride);
-    }
+        List<Image> alternativeEnemyStride, float speed);
+}
 }

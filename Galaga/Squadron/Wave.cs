@@ -18,12 +18,17 @@ namespace Galaga.Squadron {
             this.MaxEnemies = maxEnemies;
             this.Enemies = new EntityContainer<Enemy>();
         }
-        public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride){
+        public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride, float speed){
             // wave pattern
             for (int i = 0; i < MaxEnemies; i++) {
                 Enemies.AddEntity(new Enemy(
                     new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, (0.9f - (float)i*0.03f)), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride)));
+                    new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride),speed));
+            }
+        }
+        public void SetEnemieSpeed(float speed) {
+            foreach (Enemy enemy in Enemies) {
+                enemy.speed = speed;
             }
         }
     }

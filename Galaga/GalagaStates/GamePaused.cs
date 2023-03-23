@@ -8,10 +8,8 @@ using DIKUArcade.Events;
 namespace Galaga.GalagaStates {
     public class GamePaused : IGameState {
         private static GamePaused instance = null;
-        private Entity backGroundImage;
-        private Text[] menuButtons;
-        private int activeMenuButton;
-        private int maxMenuButtons;
+        private Text pause;
+
 
         public static GamePaused GetInstance() {
             if (GamePaused.instance == null) {
@@ -22,7 +20,8 @@ namespace Galaga.GalagaStates {
         }
 
         private void InitializeGameState(){
-   
+            pause = new Text("Game Paused", new Vec2F(0.1f, 0.2f), new Vec2F(0.5f, 0.5f));
+            pause.SetColor(new Vec3I(255, 255, 255));
         }
         
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
@@ -59,7 +58,7 @@ namespace Galaga.GalagaStates {
 
          //Render the titile image and the menu buttons
         public void RenderState() {
-            // GameRunning.GetInstance().RenderState();
+            pause.RenderText();
         }
 
         public void ResetState(){
@@ -68,13 +67,8 @@ namespace Galaga.GalagaStates {
 
         public void UpdateState(){
             // throw new System.NotImplementedException();
-            for (int i = 0; i < maxMenuButtons; i++){
-                if (i != activeMenuButton){
-                    menuButtons[i].SetColor(new Vec3I(255, 255, 255));
-                } else {
-                    menuButtons[i].SetColor(new Vec3I(255, 0, 0));
-                }
-            }
+          
+            
         }
     }
 }
