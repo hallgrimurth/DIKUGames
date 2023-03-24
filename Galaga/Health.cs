@@ -13,8 +13,7 @@ public class Health {
         display = new Text ("HP:" + health.ToString(), position, extent);
         display.SetColor(new Vec3I(0, 255, 255));
     }
-// Remember to explaination your choice as to what happens
-    //when losing health.
+
     public void LoseHealth () {
         health--;
         display.SetText("HP:" + health.ToString());

@@ -82,7 +82,7 @@ namespace Galaga.GalagaStates {
 
             List<ISquadron> FormationShape = new List<ISquadron> {new Row(numEnemies), 
                 new Wave(numEnemies), new Circle(numEnemies), new ZigZag(numEnemies), 
-                new V_formation(numEnemies), new Column(numEnemies)};
+                new V_formation(numEnemies), new Reverse_V(numEnemies), new Column(numEnemies)};
             List<IMovementStrategy> movementStrategies = new List<IMovementStrategy> {new Down(), 
                 new ZigZagDown(), new SideLoop()};
          
