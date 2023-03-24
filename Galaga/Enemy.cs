@@ -6,7 +6,7 @@ using DIKUArcade.Math;
 namespace Galaga;
 public class Enemy : Entity {
 
-    private int hitpoints = 3;
+    private int hitpoints;
     public float speed;
     public IBaseImage redImage;
     public DynamicShape shape;
@@ -23,6 +23,7 @@ public class Enemy : Entity {
         this.redImage = redImage;
         this.startPos = shape.Position;
         this.speed = speed;
+        hitpoints = 3;
     }
         
     public void DecreaseHitpoints() {
