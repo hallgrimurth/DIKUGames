@@ -98,7 +98,7 @@ namespace Galaga.GalagaStates {
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
                 //create new wave
-                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, -0.003f - (level.score * 0.0002f));
+                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, -0.002f - (level.score * 0.0002f));
             }
             
             //move enemies
@@ -108,7 +108,13 @@ namespace Galaga.GalagaStates {
         private void IterateHealth() {
             // Check if player is out of health and end game if they are
             if (health.HealthPoints == 0) {
-                level.FinalScore();
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent{
+                        EventType = GameEventType.GameStateEvent,
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_OVER"
+                    }
+                );
             }
 
             // Check if enemies are out of bounds and delete them if they are
@@ -148,6 +154,7 @@ namespace Galaga.GalagaStates {
                 new StationaryShape(position, extent), 
                 80,
                 new ImageStride(EXPLOSION_LENGTH_MS / 8, explosionStrides));
+
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
@@ -248,7 +255,9 @@ namespace Galaga.GalagaStates {
         }
 
         public void ResetState(){
-            throw new NotImplementedException();
+            
+
+            InitializeGameState();
         }
 
         public void UpdateState(){

@@ -1,15 +1,21 @@
 using NUnit.Framework;
-namespace galagaTests;
 
-public class TestEnemy {
-    [SetUp]
-    public void Setup()
-    {
-    }
+//Testing the enemy class
 
-    [Test]
-    public void Test1()
+namespace galagaTests
+{
+    public class testEnemy
     {
-        Assert.Pass();
+        [Test]
+        public void TestEnemy()
+        {
+            //Arrange
+            var enemy = new Galaga_Exercise_3.GalagaEntities.Enemy(new Galaga_Exercise_3.GalagaEntities.EnemyShape(new DIKUArcade.Math.Vec2F(0.1f, 0.1f), new DIKUArcade.Math.Vec2F(0.1f, 0.1f)), new Galaga_Exercise_3.GalagaEntities.MovementStrategy());
+            //Act
+            enemy.Move();
+            //Assert
+            Assert.AreEqual(enemy.Shape.Position.X, 0.1f);
+            Assert.AreEqual(enemy.Shape.Position.Y, 0.1f);
+        }
     }
 }

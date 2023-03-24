@@ -17,16 +17,18 @@ namespace Galaga.GalagaStates {
             switch (stateType) {
                 case GameStateType.GameRunning:
                     ActiveState = GameRunning.GetInstance();
+                    // ActiveState.ResetState();
                     break;
                 case GameStateType.MainMenu:
                     ActiveState = MainMenu.GetInstance();
+                    GameRunning.GetInstance().ResetState();
                     break;
                 case GameStateType.GamePaused:
                     ActiveState = GamePaused.GetInstance();
                     break;
-                // case GameStateType.GameOver:
-                //     ActiveState = GameOver.GetInstance();
-                //     break;
+                case GameStateType.GameOver:
+                    ActiveState = GameOver.GetInstance();
+                    break;
                 }
             }
             public void ProcessEvent(GameEvent gameEvent) {

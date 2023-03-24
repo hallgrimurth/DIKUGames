@@ -1,15 +1,12 @@
 using NUnit.Framework;
 namespace galagaTests;
 
-public class TestSquadron {
-    [SetUp]
-    public void Setup()
-    {
-    }
+public class testSquadron {
 
     [Test]
-    public void Test1()
-    {
+    public void TestSquadron()
+    {   
+        //var squadron = new  
         Assert.Pass();
     }
 }
