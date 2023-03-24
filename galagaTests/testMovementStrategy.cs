@@ -1,15 +1,31 @@
 using NUnit.Framework;
 namespace galagaTests;
 
-public class TestMovementStrategy {
-    [SetUp]
-    public void Setup()
+public class testMovementStrategy {
+
+    [Test]
+    public void TestMovementStrategy()
     {
+        numEnemies = 8;
+        rowSquad = new Galaga.Squadron.Row(numEnemies);
+        rowSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.01f);
+        rowZigZagMovement = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(rowSquad);
+        rowNoMoveMovement = new Galaga.MovementStrategy.NoMove.MoveEnemies(rowSquad);
+
+        Assert.AreNotEqual(rowZigZagMovement, rowNoMoveMovement);
     }
 
     [Test]
-    public void Test1()
+    public void TestMovementStrategy2()
     {
-        Assert.Pass();
+        numEnemies = 8;
+        rowSquad = new Galaga.Squadron.Row(numEnemies);
+        waveSquad = new Galaga.Squadron.Wave(numEnemies);
+        rowSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        waveSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        rowZigZagMovement = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(rowSquad);
+        waveZigZagMovement = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(waveSquad);
+
+        Assert.AreNotEqual(rowZigZagMovement, waveZigZagMovement);
     }
 }
