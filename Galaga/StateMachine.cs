@@ -33,9 +33,7 @@ namespace Galaga.GalagaStates {
                 if (gameEvent.EventType == GameEventType.GameStateEvent){
                     switch (gameEvent.Message) {
                         case "CHANGE_STATE":
-                            System.Console.WriteLine("CHANGE_STATE message received");
                             SwitchState(StateTransformer.TransformStringToState(gameEvent.StringArg1));
-                            System.Console.WriteLine("State changed to: " + ActiveState);
                             break;
                         }
                 }   
