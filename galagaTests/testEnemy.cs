@@ -1,18 +1,4 @@
 using NUnit.Framework;
-<<<<<<< HEAD
-namespace galagaTests;
-
-public class TestEnemy {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
-    [Test]
-    public void Test1()
-    {
-        Assert.Pass();
-=======
 
 //Testing the enemy class
 
@@ -31,6 +17,5 @@ namespace galagaTests
             Assert.AreEqual(enemy.Shape.Position.X, 0.1f);
             Assert.AreEqual(enemy.Shape.Position.Y, 0.1f);
         }
->>>>>>> states
     }
 }
