@@ -7,7 +7,7 @@ public class testMovementStrategy {
     public void TestMovementStrategy()
     {
         numEnemies = 8;
-        rowSquad = new Galaga.Squadron.Row(numEnemies);
+        var rowSquad = new Galaga.Squadron.Row(numEnemies);
         rowSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.01f);
         rowZigZagMovement = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(rowSquad);
         rowNoMoveMovement = new Galaga.MovementStrategy.NoMove.MoveEnemies(rowSquad);
@@ -19,8 +19,8 @@ public class testMovementStrategy {
     public void TestMovementStrategy2()
     {
         numEnemies = 8;
-        rowSquad = new Galaga.Squadron.Row(numEnemies);
-        waveSquad = new Galaga.Squadron.Wave(numEnemies);
+        var rowSquad = new Galaga.Squadron.Row(numEnemies);
+        var waveSquad = new Galaga.Squadron.Wave(numEnemies);
         rowSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
         waveSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
         rowZigZagMovement = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(rowSquad);

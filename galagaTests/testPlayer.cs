@@ -6,7 +6,7 @@ public class testPlayer {
     [Test]
     public void TestPlayer()
     {
-        var player = new Galaga.Player.Player(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new ImageStride(160, playerStrides));
+        var player = new Galaga.Player.Player(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f, 0.1f), new DIKUArcade.Math.Vec2F(0.1f, 0.1f)), new ImageStride(160, Galaga.GalagaStates.GameRunning.playerStrides));
         
         player.Move();
 
