@@ -30,15 +30,14 @@ public class Enemy : Entity {
         if (hitpoints == 0) {
             DeleteEntity();
         }
+        // enrage when hitpoints is low
         else if (hitpoints == 1) {
             Enrage();
         }
     }
-    //enrage enemies when hirpoints are low 
+
     public void Enrage() {
-        if (hitpoints == 1) {
-            Image = redImage;
-            speed = speed*2.0f;
-        }  
+        Image = redImage;
+        speed = speed*2.0f;
     }
 }
