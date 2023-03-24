@@ -44,8 +44,6 @@ namespace Galaga {
                 case GameEventType.WindowEvent:
                 //send message to state machine
                     window.CloseWindow();
-                    
-                    System.Console.WriteLine("CHANGE_STATE message received in game");
                     break;
 
                 case GameEventType.GameStateEvent:
