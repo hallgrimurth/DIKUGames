@@ -28,20 +28,6 @@ namespace Galaga.GalagaStates {
             switch(action){
                 case KeyboardAction.KeyRelease:       
                     switch(key){
-                    //     case KeyboardKey.Up:
-                    //         if (activeMenuButton == 0){
-                    //             activeMenuButton = maxMenuButtons - 1;
-                    //         } else {
-                    //             activeMenuButton --;
-                    //         }
-                    //         break;
-                    //     case KeyboardKey.Down:
-                    //         if (activeMenuButton == maxMenuButtons - 1){
-                    //             activeMenuButton = 0;
-                    //         } else {
-                    //             activeMenuButton ++;
-                    //         }
-                    //         break;
                         case KeyboardKey.P:
                             GalagaBus.GetBus().RegisterEvent(
                                 new GameEvent{

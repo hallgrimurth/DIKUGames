@@ -23,12 +23,12 @@ namespace Galaga.Squadron {
             // enemies in a reverse v formation
             for (int i = 0; i < MaxEnemies/2; i++) {
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.15f + (float)i * 0.1f, (1.1f + (float)i*0.05f)), 
+                    new DynamicShape(new Vec2F(0.15f + (float)i * 0.1f, (1.0f + (float)i*0.05f)), 
                         new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride), 
                         speed));
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.85f - (float)i * 0.1f, (1.1f + (float)i*0.05f)), 
+                    new DynamicShape(new Vec2F(0.85f - (float)i * 0.1f, (1.0f + (float)i*0.05f)), 
                         new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride), 
                         speed));
