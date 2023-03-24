@@ -23,12 +23,12 @@ namespace Galaga.Squadron {
             // enemies in two columns on the left and right side of the screen
             for (int i = 0; i < MaxEnemies/2; i++) {
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.1f, (1.1f - (float)i*0.05f)), 
+                    new DynamicShape(new Vec2F(0.3f, (1.1f + (float)i*0.05f)), 
                         new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride), 
                         speed));
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.9f, (1.1f - (float)i*0.05f)), 
+                    new DynamicShape(new Vec2F(0.7f, (1.1f + (float)i*0.05f)), 
                         new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride), 
                         speed));
