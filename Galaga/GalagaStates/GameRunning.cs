@@ -95,7 +95,7 @@ namespace Galaga.GalagaStates {
                 int random2 = rand.Next(movementStrategies.Count);
                 movementStrategy = movementStrategies[random2];
                 //create new wave
-                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, -0.003f - (level.score * 0.0002f));
+                squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, -0.002f - (level.score * 0.0002f));
             }
             
             //move enemies

@@ -38,7 +38,7 @@ public class Enemy : Entity {
     public void Enrage() {
         if (hitpoints == 1) {
             Image = redImage;
-            speed = speed*2.0f;
+            speed = speed *2;
         }  
     }
 }
