@@ -1,15 +1,56 @@
-using NUnit.Framework;
-namespace galagaTests;
+using DIKUArcade.State;
+using DIKUArcade.Entities;
+using DIKUArcade.Graphics;
+using DIKUArcade.Math;
+using DIKUArcade.Input;
+using DIKUArcade;
+using DIKUArcade.GUI;
+using DIKUArcade.Events;
+using System.Collections.Generic;
+using Galaga.GalagaStates;
+using Galaga;
 
-public class TestStateTransformer {
+
+namespace GalagaTests {
+    [TestFixture]
+    public class TestingState {
+        private StateMachine stateMachine;
+        private GalagaBus eventBus;
+
     [SetUp]
-    public void Setup()
-    {
-    }
+    public void InitiateStateMachine() {
+    
+        Window.CreateOpenGLContext();
+        
+        // Here you should:
+        // (1) Initialize a GalagaBus with proper GameEventTypes
+        eventBus = GalagaBus.GetBus();
+        eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
+        eventBus.InitializeEventBus(eventQueue);
+        window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
 
+        // (2) Instantiate the StateMachine
+        stateMachine = new StateMachine();
+        // (3) Subscribe the GalagaBus to proper GameEventTypes
+        // and GameEventProcessors
+        for(int i = 0; i < eventQueue.Count; i++) {
+            eventBus.Subscribe(eventQueue[i], this);
+            }    }
     [Test]
-    public void Test1()
-    {
-        Assert.Pass();
+    public void TestInitialState() {
+        Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
+    }
+    [Test]
+    public void TestEventGamePaused() {
+        GalagaBus.GetBus().RegisterEvent(
+            new GameEvent{
+                EventType = GameEventType.GameStateEvent,
+                Message = "CHANGE_STATE",
+                StringArg1 = "GAME_PAUSED"
+        }
+    );
+        GalagaBus.GetBus().ProcessEventsSequentially();
+        Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
+        }
     }
 }
