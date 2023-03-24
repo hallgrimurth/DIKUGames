@@ -22,7 +22,7 @@ namespace Galaga.Squadron {
             // enemies in a circle
             for (int i = 0; i < MaxEnemies; i++) {
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/this.MaxEnemies)*0.2f, 0.9f + (float)Math.Sin(i*2*Math.PI/this.MaxEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
+                    new DynamicShape(new Vec2F(0.45f + (float)Math.Cos(i*2*Math.PI/this.MaxEnemies)*0.2f, 1.3f + (float)Math.Sin(i*2*Math.PI/this.MaxEnemies)*0.2f), new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride), new ImageStride(80, alternativeEnemyStride),speed));
             }
         }

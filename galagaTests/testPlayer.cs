@@ -1,15 +1,16 @@
 using NUnit.Framework;
 namespace galagaTests;
 
-public class TestPlayer {
-    [SetUp]
-    public void Setup()
-    {
-    }
+public class testPlayer {
 
     [Test]
-    public void Test1()
+    public void TestPlayer()
     {
-        Assert.Pass();
+        var player = new Galaga.Player.Player(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f, 0.1f), new DIKUArcade.Math.Vec2F(0.1f, 0.1f)), new ImageStride(160, Galaga.GalagaStates.GameRunning.playerStrides));
+        
+        player.Move();
+
+        Assert.AreEqual(player.Shape.Position.X, 0.1f);
+        Assert.AreEqual(player.Shape.Position.Y, 0.1f);
     }
 }

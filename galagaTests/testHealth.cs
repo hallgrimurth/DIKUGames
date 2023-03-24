@@ -1,15 +1,13 @@
 using NUnit.Framework;
 namespace galagaTests;
 
-public class TestHealth {
-    [SetUp]
-    public void Setup()
-    {
-    }
+public class testHealth {
 
     [Test]
-    public void Test1()
+    public void TestHealth()
     {
-        Assert.Pass();
+        var health = new Health(new Vec2F(0.75f, -0.2f), new Vec2F(0.4f, 0.4f));
+        health.LoseHealth();
+        Assert.AreEqual(2, health);
     }
 }

@@ -21,10 +21,9 @@ public class Score {
     }
 
     public void FinalScore() {
-        display = new Text("GameOver \n you reached \n   level: " + score.ToString(), new Vec2F(0.25f, 0.25f), new Vec2F(0.5f, 0.5f));
+        display = new Text("GameOver \n you reached \n   level: " + score.ToString(), 
+            new Vec2F(0.25f, 0.25f), new Vec2F(0.5f, 0.5f));
         display.SetColor(new Vec3I(0, 255, 255));
-
-        // display.SetText("Game over you reached level: " + score.ToString());
     }
     public void Render() {
         display.RenderText();
