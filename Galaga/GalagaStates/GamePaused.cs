@@ -28,7 +28,7 @@ namespace Galaga.GalagaStates {
             switch(action){
                 case KeyboardAction.KeyRelease:       
                     switch(key){
-                        case KeyboardKey.P:
+                        case KeyboardKey.Escape:
                             GalagaBus.GetBus().RegisterEvent(
                                 new GameEvent{
                                     EventType = GameEventType.GameStateEvent,

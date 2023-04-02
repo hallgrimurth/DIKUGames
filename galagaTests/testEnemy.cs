@@ -24,7 +24,7 @@ namespace galagaTests
         public void TestEnemyEnrage()
         {
             var startSpeed = 0.01f;
-            var enemy = new Galaga.Enemy.Enemy(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f,0.1f),new DIKUArcade.Math.Vec2F(0.1f,0.1f)), Galaga.GalagaStates.GameRunning.enemyStridesBlue, Galaga.GalagaStates.GameRunning.enemyStridesRed, Galaga.Enemy. startSpeed);
+            var enemy = new Galaga.Enemy.Enemy(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f,0.1f),new DIKUArcade.Math.Vec2F(0.1f,0.1f)), Galaga.GalagaStates.GameRunning.enemyStridesBlue, Galaga.GalagaStates.GameRunning.enemyStridesRed, startSpeed);
             enemy.LoseHealth;
             enemy.LoseHealth;
             var newSpeed = enemy.Enrage().speed;

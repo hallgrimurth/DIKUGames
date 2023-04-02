@@ -6,7 +6,7 @@ public class testSquadron {
     [Test]
     public void TestSquadron()
     {   
-        numEnemies = 8;
+        int numEnemies = 8;
         var circleSquad = new Galaga.Squadron.Circle(numEnemies);
         var waveSquad = new Galaga.Squadron.Wave(numEnemies);
 
