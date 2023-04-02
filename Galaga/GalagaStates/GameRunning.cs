@@ -157,87 +157,94 @@ namespace Galaga.GalagaStates {
 
         }
 
+        public void KeyPress(KeyboardKey key){
+            switch(key) {
+                case KeyboardKey.Left:
+                    GameEvent MoveLeft = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "MOVE_LEFT" });
+                    GalagaBus.GetBus().RegisterEvent(MoveLeft);
+                    break;
+                case KeyboardKey.Right:
+                     GameEvent MoveRight = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "MOVE_RIGHT" });
+                    GalagaBus.GetBus().RegisterEvent(MoveRight);
+                        break;
+                case KeyboardKey.Up:
+                    GameEvent MoveUp = (new GameEvent{
+                        EventType = GameEventType.MovementEvent, To = player, 
+                        Message = "MOVE_UP" });
+                    GalagaBus.GetBus().RegisterEvent(MoveUp);
+                    break;
+                case KeyboardKey.Down:
+                    GameEvent MoveDown = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "MOVE_DOWN" });
+                    GalagaBus.GetBus().RegisterEvent(MoveDown);
+                    break;
+                case KeyboardKey.C:
+                    GameEvent closeWindowEvent = new GameEvent{
+                        EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
+                    GalagaBus.GetBus().RegisterEvent(closeWindowEvent);
+                    break;               
+                    }
+        }
+
+
+        public void KeyRelease(KeyboardKey key){
+            switch(key){
+                case KeyboardKey.Left:
+                    GameEvent StopLeft = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "STOP_LEFT" });
+                    GalagaBus.GetBus().RegisterEvent(StopLeft);
+                    break;
+                case KeyboardKey.Right:
+                    GameEvent StopRight = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "STOP_RIGHT" });
+                    GalagaBus.GetBus().RegisterEvent(StopRight);
+                    break;
+                case KeyboardKey.Up:
+                    GameEvent StopUp = (new GameEvent{
+                        EventType = GameEventType.MovementEvent, To = player, 
+                        Message = "STOP_UP" });
+                    GalagaBus.GetBus().RegisterEvent(StopUp);
+                    break;
+                case KeyboardKey.Down:
+                    GameEvent StopDown = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "STOP_DOWN" });
+                    GalagaBus.GetBus().RegisterEvent(StopDown);
+                    break;
+                case KeyboardKey.Space:
+                    Vec2F pos = player.GetPosition().Position;
+                    Vec2F ex = player.GetPosition().Extent;
+                    playerShots.AddEntity(new PlayerShot(
+                        new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));      
+                    break;
+                case KeyboardKey.Escape:
+                    GalagaBus.GetBus().RegisterEvent(
+                        new GameEvent{
+                            EventType = GameEventType.GameStateEvent,
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_PAUSED"
+                        }
+                    );
+                    break;
+            }
+        }
+
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         
             switch(action){
                 case KeyboardAction.KeyPress:
-                    switch(key) {
-                        case KeyboardKey.Left:
-                            GameEvent MoveLeft = (new GameEvent{
-                                EventType = GameEventType.MovementEvent,  To = player, 
-                                Message = "MOVE_LEFT" });
-                            GalagaBus.GetBus().RegisterEvent(MoveLeft);
-                            break;
-                        case KeyboardKey.Right:
-                            GameEvent MoveRight = (new GameEvent{
-                                EventType = GameEventType.MovementEvent,  To = player, 
-                                Message = "MOVE_RIGHT" });
-                            GalagaBus.GetBus().RegisterEvent(MoveRight);
-                            break;
-                        case KeyboardKey.Up:
-                            GameEvent MoveUp = (new GameEvent{
-                                EventType = GameEventType.MovementEvent, To = player, 
-                                Message = "MOVE_UP" });
-                            GalagaBus.GetBus().RegisterEvent(MoveUp);
-                            break;
-                        case KeyboardKey.Down:
-                            GameEvent MoveDown = (new GameEvent{
-                                EventType = GameEventType.MovementEvent,  To = player, 
-                                Message = "MOVE_DOWN" });
-                            GalagaBus.GetBus().RegisterEvent(MoveDown);
-                            break;
-                        case KeyboardKey.Escape:
-                            GameEvent closeWindowEvent = new GameEvent{
-                                EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
-                            GalagaBus.GetBus().RegisterEvent(closeWindowEvent);
-                            break;
-                        
-                    }
-
+                    KeyPress(key);
                     break;
 
                 case KeyboardAction.KeyRelease:
-                    switch(key) {
-                        case KeyboardKey.Left:
-                            GameEvent StopLEft = (new GameEvent{
-                                EventType = GameEventType.MovementEvent,  To = player, 
-                                Message = "STOP_LEFT" });
-                            GalagaBus.GetBus().RegisterEvent(StopLEft);
-                            break;
-                        case KeyboardKey.Right:
-                            GameEvent StopRight = (new GameEvent{
-                                EventType = GameEventType.MovementEvent,  To = player, 
-                                Message = "STOP_RIGHT" });
-                            GalagaBus.GetBus().RegisterEvent(StopRight);
-                            break;
-                        case KeyboardKey.Up:
-                            GameEvent StopUp = (new GameEvent{
-                                EventType = GameEventType.MovementEvent, To = player, 
-                                Message = "STOP_UP" });
-                            GalagaBus.GetBus().RegisterEvent(StopUp);
-                            break;
-                        case KeyboardKey.Down:
-                            GameEvent StopDown = (new GameEvent{
-                                EventType = GameEventType.MovementEvent,  To = player, 
-                                Message = "STOP_DOWN" });
-                            GalagaBus.GetBus().RegisterEvent(StopDown);
-                            break;
-                        case KeyboardKey.Space:
-                            Vec2F pos = player.GetPosition().Position;
-                            Vec2F ex = player.GetPosition().Extent;
-                            playerShots.AddEntity(new PlayerShot(
-                                new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));      
-                            break;
-                        case KeyboardKey.P:
-                            GalagaBus.GetBus().RegisterEvent(
-                                new GameEvent{
-                                    EventType = GameEventType.GameStateEvent,
-                                    Message = "CHANGE_STATE",
-                                    StringArg1 = "GAME_PAUSED"
-                                }
-                            );
-                            break;
-                    }
+                    KeyRelease(key);
                     break;        
             }
         }
@@ -254,8 +261,7 @@ namespace Galaga.GalagaStates {
 
         }
 
-        public void ResetState(){
-            
+        public void ResetState(){ 
 
             InitializeGameState();
         }
