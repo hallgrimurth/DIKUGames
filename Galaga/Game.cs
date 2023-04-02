@@ -3,13 +3,8 @@ using DIKUArcade.Math;
 using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
-
 using System.Collections.Generic;
 using Galaga.GalagaStates;
-
-
-
-
 
 namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
@@ -21,8 +16,6 @@ namespace Galaga {
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-
-        
             //Setting up eventbus and subscribing to events
             eventBus = GalagaBus.GetBus();
             stateMachine = new StateMachine();
@@ -34,13 +27,10 @@ namespace Galaga {
             for(int i = 0; i < eventQueue.Count; i++) {
                 eventBus.Subscribe(eventQueue[i], this);
             }
-
         }
 
-        public void ProcessEvent(GameEvent gameEvent) {
-            
-            
-            switch (gameEvent.EventType) {
+        public void ProcessEvent(GameEvent gameEvent) {  
+             switch (gameEvent.EventType) {
                 case GameEventType.WindowEvent:
                 //send message to state machine
                     window.CloseWindow();
@@ -50,10 +40,7 @@ namespace Galaga {
                     stateMachine.ProcessEvent(gameEvent);
                     window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
                     break;
-            }
-            
- 
-            
+            }    
         }
 
         public override void Render() {
@@ -61,15 +48,12 @@ namespace Galaga {
             stateMachine.ActiveState.RenderState();
         }
         
-
         public override void Update() {
             //make new window and display game over text
             stateMachine.ActiveState.UpdateState();
             window.PollEvents();
             GalagaBus.GetBus().ProcessEventsSequentially();
-
-            }
         }
-
     }
+}
 
