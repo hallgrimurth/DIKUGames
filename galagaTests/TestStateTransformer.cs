@@ -21,8 +21,8 @@ namespace GalagaTests {
         
             Window.CreateOpenGLContext();
             // (1) Initialize a GalagaBus with proper GameEventTypes
-            GalagaBus eventBus = GalagaBus.GetBus();
-            eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
+            var eventBus = GalagaBus.GetBus();
+            var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
             eventBus.InitializeEventBus(eventQueue);
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
 
