@@ -12,12 +12,10 @@ namespace GalagaTests {
         private StateMachine stateMachine;
         [SetUp]
         public void InitiateStateMachine() {
-            // (1) Initialize a GalagaBus with proper GameEventTypes
             Window.CreateOpenGLContext();
-            // GalagaBus.GetBus().InitializeEventBus(new List<GameEventType> {
-            //     GameEventType.GameStateEvent,
-            //     GameEventType.InputEvent
-            // });
+            // (1) Initialize a GalagaBus with proper GameEventTypes
+            var eventBus = GalagaBus.GetBus();
+            // eventBus.InitializeEventBus(new List<GameEventType> {GameEventType.GameStateEvent, GameEventType.InputEvent});
             // (2) Instantiate the StateMachine
             stateMachine = new StateMachine();
             // (3) Subscribe the GalagaBus to proper GameEventTypes and GameEventProcessors

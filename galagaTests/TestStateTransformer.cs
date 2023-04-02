@@ -32,12 +32,11 @@ namespace GalagaTests {
             // (3) Subscribe the GalagaBus to proper GameEventTypes
             // and GameEventProcessors
             for(int i = 0; i < eventQueue.Count; i++) {
-                eventBus.Subscribe(eventQueue[i], this);
+                eventBus.Subscribe(eventQueue[i], stateMachine);
             }    
         }
 
-        public void ProcessEvent(GameEvent gameEvent){
-            // Should be something else
+        public void ProcessEvent(GameEvent gameEvent){           
             int v;
         }
 
