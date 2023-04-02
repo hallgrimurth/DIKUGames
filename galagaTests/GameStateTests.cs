@@ -39,7 +39,7 @@ namespace GalagaTests {
                     Message = "CHANGE_STATE",
                     StringArg1 = "GAME_PAUSED"
                 }
-        );
+            );
             GalagaBus.GetBus().ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
