@@ -38,6 +38,7 @@ namespace Galaga.GalagaStates {
         private int numEnemies;
         private Random rand = new Random();
 
+
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
                 GameRunning.instance = new GameRunning();
@@ -46,19 +47,28 @@ namespace Galaga.GalagaStates {
             return GameRunning.instance;
         }
 
-        public void InitializeGameState(){
+        public List<DIKUArcade.Graphics.Image> LoadImages(int num, String imageName){
 
-            //Loading images
+            ImageStride.CreateStrides(num, Path.Combine("Assets", "Images", imageName));
+
+            // explosionStrides = ImageStride.CreateStrides
+                // (8, Path.Combine("Assets", "Images", "Explosion.png"));
+            // playerStrides = ImageStride.CreateStrides
+            //     (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
+            // enemyStridesRed = ImageStride.CreateStrides
+            //     (2, Path.Combine("Assets", "Images", "RedMonster.png"));
+            // enemyStridesBlue = ImageStride.CreateStrides
+            //     (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        }
+
+        public void InitializeGameState(){
+            explosionStrides = LoadImages(8, "Explosion.png");
+            playerStrides = LoadImages(4, "FlightAnimation.png");
+            enemyStridesRed = LoadImages(2, "RedMonster.png");
+            enemyStridesBlue = LoadImages(4, "BlueMonster.png");
+
             playerShotImage = new Image(Path.Combine
                 ("Assets", "Images", "BulletRed2.png"));
-            explosionStrides = ImageStride.CreateStrides
-                (8, Path.Combine("Assets", "Images", "Explosion.png"));
-            playerStrides = ImageStride.CreateStrides
-                (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
-            enemyStridesRed = ImageStride.CreateStrides
-                (2, Path.Combine("Assets", "Images", "RedMonster.png"));
-            enemyStridesBlue = ImageStride.CreateStrides
-                (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
 
             //Adding Entities
             health = new Health(
@@ -72,6 +82,7 @@ namespace Galaga.GalagaStates {
             numEnemies = 8;
             squad = new Row(numEnemies);
             squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+
             movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);
