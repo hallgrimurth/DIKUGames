@@ -46,27 +46,18 @@ namespace Galaga.GalagaStates {
             }
             return GameRunning.instance;
         }
-
-        public List<DIKUArcade.Graphics.Image> LoadImages(int num, String imageName){
-
-            ImageStride.CreateStrides(num, Path.Combine("Assets", "Images", imageName));
-
-            // explosionStrides = ImageStride.CreateStrides
-                // (8, Path.Combine("Assets", "Images", "Explosion.png"));
-            // playerStrides = ImageStride.CreateStrides
-            //     (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
-            // enemyStridesRed = ImageStride.CreateStrides
-            //     (2, Path.Combine("Assets", "Images", "RedMonster.png"));
-            // enemyStridesBlue = ImageStride.CreateStrides
-            //     (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-        }
-
+        
         public void InitializeGameState(){
-            explosionStrides = LoadImages(8, "Explosion.png");
-            playerStrides = LoadImages(4, "FlightAnimation.png");
-            enemyStridesRed = LoadImages(2, "RedMonster.png");
-            enemyStridesBlue = LoadImages(4, "BlueMonster.png");
 
+            //Loading images
+            explosionStrides = ImageStride.CreateStrides
+                (8, Path.Combine("Assets", "Images", "Explosion.png"));
+            playerStrides = ImageStride.CreateStrides
+                (4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
+            enemyStridesRed = ImageStride.CreateStrides
+                (2, Path.Combine("Assets", "Images", "RedMonster.png"));
+            enemyStridesBlue = ImageStride.CreateStrides
+                (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             playerShotImage = new Image(Path.Combine
                 ("Assets", "Images", "BulletRed2.png"));
 

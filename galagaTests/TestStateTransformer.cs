@@ -13,9 +13,10 @@ using Galaga;
 
 namespace GalagaTests {
     [TestFixture]
-    public class TestingState {
+    public class TestingState : IGameEventProcessor {
         private StateMachine stateMachine;
-    
+
+        
         [SetUp]
         public void InitiateStateMachine() {
         
@@ -23,8 +24,8 @@ namespace GalagaTests {
             // (1) Initialize a GalagaBus with proper GameEventTypes
             var eventBus = GalagaBus.GetBus();
             var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
-            eventBus.InitializeEventBus(eventQueue);
-            window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+            // eventBus.InitializeEventBus(eventQueue);
+            // window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
 
             // (2) Instantiate the StateMachine
             stateMachine = new StateMachine();
@@ -33,6 +34,11 @@ namespace GalagaTests {
             for(int i = 0; i < eventQueue.Count; i++) {
                 eventBus.Subscribe(eventQueue[i], this);
             }    
+        }
+
+        public void ProcessEvent(GameEvent gameEvent){
+            // Should be something else
+            int v;
         }
 
         [Test]
@@ -47,8 +53,8 @@ namespace GalagaTests {
                     EventType = GameEventType.GameStateEvent,
                     Message = "CHANGE_STATE",
                     StringArg1 = "GAME_PAUSED"
-            }
-        );
+                }
+            );
             GalagaBus.GetBus().ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
