@@ -17,6 +17,8 @@ namespace galagaTests
 {
     public class testEnemy
     {
+  
+
         [Test]
         public void TestEnemy()
         {
@@ -34,8 +36,12 @@ namespace galagaTests
         [Test]
         public void TestEnemyEnrage()
         {
+            // IBaseImage enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
+            // IBaseImage enemyStridesBlue = ImageStride.CreateStride(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+
             // var startSpeed = 0.01f;
-            // var enemy = new Galaga.Enemy.Enemy(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f,0.1f),new DIKUArcade.Math.Vec2F(0.1f,0.1f)), Galaga.GalagaStates.GameRunning.enemyStridesBlue, Galaga.GalagaStates.GameRunning.enemyStridesRed, startSpeed);
+
+            // var enemy = new Enemy(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f,0.1f),new DIKUArcade.Math.Vec2F(0.1f,0.1f)), enemyStridesBlue, enemyStridesRed, startSpeed);
             // enemy.LoseHealth;
             // enemy.LoseHealth;
             // var newSpeed = enemy.Enrage().speed;
