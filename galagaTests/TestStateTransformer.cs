@@ -28,10 +28,10 @@ namespace GalagaTests {
             // window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
 
             // (2) Instantiate the StateMachine
-            stateMachine = new StateMachine(GameEventType.GameStateEvent);
+            stateMachine = new StateMachine();
             // (3) Subscribe the GalagaBus to proper GameEventTypes
             // and GameEventProcessors
-            eventBus.Subscribe(eventQueue[i], stateMachine);
+            eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
 
             // for(int i = 0; i < eventQueue.Count; i++) {
             //     eventBus.Subscribe(eventQueue[i], stateMachine);
