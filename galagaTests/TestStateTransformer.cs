@@ -23,17 +23,19 @@ namespace GalagaTests {
             Window.CreateOpenGLContext();
             // (1) Initialize a GalagaBus with proper GameEventTypes
             var eventBus = GalagaBus.GetBus();
-            var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
-            // eventBus.InitializeEventBus(eventQueue);
+            // var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
+            eventBus.InitializeEventBus(GameEventType.GameStateEvent);
             // window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
 
             // (2) Instantiate the StateMachine
-            stateMachine = new StateMachine();
+            stateMachine = new StateMachine(GameEventType.GameStateEvent);
             // (3) Subscribe the GalagaBus to proper GameEventTypes
             // and GameEventProcessors
-            for(int i = 0; i < eventQueue.Count; i++) {
-                eventBus.Subscribe(eventQueue[i], stateMachine);
-            }    
+            eventBus.Subscribe(eventQueue[i], stateMachine);
+
+            // for(int i = 0; i < eventQueue.Count; i++) {
+            //     eventBus.Subscribe(eventQueue[i], stateMachine);
+            // }    
         }
 
 

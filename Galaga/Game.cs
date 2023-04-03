@@ -25,9 +25,9 @@ namespace Galaga {
             eventBus.InitializeEventBus(eventQueue);
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
             for(int i = 0; i < eventQueue.Count; i++) {
-                eventBus.Subscribe(eventQueue[i], stateMachine);
+                eventBus.Subscribe(eventQueue[i], this);
             }
-        }
+        } 
 
         public void ProcessEvent(GameEvent gameEvent) {  
              switch (gameEvent.EventType) {
