@@ -13,7 +13,7 @@ using Galaga;
 
 namespace GalagaTests {
     [TestFixture]
-    public class TestingState : IGameEventProcessor {
+    public class TestingState {
         private StateMachine stateMachine;
 
         
@@ -36,9 +36,6 @@ namespace GalagaTests {
             }    
         }
 
-        public void ProcessEvent(GameEvent gameEvent){           
-            int v;
-        }
 
         [Test]
         public void TestInitialState() {
