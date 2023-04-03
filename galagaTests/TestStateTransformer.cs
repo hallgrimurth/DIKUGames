@@ -24,7 +24,7 @@ namespace GalagaTests {
             // (1) Initialize a GalagaBus with proper GameEventTypes
             var eventBus = GalagaBus.GetBus();
             // var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
-            eventBus.InitializeEventBus(GameEventType.GameStateEvent);
+            // eventBus.InitializeEventBus(GameEventType.GameStateEvent);
             // window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
 
             // (2) Instantiate the StateMachine
