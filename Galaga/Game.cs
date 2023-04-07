@@ -19,9 +19,10 @@ namespace Galaga {
             //Setting up eventbus and subscribing to events
             eventBus = GalagaBus.GetBus();
             stateMachine = new StateMachine();
-            eventQueue = new List<GameEventType> { GameEventType.InputEvent, 
-                GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, 
-                GameEventType.GameStateEvent };
+            eventQueue = new List<GameEventType> {GameEventType.WindowEvent, GameEventType.GameStateEvent, GameEventType.MovementEvent }; 
+            // { GameEventType.InputEvent, 
+                // GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, 
+                // GameEventType.GameStateEvent };
             eventBus.InitializeEventBus(eventQueue);
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
             for(int i = 0; i < eventQueue.Count; i++) {
