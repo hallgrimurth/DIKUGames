@@ -9,6 +9,7 @@ using DIKUArcade.Events;
 using System.Collections.Generic;
 using Galaga.GalagaStates;
 using Galaga;
+using System;
 
 
 namespace GalagaTests {
@@ -22,20 +23,14 @@ namespace GalagaTests {
         
             Window.CreateOpenGLContext();
             // (1) Initialize a GalagaBus with proper GameEventTypes
-            var eventBus = GalagaBus.GetBus();
-            // var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent, GameEventType.MovementEvent, GameEventType.GameStateEvent };
-            // eventBus.InitializeEventBus(GameEventType.GameStateEvent);
-            // window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+            var eventQueue = new List<GameEventType> { GameEventType.InputEvent, GameEventType.GameStateEvent };
+            // GalagaBus.GetBus().InitializeEventBus(eventQueue);
 
             // (2) Instantiate the StateMachine
             stateMachine = new StateMachine();
-            // (3) Subscribe the GalagaBus to proper GameEventTypes
-            // and GameEventProcessors
-            eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
-
-            // for(int i = 0; i < eventQueue.Count; i++) {
-            //     eventBus.Subscribe(eventQueue[i], stateMachine);
-            // }    
+            // (3) Subscribe the GalagaBus to proper GameEventTypes and GameEventProcessors
+            GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateMachine);
+            GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, stateMachine);  
         }
 
 

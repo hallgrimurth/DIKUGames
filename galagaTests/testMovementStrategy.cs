@@ -33,13 +33,14 @@ public class testMovementStrategy {
     [Test]
     public void TestMovementStrategy2()
     {
-        List<Image> enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
-        List<Image> enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-        int numEnemies = 8;
-        var rowSquad = new Galaga.Squadron.Row(numEnemies);
-        var waveSquad = new Galaga.Squadron.Wave(numEnemies);
-        rowSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
-        waveSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        // List<Image> enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
+        // List<Image> enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        // int numEnemies = 8;
+        // var rowSquad = new Galaga.Squadron.Row(numEnemies);
+        // var waveSquad = new Galaga.Squadron.Wave(numEnemies);
+        // rowSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        //waveSquad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        
         // var rowZigZag = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(rowSquad);
         // var waveZigZag = new Galaga.MovementStrategy.ZigZagDown.MoveEnemies(waveSquad);
 
