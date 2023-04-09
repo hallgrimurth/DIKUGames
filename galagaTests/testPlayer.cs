@@ -33,10 +33,10 @@ public class testPlayer {
     [Test]
     public void TestPlayer()
     {
-        // List<Image> playerStrides = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "FlightAnimation.png"));
-        // var player = new Player(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new ImageStride(160, playerStrides));
+        List<Image> playerStrides = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\FlightAnimation.png");
+        var player = new Player(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new ImageStride(160, playerStrides));
         
-        // player.Move();
+        player.Move();
         
         // GalagaBus.GetBus().ProcessEventsSequentially();
         // Assert.That(player.Position.X, Is.EqualTo(0.1f));

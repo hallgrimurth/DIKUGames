@@ -20,32 +20,18 @@ namespace galagaTests
   
 
         [Test]
-        public void TestEnemy()
-        {
-            //Arrange
-            // var enemy = new Galaga_Exercise_3.GalagaEntities.Enemy(new Galaga_Exercise_3.GalagaEntities.EnemyShape(new DIKUArcade.Math.Vec2F(0.1f, 0.1f), new DIKUArcade.Math.Vec2F(0.1f, 0.1f)), new Galaga_Exercise_3.GalagaEntities.MovementStrategy());
-            //Act
-            // enemy.Move();
-            //Assert
-            // Assert.AreEqual(enemy.Shape.Position.X, 0.1f);
-            // Assert.AreEqual(enemy.Shape.Position.Y, 0.1f);
-        }
+        public void DecreaseHitpoint() {
+            // Arrange
+            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
+            var enemy = new Enemy(shape, red, red, 0);
+            enemy.Hitpoints = 3;
 
+            // Act
+            enemy.DecreaseHitpoints();
 
-
-        [Test]
-        public void TestEnemyEnrage()
-        {
-            // IBaseImage enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
-            // IBaseImage enemyStridesBlue = ImageStride.CreateStride(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-
-            // var startSpeed = 0.01f;
-
-            // var enemy = new Enemy(new DynamicShape(new DIKUArcade.Math.Vec2F(0.1f,0.1f),new DIKUArcade.Math.Vec2F(0.1f,0.1f)), enemyStridesBlue, enemyStridesRed, startSpeed);
-            // enemy.LoseHealth;
-            // enemy.LoseHealth;
-            // var newSpeed = enemy.Enrage().speed;
-            // Assert.AreNotEqual(startSpeed, newSpeed);
+            // Assert
+            Assert.AreEqual(2, enemy.Hitpoints);
         }
     }
 }
