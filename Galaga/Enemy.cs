@@ -15,6 +15,7 @@ public class Enemy : Entity {
     
     public int Hitpoints {
         get { return hitpoints; }
+        set { hitpoints = value; }
     }
     //constructor for enemy
     public Enemy(DynamicShape Shape, IBaseImage image, IBaseImage redImage, float speed)
