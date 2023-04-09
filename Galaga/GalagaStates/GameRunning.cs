@@ -48,7 +48,12 @@ namespace Galaga.GalagaStates {
         }
         
         public void InitializeGameState(){
+            LoadingImages();
+            AddEntities();
+            InitializeMovement();
+        }
 
+        public void LoadingImages(){
             //Loading images
             explosionStrides = ImageStride.CreateStrides
                 (8, Path.Combine("Assets", "Images", "Explosion.png"));
@@ -60,7 +65,10 @@ namespace Galaga.GalagaStates {
                 (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             playerShotImage = new Image(Path.Combine
                 ("Assets", "Images", "BulletRed2.png"));
-
+        }
+            
+            
+        public void AddEntities(){
             //Adding Entities
             health = new Health(
                 new Vec2F(0.75f, -0.2f), new Vec2F(0.4f, 0.4f));
@@ -73,11 +81,12 @@ namespace Galaga.GalagaStates {
             numEnemies = 8;
             squad = new Row(numEnemies);
             squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        }
 
+        public void InitializeMovement(){
             movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
-            enemyExplosions = new AnimationContainer(numEnemies);
-            // eventBus = GalagaBus.GetBus();
+            enemyExplosions = new AnimationContainer(numEnemies);  
         }
 
         private void IterateEnemies(){
@@ -264,7 +273,6 @@ namespace Galaga.GalagaStates {
         }
 
         public void ResetState(){ 
-
             InitializeGameState();
         }
 
