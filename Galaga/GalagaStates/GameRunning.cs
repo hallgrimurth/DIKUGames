@@ -19,7 +19,6 @@ namespace Galaga.GalagaStates {
     public class GameRunning : IGameState {
         private static GameRunning instance = null;
         //Entities
-        // private GameEventBus eventBus;
         private Player player;
         private Health health;
         private ISquadron squad;
@@ -39,6 +38,12 @@ namespace Galaga.GalagaStates {
         private Random rand = new Random();
 
 
+        public int NumEnemies {
+            get { return numEnemies; }
+            set { numEnemies = value; }
+        }
+
+
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
                 GameRunning.instance = new GameRunning();
@@ -51,6 +56,7 @@ namespace Galaga.GalagaStates {
             LoadingImages();
             AddEntities();
             InitializeMovement();
+            SquadCreateEnemies(8, 0, 0.0f);
         }
 
         public void LoadingImages(){
@@ -77,10 +83,15 @@ namespace Galaga.GalagaStates {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new ImageStride(160, playerStrides));
+        }
 
-            numEnemies = 8;
-            squad = new Row(numEnemies);
-            squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f);
+        public void SquadCreateEnemies(int NumEnemies, int index, float offset){
+            numEnemies = NumEnemies;
+            List<ISquadron> FormationShape = new List<ISquadron> {new Row(numEnemies), 
+                 new Wave(numEnemies), new Circle(numEnemies), new ZigZag(numEnemies), 
+                 new V_formation(numEnemies), new Reverse_V(numEnemies), new Column(numEnemies)};
+            squad = FormationShape[index];
+            squad.CreateEnemies(enemyStridesBlue, enemyStridesRed, 0.00f + offset);
         }
 
         public void InitializeMovement(){
