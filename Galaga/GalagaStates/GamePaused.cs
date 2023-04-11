@@ -51,10 +51,6 @@ namespace Galaga.GalagaStates {
             throw new System.NotImplementedException();
         }
 
-        public void UpdateState(){
-            // throw new System.NotImplementedException();
-          
-            
-        }
+        public void UpdateState(){}
     }
 }

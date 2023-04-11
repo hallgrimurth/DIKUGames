@@ -70,7 +70,6 @@ namespace Galaga.GalagaStates {
                                     );
                                     GalagaBus.GetBus().ProcessEventsSequentially();
 
-                                    //System.Console.WriteLine("CHANGE_STATE sent to bus");
                                     break;
                                 case 1:
                                     GalagaBus.GetBus().RegisterEvent(

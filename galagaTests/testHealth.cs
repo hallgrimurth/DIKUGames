@@ -14,7 +14,7 @@ namespace galagaTests {
             int actualHealthPoints = health.HealthPoints;
             
             // Assert
-            Assert.AreEqual(expectedHealthPoints, actualHealthPoints);
+            Assert.That(expectedHealthPoints, Is.EqualTo(actualHealthPoints));
         }
     }
 }

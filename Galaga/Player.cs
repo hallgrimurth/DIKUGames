@@ -13,6 +13,9 @@ namespace Galaga {
         private float moveUp = 0.0f;
         private float moveDown = 0.0f;
         const float MOVEMENT_SPEED = 0.01f;
+        public DynamicShape Shape {
+            get { return shape; }
+        }
 
         public Player(DynamicShape shape, IBaseImage image) {
             entity = new Entity(shape, image);
