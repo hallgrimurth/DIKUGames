@@ -20,8 +20,8 @@ public class testSquadron {
     {
         int numEnemies = 8;
         float enemySpeed = 0.01f;
-        List<Image> Red = ImageStride.CreateStrides(2, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        List<Image> Blue = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+        List<Image> Red = ImageStride.CreateStrides(2, "Assets/Images/RedMonster.png");
+        List<Image> Blue = ImageStride.CreateStrides(4, "Assets/Images/BlueMonster.png");
         var row = new Galaga.Squadron.Row(numEnemies);
 
     
@@ -37,8 +37,8 @@ public class testSquadron {
     public void TestSquadron2()
     {
         int numEnemies = 8;
-        List<Image> Red = ImageStride.CreateStrides(2, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        List<Image> Blue = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+        List<Image> Red = ImageStride.CreateStrides(2, "Assets/Images/RedMonster.png");
+        List<Image> Blue = ImageStride.CreateStrides(4, "Assets/Images/BlueMonster.png");
         var row = new Galaga.Squadron.Row(numEnemies);
         var wave = new Galaga.Squadron.Wave(numEnemies);
 

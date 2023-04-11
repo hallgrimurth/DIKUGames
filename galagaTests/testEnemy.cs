@@ -22,7 +22,7 @@ namespace galagaTests
         [Test]
         public void DecreaseHitpoint() {
             // Arrange
-            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var red = new Image("Assets/Images/RedMonster.png");
             var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
             var enemy = new Enemy(shape, red, red, 0);
             enemy.Hitpoints = 3;
@@ -37,7 +37,7 @@ namespace galagaTests
         [Test]
         public void EnemyEnrage() {
             // Arrange
-            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var red = new Image("Assets/Images/RedMonster.png");
             var shape = new DynamicShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.1f, 0.1f));
             var speed = 0.1f;
             var enemy = new Enemy(shape, red, red, speed);

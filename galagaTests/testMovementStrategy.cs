@@ -19,7 +19,7 @@ public class testMovementStrategy {
         [Test]
         public void MovementStrategy() {
             // Arrange
-            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var red = new Image("Assets/Images/RedMonster.png");
             var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
             Enemy enemy = new Enemy(shape, red, red, 0);
             var zigZagDown = new ZigZagDown();
@@ -34,7 +34,7 @@ public class testMovementStrategy {
         [Test]
         public void MovementStrategy2() {
             // Arrange
-            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var red = new Image("Assets/Images/RedMonster.png");
             var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
             Enemy enemy = new Enemy(shape, red, red, 0);
             var zigZagDown = new ZigZagDown();

@@ -21,12 +21,13 @@ namespace GalagaTests {
             Window.CreateOpenGLContext();
             // (1) Initialize a GalagaBus with proper GameEventTypes
             var eventBus = GalagaBus.GetBus();
-            // eventBus.InitializeEventBus(new List<GameEventType> {GameEventType.GameStateEvent, GameEventType.InputEvent});
+            // eventBus.InitializeEventBus(new List<GameEventType> {GameEventType.GameStateEvent, GameEventType.InputEvent, GameEventType.MovementEvent});
             // (2) Instantiate the StateMachine
             stateMachine = new StateMachine();
             // (3) Subscribe the GalagaBus to proper GameEventTypes and GameEventProcessors
             GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateMachine);
             GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, stateMachine);
+            GalagaBus.GetBus().Subscribe(GameEventType.MovementEvent, stateMachine);
             
         }
         
@@ -47,5 +48,6 @@ namespace GalagaTests {
             GalagaBus.GetBus().ProcessEventsSequentially();
             // Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
+
     }
 }

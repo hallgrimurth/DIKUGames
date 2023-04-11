@@ -18,9 +18,9 @@ namespace Galaga {
         }
 
         public Player(DynamicShape shape, IBaseImage image) {
-            GalagaBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
             entity = new Entity(shape, image);
             this.shape = shape;
+            GalagaBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
         }
 
         public void Move() {
