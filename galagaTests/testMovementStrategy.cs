@@ -16,43 +16,48 @@ namespace galagaTests;
 
 public class testMovementStrategy {
 
-    [Test]
-    public void TestMovementStrategy()
-    {
-        int numEnemies = 8;
-        List<Image> Red = ImageStride.CreateStrides(2, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        List<Image> Blue = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        var row = new Galaga.Squadron.Row(numEnemies);
-        var rowZigZag = new ZigZagDown();
-        var rowNoMove = new NoMove();
+        [Test]
+        public void MovementStrategy() {
+            // Arrange
+            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
+            Enemy enemy = new Enemy(shape, red, red, 0);
+            var zigZagDown = new ZigZagDown();
 
-        row.CreateEnemies(Blue, Red, 0.01f);
+            // Act
+            zigZagDown.MoveEnemy(enemy);
 
-        // var rowZigZagMove = rowZigZag.MoveEnemies(row.Enemies);
-        // var rowNoMove = rowNoMove.MoveEnemies(row.Enemies);
+            // Assert
+            Assert.IsNotNull(enemy.shape);
+        }
 
-        // Assert.AreNotEqual(rowZigZagMove, rowNoMove);
-    }
+        [Test]
+        public void MovementStrategy2() {
+            // Arrange
+            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
+            Enemy enemy = new Enemy(shape, red, red, 0);
+            var zigZagDown = new ZigZagDown();
 
-    [Test]
-    public void TestMoveEnemies() {
-        // Arrange
-        int numEnemies = 8; 
-        List<Image> Red = ImageStride.CreateStrides(2, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        List<Image> Blue = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        var wave = new Galaga.Squadron.Wave(numEnemies);
-        var row = new Galaga.Squadron.Row(numEnemies);
-        var movementStrategy = new Down();
+            // Act
+            zigZagDown.MoveEnemy(enemy);
 
+            // Assert
+            Assert.IsNotNull(enemy.shape.Position);
+        }
 
-        // Act
-        row.CreateEnemies(Blue, Red, -0.002f);
-        wave.CreateEnemies(Blue, Red, -0.002f);
+        [Test]
+        public void MovementStrategy3() {
+            // Arrange
+            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var shape = new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f));
+            Enemy enemy = new Enemy(shape, red, red, 0);
+            var zigZagDown = new ZigZagDown();
 
-        // var rowMove = movementStrategy.MoveEnemies(row.Enemies);
-        // var waveMove = movementStrategy.MoveEnemies(wave.Enemies);
+            // Act
+            zigZagDown.MoveEnemy(enemy);
 
-        // Assert
-        // Assert.AreNotEqual(rowMove, waveMove);
+            // Assert
+            Assert.IsNotNull(enemy.shape.Position.Y > 0.5);
         }
     }

@@ -16,17 +16,44 @@ namespace galagaTests;
 public class testSquadron {
 
     [Test]
-    public void TestSquadron()
-    {   
+    public void TestSquadron1()
+    {
+        int numEnemies = 8;
+        float enemySpeed = 0.01f;
+        List<Image> Red = ImageStride.CreateStrides(2, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+        List<Image> Blue = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+        var row = new Galaga.Squadron.Row(numEnemies);
+
+    
+        row.SetEnemieSpeed(0.01f);
+        row.CreateEnemies(Blue, Red, 0.01f);
+
+        foreach(Enemy enemies in row.Enemies) {
+            Assert.That(enemySpeed, Is.EqualTo(enemies.speed));
+        }
+    }
+
+    [Test]
+    public void TestSquadron2()
+    {
         int numEnemies = 8;
         List<Image> Red = ImageStride.CreateStrides(2, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
         List<Image> Blue = ImageStride.CreateStrides(4, @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
-        var circleSquad = new Galaga.Squadron.Circle(numEnemies);
-        var waveSquad = new Galaga.Squadron.Wave(numEnemies);
+        var row = new Galaga.Squadron.Row(numEnemies);
+        var wave = new Galaga.Squadron.Wave(numEnemies);
 
-        // var squadronCircleFormation = circleSquad.CreateEnemies(Blue, Red, 0.00f);
-        // var squadronWaveFormation = waveSquad.CreateEnemies(Blue, Red, 0.00f);
+    
+        row.SetEnemieSpeed(0.01f);
+        row.CreateEnemies(Blue, Red, 0.01f);
+        wave.SetEnemieSpeed(0.02f);
+        wave.CreateEnemies(Blue, Red, 0.02f);
+        
 
-        // Assert.AreNotEqual(squadronCircleFormation, squadronWaveFormation);
+        foreach(Enemy rowenemies in row.Enemies) {
+            foreach(Enemy waveenemies in wave.Enemies) {
+                Assert.That(waveenemies.speed, Is.Not.EqualTo(rowenemies.speed));
+            }
+        }
+
     }
 }

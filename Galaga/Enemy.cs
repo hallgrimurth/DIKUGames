@@ -42,4 +42,5 @@ public class Enemy : Entity {
         Image = redImage;
         speed = speed*2.0f;
     }
+
 }

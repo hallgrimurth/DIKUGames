@@ -13,11 +13,14 @@ namespace Galaga {
         private float moveUp = 0.0f;
         private float moveDown = 0.0f;
         const float MOVEMENT_SPEED = 0.01f;
+        public DynamicShape Shape {
+            get { return shape; }
+        }
 
         public Player(DynamicShape shape, IBaseImage image) {
+            GalagaBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
             entity = new Entity(shape, image);
             this.shape = shape;
-            GalagaBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
         }
 
         public void Move() {

@@ -31,7 +31,23 @@ namespace galagaTests
             enemy.DecreaseHitpoints();
 
             // Assert
-            Assert.AreEqual(2, enemy.Hitpoints);
+            Assert.That(enemy.Hitpoints, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void EnemyEnrage() {
+            // Arrange
+            var red = new Image(@"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Galaga\Assets\Images\RedMonster.png");
+            var shape = new DynamicShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.1f, 0.1f));
+            var speed = 0.1f;
+            var enemy = new Enemy(shape, red, red, speed);
+        
+
+            // Act
+            enemy.Enrage();
+
+            // Assert
+            Assert.That(speed * 2, Is.EqualTo(enemy.speed));
         }
     }
 }
