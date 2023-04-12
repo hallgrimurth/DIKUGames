@@ -13,7 +13,7 @@ namespace Galaga.GalagaStates {
             ActiveState = MainMenu.GetInstance();
         }
         
-        private void SwitchState(GameStateType stateType) {
+        public void SwitchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.GameRunning:
                     ActiveState = GameRunning.GetInstance();

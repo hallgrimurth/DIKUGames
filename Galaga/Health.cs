@@ -9,6 +9,7 @@ public class Health {
     }
     private Text display;
     public Health (Vec2F position, Vec2F extent) {
+        //Set health and display health value on screen
         health = 5;
         display = new Text ("HP:" + health.ToString(), position, extent);
         display.SetColor(new Vec3I(0, 255, 255));

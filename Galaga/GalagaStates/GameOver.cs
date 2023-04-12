@@ -50,7 +50,7 @@ namespace Galaga.GalagaStates {
         }
 
         public void UpdateState(){
-            // throw new System.NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }
