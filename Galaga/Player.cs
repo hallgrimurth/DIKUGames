@@ -39,7 +39,7 @@ namespace Galaga {
             }
         }
 
-        private void SetMoveUp(bool val) {
+        public void SetMoveUp(bool val) {
             if(val){
                 moveUp = MOVEMENT_SPEED;
             } else {
@@ -48,7 +48,7 @@ namespace Galaga {
             UpdateDirection();
         }
 
-        private void SetMoveDown(bool val) {
+        public void SetMoveDown(bool val) {
             if(val) {
                 moveDown = -MOVEMENT_SPEED;
             } else {
@@ -58,7 +58,7 @@ namespace Galaga {
             
         }
 
-        private void SetMoveLeft(bool val) {
+        public void SetMoveLeft(bool val) {
             if(val) {
                 moveLeft = -MOVEMENT_SPEED;
             } else {
@@ -67,7 +67,7 @@ namespace Galaga {
             UpdateDirection();
         }
 
-        private void SetMoveRight(bool val) {
+        public void SetMoveRight(bool val) {
             if(val) {
                 moveRight = MOVEMENT_SPEED;
             } else {

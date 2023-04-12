@@ -42,5 +42,32 @@ public class testPlayer {
             Assert.That(player.Shape.Position.Y, Is.EqualTo(0.1f));
         }
 
+        [Test]
+        public void TestPlayerMovesRight() {
+            // Arrange
+            List<Image> playerStrides = ImageStride.CreateStrides(4, "Assets/Images/FlightAnimation.png");
+            var player = new Player(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new ImageStride(160, playerStrides));
 
+            // Act
+            player.SetMoveRight(true);
+            player.Move();
+
+            // Assert
+            Assert.That(player.Shape.Position.X, Is.EqualTo((0.11f)));
+        }
+
+
+        [Test]
+        public void TestPlayerMovesDown() {
+            // Arrange
+            List<Image> playerStrides = ImageStride.CreateStrides(4, "Assets/Images/FlightAnimation.png");
+            var player = new Player(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new ImageStride(160, playerStrides));
+
+            // Act
+            player.SetMoveUp(true);
+            player.Move();
+
+            // Assert
+            Assert.That(player.Shape.Position.Y, Is.EqualTo((0.11f)));
+        }
 }
