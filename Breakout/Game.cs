@@ -11,7 +11,6 @@ using DIKUArcade.Events;
 
 namespace Breakout{
     class Game : DIKUGame {
-        private GameEventBus eventBus;     
         //state machine
         private StateMachine stateMachine ;
         //Entities
