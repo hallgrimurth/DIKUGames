@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using DIKUArcade.Entities;
 
 namespace Breakout{ 
-    class MapManager{
+    class LevelManager{
         private char[,] map;
-        public MapManager(string filePath){
+        public LevelManager(string filePath){
             LoadMap(filePath);
         }
 

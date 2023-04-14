@@ -9,7 +9,7 @@ namespace Breakout
         {
             // Related to the MapMananger class
             string filePath = "DIKUGames/Breakout/Assets/Levels/central-mass.txt";
-            MapManager level = new MapManager(filePath);
+            LevelManager level = new LevelManager(filePath);
             level.PrintMap();
             
             // Related to the Game class
