@@ -19,12 +19,6 @@ namespace Breakout.BreakoutStates {
         private Player player;
 
 
-        public int NumEnemies {
-            get { return numEnemies; }
-            set { numEnemies = value; }
-        }
-
-
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
                 GameRunning.instance = new GameRunning();
@@ -63,14 +57,6 @@ namespace Breakout.BreakoutStates {
 
 
         public void RenderState() {
-
-            health.RenderHealth();
-            player.Render();
-            playerShots.RenderEntities();
-            squad.Enemies.RenderEntities();
-            enemyExplosions.RenderAnimations();
-            level.Render();
-
         }
 
         public void ResetState(){ 
@@ -78,10 +64,6 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
-            IterateHealth();
-            IterateEnemies();
-            IterateShots();
-            player.Move();
         }
     }
 }

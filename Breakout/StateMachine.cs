@@ -12,8 +12,8 @@ namespace Breakout.BreakoutStates {
         }
         
         public void SwitchState(GameStateType stateType) {
-        //     switch (stateType) {
-        //     }
+            switch (stateType) {
+            }
         }
         public void ProcessEvent(GameEvent gameEvent) {
         }   

@@ -5,9 +5,9 @@ using DIKUArcade.Entities;
 
 namespace Breakout{
     class MapManager{
-        void MapManager(){
+        public MapManager(){
 
         }
-        
+
     }
 }

@@ -8,9 +8,10 @@ using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Input;
 using DIKUArcade.Events;
+using Breakout.BreakoutStates;
 
 namespace Breakout{
-    class Game : DIKUGame {
+    class Game : DIKUGame, IGameEventProcessor {
         //state machine
         private StateMachine stateMachine ;
         //Entities
@@ -19,7 +20,7 @@ namespace Breakout{
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             //Setting up eventbus and subscribing to events
-            eventBus = Breakout.GetBus();
+            eventBus = BreakoutBus.GetBus();
             stateMachine = new StateMachine();
             eventQueue = new List<GameEventType> {GameEventType.WindowEvent, GameEventType.GameStateEvent, GameEventType.MovementEvent }; 
             eventBus.InitializeEventBus(eventQueue);
@@ -52,7 +53,7 @@ namespace Breakout{
             //make new window and display game over text
             stateMachine.ActiveState.UpdateState();
             window.PollEvents();
-            Breakout.GetBus().ProcessEventsSequentially();
+            BreakoutBus.GetBus().ProcessEventsSequentially();
         }
     }
 }
