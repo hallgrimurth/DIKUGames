@@ -29,11 +29,11 @@ namespace Breakout{
                 shape.Position.X = 1.0f - shape.Extent.X;
             }
 
-            if(shape.Position.Y < 0.0f) {
-                shape.Position.Y = 0.0f;
-            } else if(shape.Position.Y > 1.0f - shape.Extent.Y) {
-                shape.Position.Y = 1.0f - shape.Extent.Y;
-            }
+            // if(shape.Position.Y < 0.0f) {
+            //     shape.Position.Y = 0.0f;
+            // } else if(shape.Position.Y > 1.0f - shape.Extent.Y) {
+            //     shape.Position.Y = 1.0f - shape.Extent.Y;
+            // }
         }
 
         private void SetMoveLeft(bool val) {

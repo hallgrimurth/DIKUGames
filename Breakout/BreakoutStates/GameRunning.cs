@@ -28,6 +28,7 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
+            player = SetPlayer();
         }
 
 
@@ -55,6 +56,14 @@ namespace Breakout.BreakoutStates {
             }
         }
 
+
+        public Player SetPlayer(){
+            playerStrides = ImageStride.CreateStrides
+                (4, Path.Combine("Assets", "Images", "playerStride.png"));
+            player = new Player(
+                new DynamicShape(new Vec2F(0.4f, 0.2f), new Vec2F(0.2f, 0.05f)),
+                new ImageStride(160, playerStrides));
+            return player;
 
         public void RenderState() {
         }
