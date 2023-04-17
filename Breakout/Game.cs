@@ -13,47 +13,42 @@ using Breakout.BreakoutStates;
 namespace Breakout{
     class Game : DIKUGame, IGameEventProcessor {
         //state machine
-        private StateMachine stateMachine ;
+        // private StateMachine stateMachine ;
         //Entities
-        private GameEventBus eventBus;
+        // private GameEventBus eventBus;
+        private string filePath;
+        private LevelManager level;
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            //Setting up eventbus and subscribing to events
-            eventBus = BreakoutBus.GetBus();
-            stateMachine = new StateMachine();
-            eventQueue = new List<GameEventType> {GameEventType.WindowEvent, GameEventType.GameStateEvent, GameEventType.MovementEvent }; 
-            eventBus.InitializeEventBus(eventQueue);
-            window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
-            for(int i = 0; i < eventQueue.Count; i++) {
-                eventBus.Subscribe(eventQueue[i], this);
-            }
+            filePath = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
+            level = new LevelManager(filePath);
         } 
 
         public void ProcessEvent(GameEvent gameEvent) {  
-             switch (gameEvent.EventType) {
-                case GameEventType.WindowEvent:
-                //send message to state machine
-                    window.CloseWindow();
-                    break;
+            //  switch (gameEvent.EventType) {
+                // case GameEventType.WindowEvent:
+                // //send message to state machine
+                //     window.CloseWindow();
+                //     break;
 
-                case GameEventType.GameStateEvent:
-                    stateMachine.ProcessEvent(gameEvent);
-                    window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
-                    break;
-            }    
+                // case GameEventType.GameStateEvent:
+                //     stateMachine.ProcessEvent(gameEvent);
+                //     window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+                //     break;
+            // }    
         }
 
         public override void Render() {
             window.Clear();
-            stateMachine.ActiveState.RenderState();
+            // stateMachine.ActiveState.RenderState();
         }
         
         public override void Update() {
             //make new window and display game over text
-            stateMachine.ActiveState.UpdateState();
+            // stateMachine.ActiveState.UpdateState();
             window.PollEvents();
-            BreakoutBus.GetBus().ProcessEventsSequentially();
+            // BreakoutBus.GetBus().ProcessEventsSequentially();
         }
     }
 }

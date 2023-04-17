@@ -1,69 +1,69 @@
-using DIKUArcade.State;
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
-using DIKUArcade;
-using DIKUArcade.GUI;
-using DIKUArcade.Events;
-using DIKUArcade.Input;
-using System.Collections.Generic;
-using DIKUArcade.Physics;
-using System;
+// using DIKUArcade.State;
+// using System.IO;
+// using DIKUArcade.Entities;
+// using DIKUArcade.Graphics;
+// using DIKUArcade.Math;
+// using DIKUArcade;
+// using DIKUArcade.GUI;
+// using DIKUArcade.Events;
+// using DIKUArcade.Input;
+// using System.Collections.Generic;
+// using DIKUArcade.Physics;
+// using System;
 
 
-namespace Breakout.BreakoutStates {
-    public class GameRunning : IGameState {
-        private static GameRunning instance = null;
-        //Entities
-        private Player player;
+// namespace Breakout.BreakoutStates {
+//     public class GameRunning : IGameState {
+//         private static GameRunning instance = null;
+//         //Entities
+//         private Player player;
 
 
-        public static GameRunning GetInstance() {
-            if (GameRunning.instance == null) {
-                GameRunning.instance = new GameRunning();
-                GameRunning.instance.InitializeGameState();
-            }
-            return GameRunning.instance;
-        }
+//         public static GameRunning GetInstance() {
+//             if (GameRunning.instance == null) {
+//                 GameRunning.instance = new GameRunning();
+//                 GameRunning.instance.InitializeGameState();
+//             }
+//             return GameRunning.instance;
+//         }
         
-        public void InitializeGameState(){
-        }
+//         public void InitializeGameState(){
+//         }
 
 
-        public void KeyPress(KeyboardKey key){
-            switch(key) {               
-                    }
-        }
+//         public void KeyPress(KeyboardKey key){
+//             switch(key) {               
+//                     }
+//         }
 
 
-        public void KeyRelease(KeyboardKey key){
-            switch(key){
-            }
-        }
+//         public void KeyRelease(KeyboardKey key){
+//             switch(key){
+//             }
+//         }
 
-        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
+//         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         
-            switch(action){
-                case KeyboardAction.KeyPress:
-                    KeyPress(key);
-                    break;
+//             switch(action){
+//                 case KeyboardAction.KeyPress:
+//                     KeyPress(key);
+//                     break;
 
-                case KeyboardAction.KeyRelease:
-                    KeyRelease(key);
-                    break;        
-            }
-        }
+//                 case KeyboardAction.KeyRelease:
+//                     KeyRelease(key);
+//                     break;        
+//             }
+//         }
 
 
-        public void RenderState() {
-        }
+//         public void RenderState() {
+//         }
 
-        public void ResetState(){ 
-            InitializeGameState();
-        }
+//         public void ResetState(){ 
+//             InitializeGameState();
+//         }
 
-        public void UpdateState(){
-        }
-    }
-}
+//         public void UpdateState(){
+//         }
+//     }
+// }

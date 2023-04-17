@@ -2,13 +2,24 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using DIKUArcade.Entities;
+using System.Linq;
+using DIKUArcade.Math;
+using DIKUArcade;
+using DIKUArcade.GUI;
+using DIKUArcade.Events;
+using System.Collections.Generic;
+using DIKUArcade.Graphics;
+
 
 namespace Breakout{ 
     class LevelManager{
         private string[] map;
+        public EntityContainer<Block> blocks {get;}
+        
+
         public LevelManager(string filePath){
             LoadMap(filePath);
-        } 
+        }
 
         public void LoadMap(string filePath) {
             if (!File.Exists(filePath)) {
@@ -26,7 +37,14 @@ namespace Breakout{
             Console.WriteLine("Map lines:");
             foreach (string line in mapLines)
             {
-                Console.WriteLine(line);
+                //Add blocks to entity container depending on the char
+                for (int i = 0; i < line.Length; i++) {
+                    // Console.WriteLine(line[i]);
+                    if (line[i] == '#') {
+                        blocks.AddEntity(new Block(new DynamicShape(new Vec2F(0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine("Assets", "Images", "red-block.png"))));
+                    }
+                }
+
             }
 
             // Print the lines between the two instances of "Meta"
@@ -42,6 +60,7 @@ namespace Breakout{
             {
                 Console.WriteLine(line);
             }
+
 
 
 
