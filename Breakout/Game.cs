@@ -41,6 +41,7 @@ namespace Breakout{
 
         public override void Render() {
             window.Clear();
+            level.blocks.RenderEntities();
             // stateMachine.ActiveState.RenderState();
         }
         

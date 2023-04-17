@@ -19,13 +19,9 @@ public class Block : Entity {
     public Block(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         health = 3;
-<<<<<<< HEAD
         value = 1;
         blockImage = image;
         shape = Shape;
-=======
-        value = this.value;
->>>>>>> 8d092adf5190627c758296c67161ff59e126d6e9
     }
         
     public void DecreaseHealth() {

@@ -19,7 +19,9 @@ namespace Breakout{
         
 
         public LevelManager(string filePath){
+            blocks = new EntityContainer<Block>();
             LoadMap(filePath);
+
         }
 
         public void LoadMap(string filePath) {
@@ -61,7 +63,6 @@ namespace Breakout{
             {
                 Console.WriteLine(line);
             }
-<<<<<<< HEAD
 
 
 
@@ -83,8 +84,6 @@ namespace Breakout{
             // foreach(string line in lines) {
             //     Console.WriteLine(line);
             // }
-=======
->>>>>>> 8d092adf5190627c758296c67161ff59e126d6e9
         }
     }
 }
