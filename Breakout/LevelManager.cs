@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using DIKUArcade.Entities;
 using System.Linq;
@@ -53,13 +54,14 @@ namespace Breakout{
             {
                 Console.WriteLine(line);
             }
-
+            
             // Print the lines between the two instances of "Legend"
             Console.WriteLine("\nLegend lines:");
             foreach (string line in legendLines)
             {
                 Console.WriteLine(line);
             }
+<<<<<<< HEAD
 
 
 
@@ -81,20 +83,9 @@ namespace Breakout{
             // foreach(string line in lines) {
             //     Console.WriteLine(line);
             // }
+=======
+>>>>>>> 8d092adf5190627c758296c67161ff59e126d6e9
         }
-
-        // public void PrintMap() {
-        //     int rows = map.GetLength(0);
-        //     int cols = map.GetLength(1);
-
-        //     for (int row = 0; row < rows; row++) {
-        //         for (int col = 0; col < cols; col++) {
-        //             Console.Write(map[row, col]);
-        //         }
-        //         Console.WriteLine();
-        //     }
-        // }
-
     }
 }
 
