@@ -3,24 +3,24 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
 namespace Breakout;
-public class Score {
+public class Value {
     private Text display;
-    public int score;
+    public int value;
 
-    public Score(Vec2F position, Vec2F extent, int startingscore) {
-        display = new Text("level:" + score.ToString(), position, extent);
+    public Value(Vec2F position, Vec2F extent, int startingvalue) {
+        display = new Text("level:" + value.ToString(), position, extent);
         display.SetColor(new Vec3I(0, 255, 255));
         display.SetFontSize(30);
-        score = startingscore;
+        value = startingvalue;
     }
 
     public void AddPoint() {
-        score++;
-        display.SetText("level:" + score.ToString());
+        value++;
+        display.SetText("level:" + value.ToString());
     }
 
-    public void FinalScore() {
-        display = new Text("GameOver \n you reached \n   level: " + score.ToString(), 
+    public void FinalValue() {
+        display = new Text("GameOver \n you reached \n   level: " + value.ToString(), 
             new Vec2F(0.25f, 0.25f), new Vec2F(0.5f, 0.5f));
         display.SetColor(new Vec3I(0, 255, 255));
     }
