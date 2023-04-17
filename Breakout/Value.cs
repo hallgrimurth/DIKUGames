@@ -14,7 +14,7 @@ public class Value {
         value = startingvalue;
     }
 
-    public void AddPoint() {
+    public void AddValue() {
         value++;
         display.SetText("level:" + value.ToString());
     }

@@ -3,7 +3,7 @@ using DIKUArcade.Graphics;
 using System.Collections.Generic;
 using DIKUArcade.Math;
 
-namespace Galaga;
+namespace Breakout;
 public class Block : Entity {
 
     private int health;
@@ -19,6 +19,7 @@ public class Block : Entity {
     public Block(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         health = 3;
+        value = this.value;
     }
         
     public void DecreaseHealth() {
