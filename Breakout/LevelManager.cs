@@ -8,7 +8,7 @@ namespace Breakout{
         private char[,] map;
         public LevelManager(string filePath){
             LoadMap(filePath);
-        }
+        } 
 
         private void LoadMap(string filePath) {
             if (!File.Exists(filePath)) {

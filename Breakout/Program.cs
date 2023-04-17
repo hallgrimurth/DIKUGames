@@ -8,7 +8,7 @@ namespace Breakout
         static void Main(string[] args)
         {
             // Related to the MapMananger class
-            string filePath = "DIKUGames/Breakout/Assets/Levels/central-mass.txt";
+            string filePath = @"C:\Users\Nynne\OneDrive\Dokumenter\KU\SU23\DIKUGames\Breakout\Assets\Levels\central-mass.txt";
             LevelManager level = new LevelManager(filePath);
             level.PrintMap();
             
