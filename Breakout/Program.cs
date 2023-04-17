@@ -8,14 +8,14 @@ namespace Breakout
         static void Main(string[] args)
         {
             // Related to the MapMananger class
-            string filePath = "DIKUGames/Breakout/Assets/Levels/central-mass.txt";
+            string filePath = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
             LevelManager level = new LevelManager(filePath);
-            level.PrintMap();
+            // level.LoadMap(filePath);
             
             // Related to the Game class
-            var windowArgs = new WindowArgs() { Title = "Breakout v0.1" };
-            var game = new Game(windowArgs);
-            game.Run();
+            // var windowArgs = new WindowArgs() { Title = "Breakout v0.1" };
+            // var game = new Game(windowArgs);
+            // game.Run();
         }
     }
 }
