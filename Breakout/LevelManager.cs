@@ -47,14 +47,13 @@ namespace Breakout{
                 for (int i = 0; i < mapLines.Count; i++) {
                     for (int j = 0 ; j < mapLines[i].Length; j++) {
                         if (mapLines[i][j] == '#') {
-                            blocks.AddEntity(new Block(new DynamicShape(new Vec2F(0.05f*j, 0.083f*i), new Vec2F(0.2f, 0.1f)), new Image(Path.Combine("Assets", "Images", "red-block.png"))));
+                            blocks.AddEntity(new Block(new DynamicShape(new Vec2F(0.1f*j - 0.1f, 0.03f*i + 0.3f), new Vec2F(0.1f, 0.03f)), new Image(Path.Combine("Assets", "Images", "red-block.png"))));
+                        }
+                        else if (mapLines[i][j] == '%') {
+                            blocks.AddEntity(new Block(new DynamicShape(new Vec2F(0.1f*j - 0.1f, 0.03f*i + 0.3f), new Vec2F(0.1f, 0.03f)), new Image(Path.Combine("Assets", "Images", "orange-block.png"))));
                         }
                     }
-                    // Console.WriteLine(mapLines[i]);
-                    // Console.WriteLine("eeeeeeeeeeeeeeeeeeeeeeee");
-                    // if (line[i] == '#') {
-                    //     blocks.AddEntity(new Block(new DynamicShape(new Vec2F(0.1f*i, 0.1f), new Vec2F(0.2f, 0.1f)), new Image(Path.Combine("Assets", "Images", "red-block.png"))));
-                    // }
+
                 }
 
             }
