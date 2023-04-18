@@ -8,7 +8,7 @@ using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Input;
 using DIKUArcade.Events;
-using Breakout.BreakoutStates;
+using DIKUArcade.State;
 
 namespace Breakout{
     class Game : DIKUGame, IGameEventProcessor {
@@ -16,13 +16,46 @@ namespace Breakout{
         // private StateMachine stateMachine ;
         //Entities
         // private GameEventBus eventBus;
-        private string filePath;
+        private string fileName;
+        private string path;
+        private Player player;
         private LevelManager level;
+        private GameEventBus eventBus;
         private List<GameEventType> eventQueue;
+        
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            filePath = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/level3.txt";
-            level = new LevelManager(filePath);
+            fileName = "level3.txt";
+            path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
+            level = new LevelManager(path);
+
+            //define player 
+            player = new Player(new DynamicShape(new Vec2F(0.4f, 0.05f), new Vec2F(0.2f, 0.03f)), new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png")));
+
+            //define event bus
+            eventBus = BreakoutBus.GetBus();
+            eventQueue = new List<GameEventType> {
+                GameEventType.InputEvent,
+                GameEventType.WindowEvent,
+                GameEventType.MovementEvent,
+                GameEventType.GameStateEvent
+            };
+            eventBus.InitializeEventBus(eventQueue);
+            //subscribe to event bus
+            for (int i = 0; i < eventQueue.Count; i++) {
+                eventBus.Subscribe(eventQueue[i], this);
+            }
+
+            //set key event handler
+            window.SetKeyEventHandler(HandleKeyEvent);
+
+
+            
+
+            
+
+
+
         } 
 
         public void ProcessEvent(GameEvent gameEvent) {  
@@ -38,10 +71,84 @@ namespace Breakout{
                 //     break;
             // }    
         }
+         public void KeyPress(KeyboardKey key){
+            switch(key) {
+                case KeyboardKey.Left:
+                    GameEvent MoveLeft = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "MOVE_LEFT" });
+                    eventBus.RegisterEvent(MoveLeft);
+                   
+                    break;
+                case KeyboardKey.Right:
+                     GameEvent MoveRight = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "MOVE_RIGHT" });
+                    eventBus.RegisterEvent(MoveRight);
+                        
+                    break;
 
+                // case KeyboardKey.C:
+                //     GameEvent closeWindowEvent = new GameEvent{
+                //         EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
+                    
+                //     break;               
+                    }
+        }
+
+
+        public void KeyRelease(KeyboardKey key){
+            switch(key){
+                case KeyboardKey.Left:
+                    GameEvent StopLeft = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "STOP_LEFT" });
+                    eventBus.RegisterEvent(StopLeft);
+                    break;
+
+                case KeyboardKey.Right:
+                    GameEvent StopRight = (new GameEvent{
+                        EventType = GameEventType.MovementEvent,  To = player, 
+                        Message = "STOP_RIGHT" });
+                    eventBus.RegisterEvent(StopRight);
+                    break;
+                
+                // case KeyboardKey.Space:
+                //     Vec2F pos = player.GetPosition().Position;
+                //     Vec2F ex = player.GetPosition().Extent;
+                //     playerShotImage = new Image(Path.Combine
+                //         ("Assets", "Images", "BulletRed2.png"));
+                //     playerShots.AddEntity(new PlayerShot(
+                //         new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));      
+                //     break;
+                // case KeyboardKey.Escape:
+                //     GalagaBus.GetBus().RegisterEvent(
+                //         new GameEvent{
+                //             EventType = GameEventType.GameStateEvent,
+                //             Message = "CHANGE_STATE",
+                //             StringArg1 = "GAME_PAUSED"
+                //         }
+                    // );
+                    // break;
+            }
+        }
+
+        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
+        
+            switch(action){
+                case KeyboardAction.KeyPress:
+                    KeyPress(key);
+                    break;
+
+                case KeyboardAction.KeyRelease:
+                    KeyRelease(key);
+                    break;        
+            }
+        }
         public override void Render() {
             window.Clear();
             level.blocks.RenderEntities();
+            player.Render();
             // stateMachine.ActiveState.RenderState();
         }
         
@@ -49,7 +156,9 @@ namespace Breakout{
             //make new window and display game over text
             // stateMachine.ActiveState.UpdateState();
             window.PollEvents();
-            // BreakoutBus.GetBus().ProcessEventsSequentially();
+            player.Move();
+
+            eventBus.ProcessEventsSequentially();
         }
     }
 }
