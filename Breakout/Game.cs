@@ -27,7 +27,7 @@ namespace Breakout{
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             fileName = "level3.txt";
             path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
-            level = new LevelManager(path);
+            level = new LevelManager();
 
             //define player 
             player = new Player(new DynamicShape(new Vec2F(0.4f, 0.05f), new Vec2F(0.2f, 0.03f)), new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png")));
