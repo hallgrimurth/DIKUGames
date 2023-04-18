@@ -28,6 +28,8 @@ namespace Breakout{
             fileName = "level3.txt";
             path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
+            level.LoadMap(path);
+            level.LoadMapEntities();
 
             //define player 
             player = new Player(new DynamicShape(new Vec2F(0.4f, 0.05f), new Vec2F(0.2f, 0.03f)), new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png")));

@@ -58,20 +58,25 @@ namespace Breakout{
         }
 
             //Load entities into entity container
-            public void LoadEntities() {
-                foreach (string line in mapLines)
-                {
-                    //Add blocks to entity container depending on the char
-                    for (int i = 0; i < mapLines.Count; i++) {
-                        for (int j = 0 ; j < mapLines[i].Length; j++) {
-                            if (legend.ContainsKey(mapLines[i][j])) {
-                                blocks.AddEntity(new Block(new DynamicShape(new Vec2F(0.1f*j - 0.1f, 0.03f*i + 0.3f), new Vec2F(0.1f, 0.03f)), new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]))));
-                            }
-                        }
+            public void LoadMapEntities() {
+            float length = mapLines[0].Length;
+            float height = mapLines.Count;
 
+            float x = (1 / length);
+            float y = (1 / height);
+
+            // Print the lines between the two instances of "Map"
+            foreach (string line in mapLines) {
+                //Add blocks to entity container depending on the char
+                for (int i = 0; i < mapLines.Count ; i++) {
+                    for (int j = 0 ; j < mapLines[i].Length; j++) {
+                        if (legend.ContainsKey(mapLines[i][j])) {
+                            blocks.AddEntity(new Block(new DynamicShape(new Vec2F(x*j, 0.95f - y*i), new Vec2F(x, y)), new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]))));
+                        }
                     }
 
                 }
+            }
             }
 
         
