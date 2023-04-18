@@ -28,8 +28,11 @@ namespace Breakout{
             if (!File.Exists(filePath)) {
                 throw new FileNotFoundException("The specified file does not exist.");
             }
+
+
+
             
-            // /string filePath = @"C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
+            // // /string filePath = @"C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
             string[] lines = File.ReadAllLines(filePath);
 
             var mapLines = lines.SkipWhile(line => !line.StartsWith("Map")).Skip(1).TakeWhile(line => !line.StartsWith("Map")).ToList();
