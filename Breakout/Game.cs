@@ -21,7 +21,7 @@ namespace Breakout{
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            filePath = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
+            filePath = "/home/gadelampe/Documents/University/SU-Software_Udvikling/Git repositories/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
             level = new LevelManager(filePath);
         } 
 
