@@ -28,6 +28,9 @@ namespace Breakout{
             fileName = "level3.txt";
             path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
+            
+
+
             level.LoadMap(path);
             level.LoadMapEntities();
 
@@ -61,17 +64,17 @@ namespace Breakout{
         } 
 
         public void ProcessEvent(GameEvent gameEvent) {  
-            //  switch (gameEvent.EventType) {
-                // case GameEventType.WindowEvent:
-                // //send message to state machine
-                //     window.CloseWindow();
-                //     break;
+             switch (gameEvent.EventType) {
+                case GameEventType.WindowEvent:
+                //send message to state machine
+                    window.CloseWindow();
+                    break;
 
                 // case GameEventType.GameStateEvent:
                 //     stateMachine.ProcessEvent(gameEvent);
                 //     window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
                 //     break;
-            // }    
+            }    
         }
          public void KeyPress(KeyboardKey key){
             switch(key) {
@@ -123,15 +126,15 @@ namespace Breakout{
                 //     playerShots.AddEntity(new PlayerShot(
                 //         new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));      
                 //     break;
-                // case KeyboardKey.Escape:
-                //     GalagaBus.GetBus().RegisterEvent(
-                //         new GameEvent{
-                //             EventType = GameEventType.GameStateEvent,
-                //             Message = "CHANGE_STATE",
-                //             StringArg1 = "GAME_PAUSED"
-                //         }
-                    // );
-                    // break;
+                case KeyboardKey.Escape:
+                    eventBus.RegisterEvent(
+                        new GameEvent{
+                            EventType = GameEventType.WindowEvent,
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_PAUSED"
+                        }
+                    );
+                    break;
             }
         }
 

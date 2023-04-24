@@ -16,8 +16,10 @@ namespace Breakout{
         private List<string> mapLines;
         private List<string> metaLines;
         private List<string> legendLines;
+        // private List<string> levels;
         private Dictionary<char, string> legend;
         private Dictionary<string, string> meta;
+        
         public EntityContainer<Block> blocks {get;}
         
 
@@ -27,22 +29,36 @@ namespace Breakout{
 
         }
 
+        //Loading map, meta and legend from file
         public void LoadMap(string filePath) {
+            //Fill list with levels
+            // levels = new List<string>();
+            // var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
+            // foreach (string file in files) {
+            //     levels.Add(Path.GetFileName(file));
+            // }
+            // Check if file exists if not give options of levels
             if (!File.Exists(filePath)) {
+                // Console.WriteLine("The specified file does not exist.");
+                // Console.WriteLine("Please choose a level from the following list:");
+                // for (int i = 0; i < levels.Count; i++) {
+                //     Console.WriteLine(levels[i]);
+                // }
+
+                // return ;
                 throw new FileNotFoundException("The specified file does not exist.");
-            }
+            } 
 
-
-
-            
             // // /string filePath = @"C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/central-mass.txt";
             lines = File.ReadAllLines(filePath);
+
+            // Console.WriteLine(meta["Name"]);
 
             mapLines = lines.SkipWhile(line => !line.StartsWith("Map")).Skip(1).TakeWhile(line => !line.StartsWith("Map")).ToList();
             metaLines = lines.SkipWhile(line => !line.StartsWith("Meta")).Skip(1).TakeWhile(line => !line.StartsWith("Meta")).ToList();
             legendLines = lines.SkipWhile(line => !line.StartsWith("Legend")).Skip(1).TakeWhile(line => !line.StartsWith("Legend")).ToList();
 
-            //Change legend lines to dictionary with the char as key and the image as value
+            // Change legend lines to dictionary with the char as key and the image as value
             legend = new Dictionary<char, string>();
             meta = new Dictionary<string, string>();
 
@@ -55,6 +71,8 @@ namespace Breakout{
                 string[] metaLine = line.Split(' ');
                 meta.Add(metaLine[0].Remove(metaLine[0].Length-1,1), metaLine[1]);
             }
+
+            
         }
 
             //Load entities into entity container
