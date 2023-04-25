@@ -28,6 +28,9 @@ public class Block : Entity {
         
     public void DecreaseHealth() {
         health--;
+    }
+
+    public void DeleteBlock() {
         if (health == 0) {
             DeleteEntity();
         }

@@ -29,8 +29,10 @@ namespace Breakout{
             level = new LevelManager();
             
 
-            level.LoadTextData(path);
-            level.LoadMapEntities();
+            // level.LoadTextData(path);
+            // level.LoadMapEntities();
+
+            level.LoadMap(path);
         
             //define player 
             player = new Player();
