@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Breakout;
 
 namespace BreakoutTests
@@ -13,8 +14,8 @@ namespace BreakoutTests
         [SetUp]
         public void Setup()
         {
-            //loading levels        
-            path = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/";
+            //loading levels  Environment.CurrentDirectory,       
+            path = "C:/Users/Nynne/OneDrive/Dokumenter/KU/SU23/DIKUGames/breakoutTests/Assets/Levels/";//"Assets/Levels/";//Path.Combine("Assets/Levels/");
             level = new LevelManager();
         }
 
@@ -27,7 +28,7 @@ namespace BreakoutTests
         {
             //Testing if txt level file alters when loading new level
             string fileTextPre = File.ReadAllText(path+fileName);
-            level.LoadMap(path+fileName); 
+            level.LoadTextData(path+fileName); 
             string fileTextPost = File.ReadAllText(path+fileName);
 
             Assert.AreEqual(fileTextPre, fileTextPost);
@@ -38,10 +39,10 @@ namespace BreakoutTests
         public void TestMetaData()
         {
             //Testing if meta data can be different for each level
-            level.LoadMap(path+"central-mass.txt");
-            var metaPre = level.metaLines;
-            level.LoadMap(path+"columns.txt");
-            var metaPost = level.metaLines;
+            level.LoadTextData(path+"central-mass.txt");
+            var metaPre = level.MetaLines;
+            level.LoadTextData(path+"columns.txt");
+            var metaPost = level.MetaLines;
 
             Assert.AreNotEqual(metaPre, metaPost);
         }
@@ -50,7 +51,7 @@ namespace BreakoutTests
         [Test]
         public void TestEmptyFile()
         {
-            Assert.Throws<FileNotFoundException>(() => level.LoadMap(path+"empty.txt"));
+            Assert.Throws<FileNotFoundException>(() => level.LoadTextData(path+"empty.txt"));
         }
         
     }

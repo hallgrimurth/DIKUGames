@@ -21,7 +21,9 @@ namespace Breakout{
         private Dictionary<string, string> meta;
         
         public EntityContainer<Block> blocks {get;}
-        
+        public List<string> MetaLines{
+            get{ return metaLines; }
+        }
 
         public LevelManager(){
             blocks = new EntityContainer<Block>();
@@ -32,10 +34,10 @@ namespace Breakout{
         //Loading map, meta and legend from file
         public void LoadTextData(string filePath) {
             //Fill list with levels
-            var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
-            foreach (string file in files) {
-                availableLevels.Add(Path.GetFileName(file));
-            }
+            // var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
+            // foreach (string file in files) {
+            //     availableLevels.Add(Path.GetFileName(file));
+            // }
 
             try {
                 // Reads all lines from the file
