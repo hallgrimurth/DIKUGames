@@ -36,6 +36,11 @@ namespace Breakout{
             LoadMapEntities(mapData);
         }
 
+        public void LoadMap(string filePath) {
+            LoadTextData(filePath);
+            LoadMapMetrics(mapLines);
+        }
+
         //Loading map, meta and legend from file
         public void LoadTextData(string filePath) {
             try {
@@ -54,6 +59,7 @@ namespace Breakout{
             }
         }
 
+
         //Load entities into entity container
         public void LoadMapEntities(List<string> mapLines) {
             try {
@@ -64,10 +70,12 @@ namespace Breakout{
                     //Add blocks to entity container depending on the char
                     for (int i = 0; i < height ; i++) {
                         for (int j = 0 ; j < length; j++) {
+
                             if (legendDict.ContainsKey(mapLines[i][j])) {
                                 // Calls the block-factory to create and add a block entity
                                 Image blockImage = new Image(Path.Combine("Assets", "Images", legendDict[mapLines[i][j]]));
                                 blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage));
+
                             }
                         }
                     }
