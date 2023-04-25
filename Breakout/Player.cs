@@ -18,7 +18,7 @@ namespace Breakout{
         }
 
         public Player() {
-            playerStride = new Image("C:/Users/Nynne/OneDrive/Dokumenter/KU/SU23/DIKUGames/breakoutTests/Assets/Images/player.png");//new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png"));
+            playerStride = new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png"));
             var playerPos = new Vec2F(0.4f, 0.05f);
             var playerExtent = new Vec2F(0.2f, 0.03f);
             this.shape = new DynamicShape(playerPos, playerExtent);

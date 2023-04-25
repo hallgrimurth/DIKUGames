@@ -18,7 +18,7 @@ namespace Breakout{
         private List<string> legendLines = new List<string>();
         private List<string> availableLevels = new List<string>();
         private Dictionary<char, string> legend;
-        private Dictionary<string, string> meta;
+        private Dictionary<char, string> meta;
         
         public EntityContainer<Block> blocks {get;}
         public List<string> MetaLines{
@@ -44,23 +44,33 @@ namespace Breakout{
                 lines = File.ReadAllLines(filePath);
 
                 // Creates the map, meta and legend data from the file
-                mapLines = lines.SkipWhile(line => !line.StartsWith("Map")).Skip(1).TakeWhile(line => !line.StartsWith("Map")).ToList();
-                metaLines = lines.SkipWhile(line => !line.StartsWith("Meta")).Skip(1).TakeWhile(line => !line.StartsWith("Meta")).ToList();
-                legendLines = lines.SkipWhile(line => !line.StartsWith("Legend")).Skip(1).TakeWhile(line => !line.StartsWith("Legend")).ToList();
+                // mapLines = lines.SkipWhile(line => !line.StartsWith("Map")).Skip(1).TakeWhile(line => !line.StartsWith("Map")).ToList();
+                // metaLines = lines.SkipWhile(line => !line.StartsWith("Meta")).Skip(1).TakeWhile(line => !line.StartsWith("Meta")).ToList();
+                // legendLines = lines.SkipWhile(line => !line.StartsWith("Legend")).Skip(1).TakeWhile(line => !line.StartsWith("Legend")).ToList();
+
+                mapLines = ParseSegment(lines, "Map");
+                metaLines = ParseSegment(lines, "Meta");
+                legendLines = ParseSegment(lines, "Legend");
+
+                meta = GetDict(metaLines);
+                legend = GetDict(legendLines);
 
                 // Changes legend and meta lines to dictionary with the char as key and the image as value
-                legend = new Dictionary<char, string>();
-                meta = new Dictionary<string, string>();
+                // legend = new Dictionary<char, string>();
+                // meta = new Dictionary<string, string>();
 
-                foreach (string line in legendLines) {
-                    string[] legendLine = line.Split(' ');
-                    legend.Add(legendLine[0][0], legendLine[1]);
-                }
+                // legend = legendLines.Select(line => line.Split(' ')).ToDictionary(line => line[0][0], line => line[1]);
+                // meta = metaLines.Select(line => line.Split(' ')).ToDictionary(line => line[0][0], line => line[1]);
 
-                foreach (string line in metaLines) {
-                    string[] metaLine = line.Split(' ');
-                    meta.Add(metaLine[0].Remove(metaLine[0].Length-1,1), metaLine[1]);
-                }
+                // foreach (string line in legendLines) {
+                //     string[] legendLine = line.Split(' ');
+                //     legend.Add(legendLine[0][0], legendLine[1]);
+                // }
+
+                // foreach (string line in metaLines) {
+                //     string[] metaLine = line.Split(' ');
+                //     meta.Add(metaLine[0].Remove(metaLine[0].Length-1,1), metaLine[1]);
+                // }
 
             } catch (FileNotFoundException) {
                 // If file is not found, give options of levels
@@ -95,6 +105,14 @@ namespace Breakout{
             } catch (ArgumentOutOfRangeException) {
                 // If the file is empty, this exception is nedded to avoid crashing
             }
+        }
+
+        public List<string> ParseSegment(string[] lines ,string segment){
+            return lines.SkipWhile(line => !line.StartsWith(segment)).Skip(1).TakeWhile(line => !line.StartsWith(segment)).ToList();
+        }
+
+        public Dictionary<char, string> GetDict(List<String> list){
+            return list.Select(line => line.Split(' ')).ToDictionary(line => line[0][0], line => line[1]);
         }
 
         // method for instantiating new block entities and add them to the proper positions when invoked elsewhere 

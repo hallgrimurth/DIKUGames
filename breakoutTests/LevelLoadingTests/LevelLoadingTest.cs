@@ -15,7 +15,7 @@ namespace BreakoutTests
         public void Setup()
         {
             //loading levels  Environment.CurrentDirectory,       
-            path = "C:/Users/Nynne/OneDrive/Dokumenter/KU/SU23/DIKUGames/breakoutTests/Assets/Levels/";//"Assets/Levels/";//Path.Combine("Assets/Levels/");
+            path = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Levels";//"Assets/Levels/";//Path.Combine("Assets/Levels/");
             level = new LevelManager();
         }
 
