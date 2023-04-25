@@ -85,7 +85,7 @@ namespace Breakout{
                     for (int i = 0; i < mapLines.Count ; i++) {
                         for (int j = 0 ; j < mapLines[i].Length; j++) {
                             if (legend.ContainsKey(mapLines[i][j])) {
-                                blocks.AddEntity(new Block(new Vec2F(x*j, 1.0f - y*i - y), new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]))));
+                                GetBlock(x, y, i, j);
                             }
                         }
                     }
@@ -93,7 +93,17 @@ namespace Breakout{
             } catch (ArgumentOutOfRangeException) {
                 // If the file is empty, this exception is nedded to avoid crashing
             }
-        } 
+        }
+
+        // method for instantiating new block entities and add them to the proper positions when invoked elsewhere 
+        public void GetBlock(float x, float y, int i, int j) {
+            Vec2F blockPos = new Vec2F(x*j, 1.0f - y*i - y);
+            Vec2F blockExtent = new Vec2F(x, y);
+            Image blockImage = new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]));
+            DynamicShape blockShape = new DynamicShape(blockPos, blockExtent);
+            Block block = new Block(blockShape, blockImage);
+            blocks.AddEntity(block);
+        }
     }
 }
 
