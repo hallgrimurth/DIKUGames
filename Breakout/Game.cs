@@ -53,15 +53,6 @@ namespace Breakout{
             window.SetKeyEventHandler(HandleKeyEvent);
         } 
 
-        //setting up the player characterics 
-        // public Player GetPlayer(){
-        //     playerStride = new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png"));
-        //     var playerPos = new Vec2F(0.4f, 0.05f);
-        //     var playerExtent = new Vec2F(0.2f, 0.03f);
-        //     var playerShape = new DynamicShape(Position, Extent);
-        //     player = new Player(playerPos, playerStride);
-        //     return player;
-        // }
 
         //process event types
         public void ProcessEvent(GameEvent gameEvent) {  
