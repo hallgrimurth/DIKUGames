@@ -1,56 +1,56 @@
-// using DIKUArcade.State;
-// using DIKUArcade.Entities;
-// using DIKUArcade.Graphics;
-// using DIKUArcade.Math;
-// using DIKUArcade.Input;
-// using DIKUArcade.Events;
+using DIKUArcade.State;
+using DIKUArcade.Entities;
+using DIKUArcade.Graphics;
+using DIKUArcade.Math;
+using DIKUArcade.Input;
+using DIKUArcade.Events;
 
-// namespace Breakout.BreakoutStates {
-//     public class GamePaused : IGameState {
-//         private static GamePaused instance = null;
-//         private Text pause;
+namespace Breakout.BreakoutStates {
+    public class GamePaused : IGameState {
+        private static GamePaused instance = null;
+        private Text pause;
 
 
-//         public static GamePaused GetInstance() {
-//             if (GamePaused.instance == null) {
-//                 GamePaused.instance = new GamePaused();
-//                 GamePaused.instance.InitializeGameState();
-//             }
-//             return GamePaused.instance;
-//         }
+        public static GamePaused GetInstance() {
+            if (GamePaused.instance == null) {
+                GamePaused.instance = new GamePaused();
+                GamePaused.instance.InitializeGameState();
+            }
+            return GamePaused.instance;
+        }
 
-//         private void InitializeGameState(){
-//             pause = new Text("Game Paused", new Vec2F(0.1f, 0.2f), new Vec2F(0.5f, 0.5f));
-//             pause.SetColor(new Vec3I(255, 255, 255));
-//         }
+        private void InitializeGameState(){
+            pause = new Text("Game Paused", new Vec2F(0.1f, 0.2f), new Vec2F(0.5f, 0.5f));
+            pause.SetColor(new Vec3I(255, 255, 255));
+        }
         
-//         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
-//             switch(action){
-//                 case KeyboardAction.KeyRelease:       
-//                     switch(key){
-//                         case KeyboardKey.Escape:
-//                             BreakoutBus.GetBus().RegisterEvent(
-//                                 new GameEvent{
-//                                     EventType = GameEventType.GameStateEvent,
-//                                     Message = "CHANGE_STATE",
-//                                     StringArg1 = "GAME_RUNNING"
-//                                 }
-//                             );
-//                             break;
-//                     }
-//                     break;
-//             }
-//         }
+        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
+            switch(action){
+                case KeyboardAction.KeyRelease:       
+                    switch(key){
+                        case KeyboardKey.Escape:
+                            BreakoutBus.GetBus().RegisterEvent(
+                                new GameEvent{
+                                    EventType = GameEventType.GameStateEvent,
+                                    Message = "CHANGE_STATE",
+                                    StringArg1 = "GAME_RUNNING"
+                                }
+                            );
+                            break;
+                    }
+                    break;
+            }
+        }
 
-//          //Render the titile image and the menu buttons
-//         public void RenderState() {
-//             pause.RenderText();
-//         }
+         //Render the titile image and the menu buttons
+        public void RenderState() {
+            pause.RenderText();
+        }
 
-//         public void ResetState(){
-//             throw new System.NotImplementedException();
-//         }
+        public void ResetState(){
+            throw new System.NotImplementedException();
+        }
 
-//         public void UpdateState(){}
-//     }
-// }
+        public void UpdateState(){}
+    }
+}
