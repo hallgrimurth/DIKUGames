@@ -11,7 +11,7 @@ public class Tests
     public void Setup()
     {
         //loading levels        
-        path = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/";
+        path = Path.Combine(Environment.CurrentDirectory, "Breakout", "Assets", "Levels"); // "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Breakout/Assets/Levels/";
         level = new LevelManager();
     }
 
