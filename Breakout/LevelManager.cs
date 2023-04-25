@@ -31,6 +31,11 @@ namespace Breakout{
 
         }
 
+        public void LoadMap(string filePath) {
+            LoadTextData(filePath);
+            LoadMapMetrics(mapLines);
+        }
+
         //Loading map, meta and legend from file
         public void LoadTextData(string filePath) {
             //Fill list with levels
@@ -82,20 +87,24 @@ namespace Breakout{
             }
         }
 
+        public void LoadMapMetrics(List<string> mapLines) {
+            float length = 12.0f; //mapLines[0].Length;
+            float height = 24.0f; //mapLines.Count;
+
+            float x = (1 / length);
+            float y = (1 / height);
+
+            LoadMapEntities(length, height, x, y);
+        }
+
         //Load entities into entity container
-        public void LoadMapEntities() {
+        public void LoadMapEntities(float length, float height, float x, float y) {
             try {
-                float length = mapLines[0].Length;
-                float height = mapLines.Count;
-
-                float x = (1 / length);
-                float y = (1 / height);
-
                 // Print the lines between the two instances of "Map"
                 foreach (string line in mapLines) {
                     //Add blocks to entity container depending on the char
-                    for (int i = 0; i < mapLines.Count ; i++) {
-                        for (int j = 0 ; j < mapLines[i].Length; j++) {
+                    for (int i = 0; i < height ; i++) {
+                        for (int j = 0 ; j < length; j++) {
                             if (legend.ContainsKey(mapLines[i][j])) {
                                 GetBlock(x, y, i, j);
                             }
