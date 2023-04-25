@@ -71,33 +71,28 @@ namespace Breakout{
                 string[] metaLine = line.Split(' ');
                 meta.Add(metaLine[0].Remove(metaLine[0].Length-1,1), metaLine[1]);
             }
-
-            
         }
 
-            //Load entities into entity container
-            public void LoadMapEntities() {
-            float length = mapLines[0].Length;
-            float height = mapLines.Count;
+         //Load entities into entity container
+        public void LoadMapEntities() {
+        float length = mapLines[0].Length;
+        float height = mapLines.Count;
 
-            float x = (1 / length);
-            float y = (1 / height);
+        float x = (1 / length);
+        float y = (1 / height);
 
-            // Print the lines between the two instances of "Map"
-            foreach (string line in mapLines) {
-                //Add blocks to entity container depending on the char
-                for (int i = 0; i < mapLines.Count ; i++) {
-                    for (int j = 0 ; j < mapLines[i].Length; j++) {
-                        if (legend.ContainsKey(mapLines[i][j])) {
-                            blocks.AddEntity(new Block(new DynamicShape(new Vec2F(x*j, 0.95f - y*i), new Vec2F(x, y)), new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]))));
-                        }
+        // Print the lines between the two instances of "Map"
+        foreach (string line in mapLines) {
+            //Add blocks to entity container depending on the char
+            for (int i = 0; i < mapLines.Count ; i++) {
+                for (int j = 0 ; j < mapLines[i].Length; j++) {
+                    if (legend.ContainsKey(mapLines[i][j])) {
+                        blocks.AddEntity(new Block(new Vec2F(x*j, 0.95f - y*i)), Path.Combine("Assets", "Images", legend[mapLines[i][j]]));
                     }
-
                 }
             }
-            }
-
-        
+        }
+        }  
     }
 }
 

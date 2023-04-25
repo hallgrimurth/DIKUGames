@@ -7,7 +7,7 @@ using DIKUArcade.Events;
 
 namespace Breakout{   
     public class Player : IGameEventProcessor{
-        private Entity entity;
+        private Entity player;
         private DynamicShape shape;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
@@ -22,7 +22,7 @@ namespace Breakout{
             var playerPos = new Vec2F(0.4f, 0.05f);
             var playerExtent = new Vec2F(0.2f, 0.03f);
             this.shape = new DynamicShape(playerPos, playerExtent);
-            entity = new Entity(this.shape, playerStride);
+            player = new Entity(this.shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
         }
 
@@ -87,7 +87,7 @@ namespace Breakout{
         }
 
         public void Render() {
-            entity.RenderEntity();
+            player.RenderEntity();
         }
     }
 }
