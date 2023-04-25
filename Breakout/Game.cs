@@ -25,13 +25,13 @@ namespace Breakout{
         
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            fileName = "level3.txt";
+            fileName = "level4.txt";
             path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
             
 
 
-            level.LoadMap(path);
+            level.LoadTextData(path);
             level.LoadMapEntities();
 
             //define player 
