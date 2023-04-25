@@ -6,11 +6,11 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
 namespace Breakout;
-public class Block : Entity {
+public abstract class Block : Entity {
 
-    private int health;
-    public int value;
-    // public IBaseImage blockImage;
+    private int health = 3;
+    public int value = 1;
+    public IBaseImage blockImage;
     public DynamicShape shape;
     // public Vec2F blockExtent = new Vec2F(1/12.0f,1/24.0f);
     
