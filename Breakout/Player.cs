@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -10,13 +12,17 @@ namespace Breakout{
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
         const float MOVEMENT_SPEED = 0.01f;
+        private Image playerStride;
         public DynamicShape Shape {
             get { return shape; }
         }
 
-        public Player(DynamicShape shape, IBaseImage image) {
-            entity = new Entity(shape, image);
-            this.shape = shape;
+        public Player() {
+            playerStride = new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png"));
+            var playerPos = new Vec2F(0.4f, 0.05f);
+            var playerExtent = new Vec2F(0.2f, 0.03f);
+            this.shape = new DynamicShape(playerPos, playerExtent);
+            entity = new Entity(this.shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
         }
 
