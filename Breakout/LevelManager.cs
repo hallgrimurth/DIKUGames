@@ -85,7 +85,7 @@ namespace Breakout{
                     for (int i = 0; i < mapLines.Count ; i++) {
                         for (int j = 0 ; j < mapLines[i].Length; j++) {
                             if (legend.ContainsKey(mapLines[i][j])) {
-                                blocks.AddEntity(new Block(new DynamicShape(new Vec2F(x*j, 1.0f - y*i - y), new Vec2F(x, y)), new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]))));
+                                blocks.AddEntity(new Block(new Vec2F(x*j, 1.0f - y*i - y), new Image(Path.Combine("Assets", "Images", legend[mapLines[i][j]]))));
                             }
                         }
                     }

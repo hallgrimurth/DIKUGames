@@ -26,8 +26,7 @@ public class Block : Entity {
         value = 1;
         // var blockPos = new Vec2F(x*j, 0.95f - y*i);
         // var blockExtent = new Vec2F(1/12.0f,1/24.0f);//new Vec2F(x, y);
-        blockImage = new Image(Path.Combine(image));
-        // shape = new DynamicShape(Vec2F(Position, blockExtent));
+        blockImage = image;// new Image(Path.Combine(image));
     }
         
     public void DecreaseHealth() {
