@@ -24,7 +24,7 @@ namespace Breakout{
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            fileName = "level0.txt";
+            fileName = "level3.txt";
             path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
             

@@ -36,10 +36,10 @@ namespace Breakout{
             LoadMapEntities(mapData);
         }
 
-        public void LoadMap(string filePath) {
-            LoadTextData(filePath);
-            LoadMapMetrics(mapLines);
-        }
+        // public void LoadMap(string filePath) {
+        //     LoadTextData(filePath);
+        //     LoadMapMetrics(mapLines);
+        // }
 
         //Loading map, meta and legend from file
         public void LoadTextData(string filePath) {
@@ -58,6 +58,8 @@ namespace Breakout{
                 // If the file is not found, this exception is needed to avoid crashing
             }
         }
+    
+
 
 
         //Load entities into entity container
@@ -66,20 +68,26 @@ namespace Breakout{
                 float length = mapLines[0].Length;
                 float height = mapLines.Count;
                 // Create the map from the lines
-                foreach (string line in mapLines) {
+                // foreach (string line in mapLines) {
                     //Add blocks to entity container depending on the char
-                    for (int i = 0; i < height ; i++) {
-                        for (int j = 0 ; j < length; j++) {
+                for (int i = 0; i < mapLines.Count ; i++) {
+                    for (int j = 0 ; j < length; j++) {
 
-                            if (legendDict.ContainsKey(mapLines[i][j])) {
-                                // Calls the block-factory to create and add a block entity
-                                Image blockImage = new Image(Path.Combine("Assets", "Images", legendDict[mapLines[i][j]]));
-                                blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage));
+                        if (legendDict.ContainsKey(mapLines[i][j])) {
+                            //check if the char is a value in the meta dictionary if so, set type to that key
+                            char type = 'n' ;
+                            //print the key in metadata where the value is the char
 
-                            }
+                            
+                            if (metaDict.ContainsValue(mapLines[i][j].ToString())) type = metaDict.Where(x => x.Value[0] == mapLines[i][j]).Select(x => x.Key).FirstOrDefault();
+                            // Calls the block-factory to create and add a block entity
+                            Image blockImage = new Image(Path.Combine("Assets", "Images", legendDict[mapLines[i][j]]));
+                            blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage, type));
+
                         }
                     }
-            }
+                }
+            // }
             } catch (ArgumentOutOfRangeException) {
                 // This exception is needed to avoid crashing if the file is empty or data is missing
             }

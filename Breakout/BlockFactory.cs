@@ -14,14 +14,22 @@ namespace Breakout {
     public abstract class BlockFactory {
         private static Vec2F blockExtent = new Vec2F((1/12.0f), (1/24.0f));
 
-        public static Block CreateBlock(int i, int j, Image image) {
+        public static Block CreateBlock(int i, int j, Image image, char blockType) {
             Vec2F blockPos = new Vec2F(blockExtent.X*j, 1.0f - blockExtent.Y*i - blockExtent.Y);
             DynamicShape blockShape = new DynamicShape(blockPos, blockExtent);
-            Block block = new RedBlock(blockShape, image);
-            // Console.WriteLine(block.Health); // testing purposes
-
-            return block;
-            // blocks.AddEntity(block);
+            //Case for each block type. Normal block, indestructible block, powerup block, hardened block
+            switch (blockType) {
+                case 'N':
+                    return new NormalBlock(blockShape, image);
+                case 'H':
+                    return new HardenedBlock(blockShape, image);
+                case 'I':
+                    return new IndestructibleBlock(blockShape, image);
+                case 'P':
+                    return new PowerUpBlock(blockShape, image);
+                default:
+                    return new NormalBlock(blockShape, image);
+            }
         }
     }
 
