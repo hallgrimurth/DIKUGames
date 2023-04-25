@@ -22,7 +22,6 @@ namespace Breakout{
         private LevelManager level;
         private GameEventBus eventBus;
         private List<GameEventType> eventQueue;
-        
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             fileName = "level4.txt";
@@ -30,12 +29,11 @@ namespace Breakout{
             level = new LevelManager();
             
 
-
             level.LoadTextData(path);
             level.LoadMapEntities();
-
+        
             //define player 
-            player = new Player(new DynamicShape(new Vec2F(0.4f, 0.05f), new Vec2F(0.2f, 0.03f)), new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png")));
+            player = new Player();
 
             //define event bus
             eventBus = BreakoutBus.GetBus();
@@ -53,16 +51,19 @@ namespace Breakout{
 
             //set key event handler
             window.SetKeyEventHandler(HandleKeyEvent);
-
-
-            
-
-            
-
-
-
         } 
 
+        //setting up the player characterics 
+        // public Player GetPlayer(){
+        //     playerStride = new Image(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Images/player.png"));
+        //     var playerPos = new Vec2F(0.4f, 0.05f);
+        //     var playerExtent = new Vec2F(0.2f, 0.03f);
+        //     var playerShape = new DynamicShape(Position, Extent);
+        //     player = new Player(playerPos, playerStride);
+        //     return player;
+        // }
+
+        //process event types
         public void ProcessEvent(GameEvent gameEvent) {  
              switch (gameEvent.EventType) {
                 case GameEventType.WindowEvent:
@@ -76,6 +77,8 @@ namespace Breakout{
                 //     break;
             }    
         }
+
+        //invokes proper game event when specified key is pressed
          public void KeyPress(KeyboardKey key){
             switch(key) {
                 case KeyboardKey.Left:
@@ -101,7 +104,7 @@ namespace Breakout{
                     }
         }
 
-
+        //invokes proper game event when specified key is released
         public void KeyRelease(KeyboardKey key){
             switch(key){
                 case KeyboardKey.Left:
@@ -138,6 +141,7 @@ namespace Breakout{
             }
         }
 
+        // handles key events
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         
             switch(action){
