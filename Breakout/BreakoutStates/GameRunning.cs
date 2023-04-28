@@ -17,9 +17,6 @@ namespace Breakout.BreakoutStates {
         private static GameRunning instance = null;
         //Entities
         private Player player;
-        // private Value level;
-        // private GameEventBus eventBus;
-
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -30,7 +27,7 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
-            player =new Player();
+            player =new Player("Assets/Images/player.png");
         }
 
 
@@ -49,13 +46,7 @@ namespace Breakout.BreakoutStates {
                         Message = "MOVE_RIGHT" });
                     BreakoutBus.GetBus().RegisterEvent(MoveRight);
                         
-                    break;
-
-                // case KeyboardKey.C:
-                //     GameEvent closeWindowEvent = new GameEvent{
-                //         EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
-                    
-                //     break;               
+                    break;           
                     }
         }
 
@@ -76,14 +67,6 @@ namespace Breakout.BreakoutStates {
                     BreakoutBus.GetBus().RegisterEvent(StopRight);
                     break;
                 
-                // case KeyboardKey.Space:
-                //     Vec2F pos = player.GetPosition().Position;
-                //     Vec2F ex = player.GetPosition().Extent;
-                //     playerShotImage = new Image(Path.Combine
-                //         ("Assets", "Images", "BulletRed2.png"));
-                //     playerShots.AddEntity(new PlayerShot(
-                //         new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));      
-                //     break;
                 case KeyboardKey.Escape:
                     BreakoutBus.GetBus().RegisterEvent(
                         new GameEvent{
@@ -109,11 +92,9 @@ namespace Breakout.BreakoutStates {
                     break;        
             }
         }
-
-
+        
         public void RenderState() {
             player.Render();
-            // level.blocks.RenderEntities();
         }
 
         public void ResetState(){ 

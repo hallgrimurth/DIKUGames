@@ -7,6 +7,8 @@ using DIKUArcade.Math;
 
 namespace Breakout;
 public class RedBlock : Block {
+
+    //constructor for red block
     public RedBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
             

@@ -6,11 +6,11 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
 namespace Breakout;
-public class IndestructibleBlock : Block {
+public class IndestructableBlock : Block {
 
     
-    //constructor for block
-    public IndestructibleBlock(DynamicShape Shape, IBaseImage image)
+    //constructor for the hardened block
+    public IndestructableBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         
     }

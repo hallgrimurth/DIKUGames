@@ -9,7 +9,7 @@ namespace Breakout;
 public class HardenedBlock : Block {
 
     
-    //constructor for block
+    //constructor for the hardened block
     public HardenedBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         

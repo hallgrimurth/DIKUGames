@@ -14,6 +14,7 @@ namespace Breakout {
     public abstract class BlockFactory {
         private static Vec2F blockExtent = new Vec2F((1/12.0f), (1/24.0f));
 
+        //Creates the blocks dependent of their block type. Positions them in the intended pattern.
         public static Block CreateBlock(int i, int j, Image image, char blockType) {
             Vec2F blockPos = new Vec2F(blockExtent.X*j, 1.0f - blockExtent.Y*i - blockExtent.Y);
             DynamicShape blockShape = new DynamicShape(blockPos, blockExtent);
@@ -24,7 +25,7 @@ namespace Breakout {
                 case 'H':
                     return new HardenedBlock(blockShape, image);
                 case 'I':
-                    return new IndestructibleBlock(blockShape, image);
+                    return new IndestructableBlock(blockShape, image);
                 case 'P':
                     return new PowerUpBlock(blockShape, image);
                 default:

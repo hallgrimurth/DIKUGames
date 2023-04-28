@@ -12,24 +12,25 @@ public abstract class Block : Entity {
     public int value = 1;
     public IBaseImage blockImage;
     public DynamicShape shape;
-    // public Vec2F blockExtent = new Vec2F(1/12.0f,1/24.0f);
     
     public int Health {
         get { return health; }
         set { health = value; }
     }
-    //constructor for block
+    //Constructor for block. Defines the heath, score and position/extent of the block
     public Block(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         health = 3;
         value = 1;
         this.shape = Shape;
     }
-        
+
+    //Decrement in health when block is hit 
     public void DecreaseHealth() {
         health--;
     }
 
+    //Block is being deleted when health is depleted
     public void DeleteBlock() {
         if (health == 0) {
             DeleteEntity();

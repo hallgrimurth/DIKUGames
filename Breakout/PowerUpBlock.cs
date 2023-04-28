@@ -9,7 +9,7 @@ namespace Breakout;
 public class PowerUpBlock : Block {
 
     
-    //constructor for block
+    //constructor for power up block
     public PowerUpBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         

@@ -16,11 +16,9 @@ namespace Breakout{
         private List<string> mapData = new List<string>();
         private List<string> metaData = new List<string>();
         private List<string> legendData = new List<string>();
-        // private List<string> availableLevels = new List<string>();
         private Dictionary<char, string> metaDict;
         private Dictionary<char, string> legendDict;
-        
-        // private BlockFactory blockFactory;
+
         
         public EntityContainer<Block> blocks {get;}
         public List<string> MetaData{
@@ -31,15 +29,11 @@ namespace Breakout{
             blocks = new EntityContainer<Block>();
         }
 
+        //Loads the map and its block entities
         public void LoadMap(string filePath) {
             LoadTextData(filePath);
             LoadMapEntities(mapData);
         }
-
-        // public void LoadMap(string filePath) {
-        //     LoadTextData(filePath);
-        //     LoadMapMetrics(mapLines);
-        // }
 
         //Loading map, meta and legend from file
         public void LoadTextData(string filePath) {
@@ -65,10 +59,9 @@ namespace Breakout{
         //Load entities into entity container
         public void LoadMapEntities(List<string> mapLines) {
             try {
+                //Map dimensions
                 float length = mapLines[0].Length;
                 float height = mapLines.Count;
-                // Create the map from the lines
-                // foreach (string line in mapLines) {
                     //Add blocks to entity container depending on the char
                 for (int i = 0; i < mapLines.Count ; i++) {
                     for (int j = 0 ; j < length; j++) {
@@ -76,8 +69,6 @@ namespace Breakout{
                         if (legendDict.ContainsKey(mapLines[i][j])) {
                             //check if the char is a value in the meta dictionary if so, set type to that key
                             char type = 'n' ;
-                            //print the key in metadata where the value is the char
-
                             
                             if (metaDict.ContainsValue(mapLines[i][j].ToString())) type = metaDict.Where(x => x.Value[0] == mapLines[i][j]).Select(x => x.Key).FirstOrDefault();
                             // Calls the block-factory to create and add a block entity
@@ -93,10 +84,12 @@ namespace Breakout{
             }
         }
 
+        //We use this method to only read through the relevant segments of the level data 
         private List<string> ParseSegment(string[] lines ,string segment){
             return lines.SkipWhile(line => !line.StartsWith(segment)).Skip(1).TakeWhile(line => !line.StartsWith(segment)).ToList();
         }
 
+        //Converts string into a dictionary where the first character of the first part is the key and the second part is the value
         private Dictionary<char, string> GetDict(List<String> list){
             return list.Select(line => line.Split(' ')).ToDictionary(line => line[0][0], line => line[1]);
         }
