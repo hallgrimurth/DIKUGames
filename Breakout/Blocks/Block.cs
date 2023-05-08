@@ -9,9 +9,8 @@ namespace Breakout;
 public abstract class Block : Entity {
 
     private int health = 3;
-    public int value = 1;
-    public IBaseImage blockImage;
-    public DynamicShape shape;
+    public int ScoreValue = 1;
+    private DynamicShape shape;
     
     public int Health {
         get { return health; }
@@ -20,7 +19,7 @@ public abstract class Block : Entity {
     //constructor for block
     public Block(DynamicShape Shape, IBaseImage image) : base(Shape, image) {
         health = 3;
-        value = 1;
+        ScoreValue = 1;
         this.shape = Shape;
     }
         
