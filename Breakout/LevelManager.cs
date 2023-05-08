@@ -16,7 +16,6 @@ namespace Breakout{
         private List<string> mapData = new List<string>();
         private List<string> metaData = new List<string>();
         private List<string> legendData = new List<string>();
-        // private List<string> availableLevels = new List<string>();
         private Dictionary<char, string> metaDict;
         private Dictionary<char, string> legendDict;
         
@@ -35,11 +34,6 @@ namespace Breakout{
             LoadTextData(filePath);
             LoadMapEntities(mapData);
         }
-
-        // public void LoadMap(string filePath) {
-        //     LoadTextData(filePath);
-        //     LoadMapMetrics(mapLines);
-        // }
 
         //Loading map, meta and legend from file
         public void LoadTextData(string filePath) {
@@ -67,9 +61,7 @@ namespace Breakout{
             try {
                 float length = mapLines[0].Length;
                 float height = mapLines.Count;
-                // Create the map from the lines
-                // foreach (string line in mapLines) {
-                    //Add blocks to entity container depending on the char
+                //Add blocks to entity container depending on the char
                 for (int i = 0; i < mapLines.Count ; i++) {
                     for (int j = 0 ; j < length; j++) {
 
