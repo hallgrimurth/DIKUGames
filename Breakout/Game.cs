@@ -25,7 +25,7 @@ namespace Breakout{
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             fileName = "firstLine.txt";
-            path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
+            path = Path.Combine(Constants.MAIN_PATH, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
 
             level.LoadMap(path);
@@ -48,8 +48,7 @@ namespace Breakout{
                 eventBus.Subscribe(eventQueue[i], this);
             }
 
-            //set key event handler
-            
+            //set key event handler     
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
         } 
         //process event types

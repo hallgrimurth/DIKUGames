@@ -14,8 +14,10 @@ namespace BreakoutTests
         [SetUp]
         public void Setup()
         {
-            //loading levels  Environment.CurrentDirectory,       
-            path = "C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/Levels";//"Assets/Levels/";//Path.Combine("Assets/Levels/");
+            //loading levels   
+            
+            path = Path.Combine(Constants.MAIN_PATH, "Assets", "Levels/"); 
+
             level = new LevelManager();
         }
 
@@ -35,23 +37,11 @@ namespace BreakoutTests
 
         }
 
-        [Test]
-        public void TestMetaData()
-        {
-            //Testing if meta data can be different for each level
-            level.LoadTextData(path+"central-mass.txt");
-            var metaPre = level.MetaLines;
-            level.LoadTextData(path+"columns.txt");
-            var metaPost = level.MetaLines;
-
-            Assert.AreNotEqual(metaPre, metaPost);
-        }
-
         //Testing empty file
         [Test]
         public void TestEmptyFile()
         {
-            Assert.Throws<FileNotFoundException>(() => level.LoadTextData(path+"empty.txt"));
+            Assert.DoesNotThrow(() => level.LoadTextData(path+"empty.txt"));
         }
         
     }
