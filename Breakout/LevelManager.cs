@@ -50,9 +50,6 @@ namespace Breakout{
                 // If the file is not found, this catch is needed to avoid crashing
             }
         }
-    
-
-
 
         //Load entities into entity container
         public void LoadMapEntities(List<string> mapLines) {
