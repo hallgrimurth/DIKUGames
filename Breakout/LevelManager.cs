@@ -55,7 +55,7 @@ namespace Breakout{
                 legendDict = GetDict(legendData);
 
             } catch (FileNotFoundException) {
-                // If the file is not found, this exception is needed to avoid crashing
+                // If the file is not found, this catch is needed to avoid crashing
             }
         }
     
@@ -74,14 +74,18 @@ namespace Breakout{
                     for (int j = 0 ; j < length; j++) {
 
                         if (legendDict.ContainsKey(mapLines[i][j])) {
-                            //check if the char is a value in the meta dictionary if so, set type to that key
+                            //check if the char is a value in the meta dictionary if so, set 
+                            //type to that key
                             char type = 'n' ;
                             //print the key in metadata where the value is the char
 
                             
-                            if (metaDict.ContainsValue(mapLines[i][j].ToString())) type = metaDict.Where(x => x.Value[0] == mapLines[i][j]).Select(x => x.Key).FirstOrDefault();
+                            if (metaDict.ContainsValue(mapLines[i][j].ToString())) type = 
+                                metaDict.Where(x => x.Value[0] == 
+                                    mapLines[i][j]).Select(x => x.Key).FirstOrDefault();
                             // Calls the block-factory to create and add a block entity
-                            Image blockImage = new Image(Path.Combine("Assets", "Images", legendDict[mapLines[i][j]]));
+                            Image blockImage = new Image(Path.Combine("Assets", "Images", 
+                                legendDict[mapLines[i][j]]));
                             blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage, type));
 
                         }
@@ -89,16 +93,18 @@ namespace Breakout{
                 }
             // }
             } catch (ArgumentOutOfRangeException) {
-                // This exception is needed to avoid crashing if the file is empty or data is missing
+                // This catch is needed to avoid crashing if the file is empty or data is missing
             }
         }
 
         private List<string> ParseSegment(string[] lines ,string segment){
-            return lines.SkipWhile(line => !line.StartsWith(segment)).Skip(1).TakeWhile(line => !line.StartsWith(segment)).ToList();
+            return lines.SkipWhile(line => !line.StartsWith(segment)).Skip(1).TakeWhile(
+                line => !line.StartsWith(segment)).ToList();
         }
 
         private Dictionary<char, string> GetDict(List<String> list){
-            return list.Select(line => line.Split(' ')).ToDictionary(line => line[0][0], line => line[1]);
+            return list.Select(line => line.Split(' ')).ToDictionary(
+                line => line[0][0], line => line[1]);
         }
     }
 }

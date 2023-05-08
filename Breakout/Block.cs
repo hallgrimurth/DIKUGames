@@ -12,15 +12,13 @@ public abstract class Block : Entity {
     public int value = 1;
     public IBaseImage blockImage;
     public DynamicShape shape;
-    // public Vec2F blockExtent = new Vec2F(1/12.0f,1/24.0f);
     
     public int Health {
         get { return health; }
         set { health = value; }
     }
     //constructor for block
-    public Block(DynamicShape Shape, IBaseImage image)
-        : base(Shape, image) {
+    public Block(DynamicShape Shape, IBaseImage image) : base(Shape, image) {
         health = 3;
         value = 1;
         this.shape = Shape;
