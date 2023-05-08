@@ -18,8 +18,7 @@ public abstract class Block : Entity {
         set { health = value; }
     }
     //constructor for block
-    public Block(DynamicShape Shape, IBaseImage image)
-        : base(Shape, image) {
+    public Block(DynamicShape Shape, IBaseImage image) : base(Shape, image) {
         health = 3;
         value = 1;
         this.shape = Shape;

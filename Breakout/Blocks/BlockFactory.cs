@@ -11,7 +11,7 @@ using DIKUArcade.Graphics;
 
 
 namespace Breakout {
-    public abstract class BlockFactory {
+    public class BlockFactory {
         private static Vec2F blockExtent = new Vec2F((1/12.0f), (1/24.0f));
 
         public static Block CreateBlock(int i, int j, Image image, char blockType) {
