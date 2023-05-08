@@ -52,8 +52,6 @@ namespace Breakout{
             
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
         } 
-
-
         //process event types
         public void ProcessEvent(GameEvent gameEvent) {  
              switch (gameEvent.EventType) {

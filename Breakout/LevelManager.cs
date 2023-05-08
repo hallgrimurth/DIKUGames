@@ -18,9 +18,6 @@ namespace Breakout{
         private List<string> legendData = new List<string>();
         private Dictionary<char, string> metaDict;
         private Dictionary<char, string> legendDict;
-        
-        // private BlockFactory blockFactory;
-        
         public EntityContainer<Block> blocks {get;}
         public List<string> MetaData{
             get{ return metaData; }
@@ -52,9 +49,6 @@ namespace Breakout{
                 // If the file is not found, this exception is needed to avoid crashing
             }
         }
-    
-
-
 
         //Load entities into entity container
         public void LoadMapEntities(List<string> mapLines) {

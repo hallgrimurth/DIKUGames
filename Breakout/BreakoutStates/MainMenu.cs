@@ -56,8 +56,7 @@ namespace Breakout.BreakoutStates {
                             }
                             break;
                         case KeyboardKey.Enter:
-
-                            switch(activeMenuButton){
+                           switch(activeMenuButton){
                                 case 0:
                                     BreakoutBus.GetBus().RegisterEvent(
                                         new GameEvent{
@@ -65,7 +64,6 @@ namespace Breakout.BreakoutStates {
                                             Message = "CHANGE_STATE",
                                             StringArg1 = "GAME_RUNNING",
                                             StringArg2 = "NEW_GAME"
-
                                         }
                                     );
                                     BreakoutBus.GetBus().ProcessEventsSequentially();
