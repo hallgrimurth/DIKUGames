@@ -47,13 +47,7 @@ namespace Breakout.BreakoutStates {
                         Message = "MOVE_RIGHT" });
                     BreakoutBus.GetBus().RegisterEvent(MoveRight);
                         
-                    break;
-
-                // case KeyboardKey.C:
-                //     GameEvent closeWindowEvent = new GameEvent{
-                //         EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
-                    
-                //     break;               
+                    break;             
                     }
         }
 
@@ -103,7 +97,6 @@ namespace Breakout.BreakoutStates {
 
         public void RenderState() {
             player.Render();
-            // level.blocks.RenderEntities();
         }
 
         public void ResetState(){ 
