@@ -79,7 +79,9 @@ namespace Breakout{
                             //print the key in metadata where the value is the char
 
                             
-                            if (metaDict.ContainsValue(mapLines[i][j].ToString())) type = metaDict.Where(x => x.Value[0] == mapLines[i][j]).Select(x => x.Key).FirstOrDefault();
+                            if (metaDict.ContainsValue(mapLines[i][j].ToString())) {
+                                type = metaDict.Where(x => x.Value[0] == mapLines[i][j]).Select(x => x.Key).FirstOrDefault();
+                            }
                             // Calls the block-factory to create and add a block entity
                             Image blockImage = new Image(Path.Combine("Assets", "Images", legendDict[mapLines[i][j]]));
                             blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage, type));
