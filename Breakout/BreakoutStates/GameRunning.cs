@@ -17,8 +17,6 @@ namespace Breakout.BreakoutStates {
         private static GameRunning instance = null;
         //Entities
         private Player player;
-        // private Value level;
-        // private GameEventBus eventBus;
 
 
         public static GameRunning GetInstance() {
@@ -75,15 +73,7 @@ namespace Breakout.BreakoutStates {
                         Message = "STOP_RIGHT" });
                     BreakoutBus.GetBus().RegisterEvent(StopRight);
                     break;
-                
-                // case KeyboardKey.Space:
-                //     Vec2F pos = player.GetPosition().Position;
-                //     Vec2F ex = player.GetPosition().Extent;
-                //     playerShotImage = new Image(Path.Combine
-                //         ("Assets", "Images", "BulletRed2.png"));
-                //     playerShots.AddEntity(new PlayerShot(
-                //         new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), playerShotImage));      
-                //     break;
+
                 case KeyboardKey.Escape:
                     BreakoutBus.GetBus().RegisterEvent(
                         new GameEvent{
