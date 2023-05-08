@@ -14,8 +14,10 @@ namespace BreakoutTests
         [SetUp]
         public void Setup()
         {
-            //loading levels  Environment.CurrentDirectory,       
+            //loading levels   
+            
             path = Path.Combine(Constants.MAIN_PATH, "Assets", "Levels/"); 
+
             level = new LevelManager();
         }
 

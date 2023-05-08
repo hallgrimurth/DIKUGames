@@ -87,13 +87,15 @@ namespace Breakout{
 
         // Parse a segment of the text file
         private List<string> ParseSegment(string[] lines ,string segment){
-            return lines.SkipWhile(line => !line.StartsWith(segment)).Skip(1).TakeWhile(
+            return lines.SkipWhile(
+                line => !line.StartsWith(segment)).Skip(1).TakeWhile(
                 line => !line.StartsWith(segment)).ToList();
         }
 
         // Create a dictionary from a list of strings
         private Dictionary<char, string> GetDict(List<String> list){
-            return list.Select(line => line.Split(' ')).ToDictionary(
+            return list.Select(
+                line => line.Split(' ')).ToDictionary(
                 line => line[0][0], line => line[1]);
         }
     }
