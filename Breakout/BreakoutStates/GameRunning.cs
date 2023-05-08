@@ -47,7 +47,12 @@ namespace Breakout.BreakoutStates {
                         Message = "MOVE_RIGHT" });
                     BreakoutBus.GetBus().RegisterEvent(MoveRight);
                         
-                    break;             
+                    break;     
+                case KeyboardKey.C:
+                    GameEvent closeWindowEvent = new GameEvent{
+                        EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
+                    BreakoutBus.GetBus().RegisterEvent(closeWindowEvent);
+                    break;                     
                     }
         }
 
