@@ -12,7 +12,6 @@ public abstract class Block : Entity {
     public int value = 1;
     public IBaseImage blockImage;
     public DynamicShape shape;
-    // public Vec2F blockExtent = new Vec2F(1/12.0f,1/24.0f);
     
     public int Health {
         get { return health; }
