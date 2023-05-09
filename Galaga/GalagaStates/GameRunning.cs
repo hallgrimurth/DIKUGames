@@ -57,7 +57,7 @@ namespace Galaga.GalagaStates {
             CreateSquad(0.0f, false);
         }
 
-         public void InitializeMovement(){
+        public void InitializeMovement(){
             movementStrategy = new NoMove();
             playerShots = new EntityContainer<PlayerShot>();
             enemyExplosions = new AnimationContainer(numEnemies);  

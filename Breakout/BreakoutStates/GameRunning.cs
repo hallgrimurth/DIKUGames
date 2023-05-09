@@ -17,6 +17,11 @@ namespace Breakout.BreakoutStates {
         private static GameRunning instance = null;
         //Entities
         private Player player;
+        private EntityContainer<Ball> ballCon;
+        private LevelManager level = new LevelManager();
+
+        // Strides and animations
+        private IBaseImage ballImage;
 
 
         public static GameRunning GetInstance() {
@@ -29,8 +34,35 @@ namespace Breakout.BreakoutStates {
         
         public void InitializeGameState(){
             player =new Player();
+            // FIX: The stuff below could be refactored to another method
+            ballCon =  new EntityContainer<Ball>();
+            Vec2F pos = player.GetPosition().Position;
+            Vec2F ex = player.GetPosition().Extent;
+            ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
+            ballCon.AddEntity(new Ball(new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), ballImage)); 
         }
 
+        private void IterateBall() {
+            ballCon.Iterate(ball => {
+                ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
+
+                if (ball.Shape.Position.X < 0.0f) {
+                    ball.DeleteEntity();
+                } else {
+                    level.blocks.Iterate(block => {
+                        if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape)
+                            .Collision) {
+                            // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
+                            ball.DeleteEntity();
+                            block.DecreaseHealth();
+                            if (block.Health == 0) {
+                                block.DeleteEntity();
+                            }
+                        }
+                    });     
+                }
+            });
+        }
 
         public void KeyPress(KeyboardKey key){
             switch(key) {
@@ -101,6 +133,7 @@ namespace Breakout.BreakoutStates {
 
 
         public void RenderState() {
+            ballCon.RenderEntities();
             player.Render();
         }
 
@@ -109,6 +142,7 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
+            IterateBall();
             player.Move();
         }
     }
