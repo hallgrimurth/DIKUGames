@@ -61,7 +61,7 @@ namespace Breakout{
                     // Attempts to add a block to the entity container depending on the char
                     try {
                         if (legendDict.ContainsKey(mapLines[i][j])) {
-                            char type = 'n' ;
+                            char type = 'N' ;
 
                             // Check if the char is a value in the meta dictionary if so, set 
                             // type to that key

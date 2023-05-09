@@ -14,9 +14,15 @@ namespace BreakoutTests
         [SetUp]
         public void Setup()
         {
-            //Window.CreateOpenGLContext();
-            var game = game;
-            block = new NormalBlock(new DynamicShape(new Vec2F(0.5f, 0.95f - 0.5f), new Vec2F(0.5f, 0.5f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "block.png"))); 
+          
+            
+            //Loading block
+            LevelManager level = new LevelManager();
+            level.LoadMap("C:/Users/Hallgrimur/Desktop/KU/SoftwareDev/Assignment_4/DIKUGames/BreakoutTests/Assets/Levels/central-mass.txt");
+            //write blocks in level
+            level.blocks.AddEntity(BlockFactory.CreateBlock(1, 1, new Image(Path.Combine("Assets", "Images", "IndestructibleBlock.png")), 'I'));
+            
+            
         }
 
         [Test]

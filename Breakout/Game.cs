@@ -24,11 +24,17 @@ namespace Breakout{
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            fileName = "firstLine.txt";
-            path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
+            // fileName = "firstLine.txt";
+            // path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
+            var levelPaths = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
 
-            level.LoadMap(path);
+            //write level to console
+            // foreach (var level in levelPaths) {
+            //     Console.WriteLine(level);
+            // }
+
+            level.LoadMap(levelPaths[3]);
         
             //define player 
             player = new Player();
