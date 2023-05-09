@@ -22,9 +22,6 @@ namespace Breakout{
         private Score score;
       
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-       
-            //define player 
-            player = new Player();
             //define score
             score = new Score(
                 new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
