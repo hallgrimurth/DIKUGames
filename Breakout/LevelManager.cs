@@ -11,13 +11,15 @@ using DIKUArcade.Graphics;
 
 
 namespace Breakout{ 
-    public class LevelManager{
+    public class LevelManager : IGameEventProcessor{
         private string[] textData;
         private List<string> mapData = new List<string>();
         private List<string> metaData = new List<string>();
         private List<string> legendData = new List<string>();
         private Dictionary<char, string> metaDict;
         private Dictionary<char, string> legendDict;
+        private int levelCounter = 1;
+        private String[] levelPaths;
         
         public EntityContainer<Block> blocks {get;}
         public List<string> MetaData{
@@ -26,6 +28,9 @@ namespace Breakout{
 
         public LevelManager(){
             blocks = new EntityContainer<Block>();
+            levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
+            LoadMap(levelPaths[levelCounter]);
+
         }
 
         public void LoadMap(string filePath) {
@@ -99,6 +104,39 @@ namespace Breakout{
             return list.Select(
                 line => line.Split(' ')).ToDictionary(
                 line => line[0][0], line => line[1]);
+        }
+
+        private void NextLvl() {
+            levelCounter++;
+            if (levelCounter >= levelPaths.Count()) {
+                levelCounter = 0;
+            }
+            blocks.ClearContainer();
+            LoadMap(levelPaths[levelCounter]);
+        }
+
+        private void PrevLvl() {
+            levelCounter--;
+            if (levelCounter < 0) {
+                levelCounter = levelPaths.Count() - 1;
+            }
+            blocks.ClearContainer();
+            LoadMap(levelPaths[levelCounter]);
+        }
+
+
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.StatusEvent) {
+                switch (gameEvent.Message) {
+                    case "PREV_LEVEL":
+                        PrevLvl();
+                        break;
+                    case "NEXT_LEVEL":
+                        NextLvl();
+                        break;
+                    
+                }
+            }
         }
     }
 }
