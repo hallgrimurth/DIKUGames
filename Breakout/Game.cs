@@ -17,7 +17,6 @@ namespace Breakout{
         private StateMachine stateMachine;
         //Entities
         private GameEventBus eventBus;
-        private Player player;
         private LevelManager level;
         private List<GameEventType> eventQueue;
 
@@ -31,9 +30,6 @@ namespace Breakout{
             // }
 
             level.LoadMap(levelPaths[3]);
-        
-            //define player 
-            player = new Player();
 
             //define event bus
             eventBus = BreakoutBus.GetBus();
