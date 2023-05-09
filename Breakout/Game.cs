@@ -18,7 +18,6 @@ namespace Breakout{
         //Entities
         private GameEventBus eventBus;
         private List<GameEventType> eventQueue;
-        private Player player;
         private Score score;
       
         public Game(WindowArgs windowArgs) : base(windowArgs) {

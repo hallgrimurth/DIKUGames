@@ -71,42 +71,31 @@ namespace Breakout.BreakoutStates {
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
                 } else {
-                    level.blocks.Iterate(block => {
-                        if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).Collision) {
+                    BallBlockCollision(ball);
+                    BallPlayerCollision(ball);
+                }
+            });
+        }
+        private void BallBlockCollision(Ball ball){
+            level.blocks.Iterate(block => {
+                if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).Collision) {
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             // ball.DeleteEntity();
                             // block.DecreaseHealth();
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
                             // }
-                        }
-                    });     
                 }
             });
         }
 
-        private void IterateBall2() {
-            ballCon.Iterate(ball => {
-                ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
-                //ball.BallMove();
-
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
-                } else if (ball.Shape.Position.X <= 0.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
-                    ball.DeleteEntity();
-                } else {
-                    //level.blocks.Iterate(block => {
-                    if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape).Collision) {
-                        // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                        ball.DeleteEntity();
-                    };     
-                }
-            });
+        private void BallPlayerCollision(Ball ball){
+            if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
+                // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
+                ball.DeleteEntity();
+            }
         }
+
 
         public void KeyPress(KeyboardKey key){
             switch(key) {
@@ -175,7 +164,6 @@ namespace Breakout.BreakoutStates {
             }
         }
 
-
         public void RenderState() {
             level.blocks.RenderEntities();
             ballCon.RenderEntities();
@@ -188,7 +176,7 @@ namespace Breakout.BreakoutStates {
 
         public void UpdateState(){
             IterateBall();
-            IterateBall2();
+            //IterateBall2();
             player.Move();
         }
     }
