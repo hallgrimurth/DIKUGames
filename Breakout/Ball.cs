@@ -6,13 +6,18 @@ using DIKUArcade.Math;
 namespace Breakout;
 public class Ball : Entity {
 
-    public float speed;
-    public DynamicShape shape;
+    // private DynamicShape shape;
+    private static Vec2F extent = new Vec2F(0.1f, 0.1f);
+    private static Vec2F direction = new Vec2F(-0.01f, 0.01f);
+    public Vec2F Direction {
+        get { return direction; }
+        set { direction = value; }
+    }
 
-    public Ball(DynamicShape Shape, IBaseImage image, float speed)
-    : base(Shape, image ){
-        this.shape = Shape;
-        this.speed = speed;
+    public Ball(Vec2F pos, IBaseImage image)
+        : base(new DynamicShape(pos, extent), image) {
+        Shape.AsDynamicShape().Direction = direction;
+        // this.shape = new DynamicShape(pos, extent);
     }
 
 }
