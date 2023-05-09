@@ -22,7 +22,7 @@ namespace Breakout.BreakoutStates {
 
         // Strides and animations
         private IBaseImage ballImage;
-        private IBaseImage playerImage;
+        //private IBaseImage playerImage;
 
 
         public static GameRunning GetInstance() {
@@ -34,8 +34,8 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
-            playerImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png"));
-            player =new Player(new Vec2F(0.2f, 0.2f), playerImage);
+            //playerImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png"));
+            player =new Player();
             // FIX: The stuff below could be refactored to another method
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
@@ -100,8 +100,8 @@ namespace Breakout.BreakoutStates {
                 } else if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
                 } else {
-                    //level.blocks.Iterate(block => {
-                    if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape).Collision) {
+                    // level.blocks.Iterate(block => {
+                    if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsStationaryShape()).Collision) {
                         // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                         // ball.DeleteEntity();
                         Console.WriteLine("Collision with player!");
@@ -181,7 +181,7 @@ namespace Breakout.BreakoutStates {
         public void RenderState() {
             level.blocks.RenderEntities();
             ballCon.RenderEntities();
-            player.RenderEntity();
+            //player.RenderEntity();
             player.Render();
         }
 
