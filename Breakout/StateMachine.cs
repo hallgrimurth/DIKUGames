@@ -8,7 +8,7 @@ namespace Breakout.BreakoutStates {
         public StateMachine() {
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-            ActiveState = GameRunning.GetInstance();
+            ActiveState = MainMenu.GetInstance();
         }
         
         public void SwitchState(GameStateType stateType) {
