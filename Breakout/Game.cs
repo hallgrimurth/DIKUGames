@@ -18,8 +18,17 @@ namespace Breakout{
         //Entities
         private GameEventBus eventBus;
         private List<GameEventType> eventQueue;
-
+        private Player player;
+        private Score score;
+      
         public Game(WindowArgs windowArgs) : base(windowArgs) {
+       
+            //define player 
+            player = new Player();
+            //define score
+            score = new Score(
+                new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
+
             //define event bus
             eventBus = BreakoutBus.GetBus();
             stateMachine = new StateMachine();
@@ -54,6 +63,7 @@ namespace Breakout{
 
         public override void Render() {
             window.Clear();
+            score.Render();
             stateMachine.ActiveState.RenderState();
         }
         

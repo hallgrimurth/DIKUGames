@@ -14,5 +14,13 @@ public class PowerUpBlock : Block {
         : base(Shape, image) {
         
     }
+
+    public override void DecreaseHealth() {
+        this.Health--;
         
+        
+        
+    }
+        
+    
 }

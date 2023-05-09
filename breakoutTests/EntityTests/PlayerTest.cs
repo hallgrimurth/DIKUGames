@@ -17,7 +17,7 @@ namespace BreakoutTests
        [SetUp]
         public void Setup()
         {
-            Window.CreateOpenGLContext();
+            // Window.CreateOpenGLContext();
             //adding enitites
             player = new Player();      
             
