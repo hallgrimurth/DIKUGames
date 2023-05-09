@@ -22,7 +22,7 @@ namespace Breakout.BreakoutStates {
 
         // Strides and animations
         private IBaseImage ballImage;
-        private IBaseImage playerImage;
+        //private IBaseImage playerImage;
 
 
         public static GameRunning GetInstance() {
@@ -34,7 +34,9 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
+
             playerImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png"));
+
             player =new Player();
             // FIX: The stuff below could be refactored to another method
             level = new LevelManager();
@@ -45,7 +47,6 @@ namespace Breakout.BreakoutStates {
             //     Console.WriteLine(level);
             // }
 
-            level.LoadMap(levelPaths[3]);
 
             // Ball
             ballCon =  new EntityContainer<Ball>();
@@ -85,28 +86,34 @@ namespace Breakout.BreakoutStates {
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
                             // }
+    
+                        }
+                    });     
+
                 }
             });
         }
+
 
         private void BallPlayerCollision(Ball ball){
             if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
                 // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                 ball.DeleteEntity();
             }
+
         }
 
 
         public void KeyPress(KeyboardKey key){
             switch(key) {
-                case KeyboardKey.Left:
+                case KeyboardKey.A:
                     GameEvent MoveLeft = (new GameEvent{
                         EventType = GameEventType.MovementEvent,  To = player, 
                         Message = "MOVE_LEFT" });
                     BreakoutBus.GetBus().RegisterEvent(MoveLeft);
                    
                     break;
-                case KeyboardKey.Right:
+                case KeyboardKey.D:
                      GameEvent MoveRight = (new GameEvent{
                         EventType = GameEventType.MovementEvent,  To = player, 
                         Message = "MOVE_RIGHT" });
@@ -115,23 +122,37 @@ namespace Breakout.BreakoutStates {
                     break;     
                 case KeyboardKey.C:
                     GameEvent closeWindowEvent = new GameEvent{
-                        EventType = GameEventType.WindowEvent,  Message = "CLOSE_WINDOW"};
+                        EventType = GameEventType.WindowEvent,
+                        Message = "CLOSE_WINDOW"};
                     BreakoutBus.GetBus().RegisterEvent(closeWindowEvent);
                     break;                     
-                    }
+                case KeyboardKey.Left:
+                    GameEvent NextLevel = (new GameEvent{
+                        EventType = GameEventType.StatusEvent, To = level,
+                        Message = "PREV_LEVEL" });
+                    BreakoutBus.GetBus().RegisterEvent(NextLevel);
+                    break;
+                case KeyboardKey.Right:
+                    GameEvent PreviousLevel = (new GameEvent{
+                        EventType = GameEventType.StatusEvent, To = level,
+                        Message = "NEXT_LEVEL" });
+                    BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
+                    break;
+            }
+
         }
 
         //invokes proper game event when specified key is released
         public void KeyRelease(KeyboardKey key){
             switch(key){
-                case KeyboardKey.Left:
+                case KeyboardKey.A:
                     GameEvent StopLeft = (new GameEvent{
                         EventType = GameEventType.MovementEvent,  To = player, 
                         Message = "STOP_LEFT" });
                     BreakoutBus.GetBus().RegisterEvent(StopLeft);
                     break;
 
-                case KeyboardKey.Right:
+                case KeyboardKey.D:
                     GameEvent StopRight = (new GameEvent{
                         EventType = GameEventType.MovementEvent,  To = player, 
                         Message = "STOP_RIGHT" });
