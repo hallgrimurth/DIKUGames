@@ -52,7 +52,8 @@ namespace Breakout.BreakoutStates {
             Vec2F pos = player.GetPosition().Position;
             Vec2F ex = player.GetPosition().Extent;
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
-            ballCon.AddEntity(new Ball(new Vec2F(pos.X-(ex.X/2), pos.Y-(ex.Y/2)), ballImage)); 
+            // ballCon.AddEntity(new Ball(new Vec2F(0.475f, 0.25f), ballImage)); 
+            ballCon.AddEntity(new Ball(new Vec2F(0.425f, 0.25f), ballImage));
         }
 
         private void IterateBall() {
@@ -75,11 +76,11 @@ namespace Breakout.BreakoutStates {
                         if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).Collision) {
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             // ball.DeleteEntity();
+                            Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
                             // block.DecreaseHealth();
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
                             // }
-                            // another test
                         }
                     });     
                 }
@@ -88,8 +89,7 @@ namespace Breakout.BreakoutStates {
 
         private void IterateBall2() {
             ballCon.Iterate(ball => {
-                ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
-                //ball.BallMove();
+                ball.Shape.Move(ball.Direction); 
 
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
                     ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
@@ -103,7 +103,8 @@ namespace Breakout.BreakoutStates {
                     //level.blocks.Iterate(block => {
                     if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape).Collision) {
                         // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                        ball.DeleteEntity();
+                        // ball.DeleteEntity();
+                        Console.WriteLine("Collision with player!");
                     };     
                 }
             });
