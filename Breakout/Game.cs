@@ -24,13 +24,8 @@ namespace Breakout{
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-<<<<<<< HEAD
             // fileName = "firstLine.txt";
             // path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
-=======
-            fileName = "firstLine.txt";
-            path = Path.Combine(Constants.MAIN_PATH, "Breakout/Assets/Levels/", fileName);
->>>>>>> 2bed3188cfc16d0c173682e2e789637f79856d1f
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
 
