@@ -17,19 +17,18 @@ namespace Breakout{
         private StateMachine stateMachine;
         //Entities
         private GameEventBus eventBus;
-        private LevelManager level;
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            level = new LevelManager();
-            var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
+            // level = new LevelManager();
+            // var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
 
-            //write level to console
-            // foreach (var level in levelPaths) {
-            //     Console.WriteLine(level);
-            // }
+            // //write level to console
+            // // foreach (var level in levelPaths) {
+            // //     Console.WriteLine(level);
+            // // }
 
-            level.LoadMap(levelPaths[3]);
+            // level.LoadMap(levelPaths[3]);
 
             //define event bus
             eventBus = BreakoutBus.GetBus();
@@ -56,12 +55,16 @@ namespace Breakout{
                 //send message to state machine
                     window.CloseWindow();
                     break;
+                case GameEventType.GameStateEvent:
+                    stateMachine.ProcessEvent(gameEvent);
+                    window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+                    break;
             }    
         }
 
         public override void Render() {
             window.Clear();
-            level.blocks.RenderEntities();
+            // level.blocks.RenderEntities();
             stateMachine.ActiveState.RenderState();
         }
         

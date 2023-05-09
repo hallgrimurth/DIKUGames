@@ -36,6 +36,16 @@ namespace Breakout.BreakoutStates {
             player =new Player();
             // FIX: The stuff below could be refactored to another method
             level = new LevelManager();
+            var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
+
+            //write level to console
+            // foreach (var level in levelPaths) {
+            //     Console.WriteLine(level);
+            // }
+
+            level.LoadMap(levelPaths[3]);
+
+            // Ball
             ballCon =  new EntityContainer<Ball>();
             Vec2F pos = player.GetPosition().Position;
             Vec2F ex = player.GetPosition().Extent;
@@ -67,9 +77,31 @@ namespace Breakout.BreakoutStates {
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
                             // }
-                            //
                         }
                     });     
+                }
+            });
+        }
+
+        private void IterateBall2() {
+            ballCon.Iterate(ball => {
+                ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
+                //ball.BallMove();
+
+                if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
+                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
+                } else if (ball.Shape.Position.X <= 0.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                } else if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
+                    ball.DeleteEntity();
+                } else {
+                    //level.blocks.Iterate(block => {
+                    if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape).Collision) {
+                        // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
+                        ball.DeleteEntity();
+                    };     
                 }
             });
         }
@@ -144,6 +176,7 @@ namespace Breakout.BreakoutStates {
 
         public void RenderState() {
             ballCon.RenderEntities();
+            level.blocks.RenderEntities();
             player.Render();
         }
 
@@ -153,6 +186,7 @@ namespace Breakout.BreakoutStates {
 
         public void UpdateState(){
             IterateBall();
+            IterateBall2();
             player.Move();
         }
     }
