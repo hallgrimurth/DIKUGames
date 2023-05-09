@@ -17,28 +17,17 @@ namespace Breakout{
         private StateMachine stateMachine;
         //Entities
         private GameEventBus eventBus;
-        private String[] levelPaths;
+        private List<GameEventType> eventQueue;
         private Player player;
         private Score score;
-        private LevelManager level;
-        private List<GameEventType> eventQueue;
-
+      
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-
-            level = new LevelManager();
-            levelPaths = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
-
-            
-
-            level.LoadMap(levelPaths[5]);
-
-        
+       
             //define player 
             player = new Player();
             //define score
             score = new Score(
                 new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
-
 
             //define event bus
             eventBus = BreakoutBus.GetBus();
@@ -65,12 +54,15 @@ namespace Breakout{
                 //send message to state machine
                     window.CloseWindow();
                     break;
+                case GameEventType.GameStateEvent:
+                    stateMachine.ProcessEvent(gameEvent);
+                    window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+                    break;
             }    
         }
 
         public override void Render() {
             window.Clear();
-            level.blocks.RenderEntities();
             score.Render();
             stateMachine.ActiveState.RenderState();
         }
