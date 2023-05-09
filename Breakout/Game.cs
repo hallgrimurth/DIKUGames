@@ -17,17 +17,13 @@ namespace Breakout{
         private StateMachine stateMachine;
         //Entities
         private GameEventBus eventBus;
-        private string fileName;
-        private string path;
         private Player player;
         private LevelManager level;
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            // fileName = "firstLine.txt";
-            // path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
             level = new LevelManager();
-            var levelPaths = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
+            var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
 
             //write level to console
             // foreach (var level in levelPaths) {
