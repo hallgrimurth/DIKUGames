@@ -34,9 +34,6 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
-
-            playerImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png"));
-
             player =new Player();
             // FIX: The stuff below could be refactored to another method
             level = new LevelManager();
@@ -85,10 +82,7 @@ namespace Breakout.BreakoutStates {
                             // block.DecreaseHealth();
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
-                            // }
-    
-                        }
-                    });     
+                            // }     
 
                 }
             });
