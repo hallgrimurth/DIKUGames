@@ -43,23 +43,31 @@ namespace Breakout.BreakoutStates {
             ballCon.AddEntity(new Ball(new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), ballImage)); 
         }
 
-        private void IterateBall() {
+                private void IterateBall() {
             ballCon.Iterate(ball => {
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
                 //ball.BallMove();
 
-                if (ball.Shape.Position.X < 0.0f) {
+                if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
+                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
+                } else if (ball.Shape.Position.X <= 0.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                }
+
+                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
                 } else {
                     level.blocks.Iterate(block => {
-                        if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape)
-                            .Collision) {
+                        if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).Collision) {
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             ball.DeleteEntity();
-                            block.DecreaseHealth();
-                            if (block.Health == 0) {
-                                block.DeleteEntity();
-                            }
+                            // block.DecreaseHealth();
+                            // if (block.Health == 0) {
+                            //     block.DeleteEntity();
+                            // }
+                            // another test
                         }
                     });     
                 }
