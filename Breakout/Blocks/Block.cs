@@ -8,7 +8,7 @@ using DIKUArcade.Math;
 namespace Breakout;
 public abstract class Block : Entity {
 
-    private int health = 3;
+    private int health;
     public int ScoreValue = 1;
     private DynamicShape shape;
     
@@ -18,15 +18,13 @@ public abstract class Block : Entity {
     }
     //constructor for block
     public Block(DynamicShape Shape, IBaseImage image) : base(Shape, image) {
-        health = 3;
+        health = 1;
         ScoreValue = 1;
         this.shape = Shape;
     }
         
-    public void DecreaseHealth() {
-        health--;
-    }
-
+    public abstract void DecreaseHealth() ;
+     
     public void DeleteBlock() {
         if (health == 0) {
             DeleteEntity();
