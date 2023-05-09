@@ -23,15 +23,6 @@ namespace BreakoutTests
             
         }
 
-        // [Test]
-        // public void TestMovement()
-        // { 
-        //     var currentPos = player.Shape.Position;
-        //     var move = player.Move;
-        //     var newPos =  player.Shape.Position;
-        //     Assert.AreNotEqual(currentPos, newPos);
-        // }
-
         [Test]
         public void TestPlayerMovement()
         {
