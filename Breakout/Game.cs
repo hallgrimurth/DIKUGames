@@ -20,16 +20,6 @@ namespace Breakout{
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            // level = new LevelManager();
-            // var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
-
-            // //write level to console
-            // // foreach (var level in levelPaths) {
-            // //     Console.WriteLine(level);
-            // // }
-
-            // level.LoadMap(levelPaths[3]);
-
             //define event bus
             eventBus = BreakoutBus.GetBus();
             stateMachine = new StateMachine();
@@ -64,7 +54,6 @@ namespace Breakout{
 
         public override void Render() {
             window.Clear();
-            // level.blocks.RenderEntities();
             stateMachine.ActiveState.RenderState();
         }
         

@@ -22,6 +22,7 @@ namespace Breakout.BreakoutStates {
 
         // Strides and animations
         private IBaseImage ballImage;
+        private IBaseImage playerImage;
 
 
         public static GameRunning GetInstance() {
@@ -33,7 +34,8 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
-            player =new Player();
+            playerImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png"));
+            player =new Player(new Vec2F(0.2f, 0.2f), playerImage);
             // FIX: The stuff below could be refactored to another method
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
@@ -50,7 +52,7 @@ namespace Breakout.BreakoutStates {
             Vec2F pos = player.GetPosition().Position;
             Vec2F ex = player.GetPosition().Extent;
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
-            ballCon.AddEntity(new Ball(new Vec2F(pos.X+(ex.X/2), pos.Y+(ex.Y/2)), ballImage)); 
+            ballCon.AddEntity(new Ball(new Vec2F(pos.X-(ex.X/2), pos.Y-(ex.Y/2)), ballImage)); 
         }
 
         private void IterateBall() {
@@ -72,7 +74,7 @@ namespace Breakout.BreakoutStates {
                     level.blocks.Iterate(block => {
                         if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).Collision) {
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                            ball.DeleteEntity();
+                            // ball.DeleteEntity();
                             // block.DecreaseHealth();
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
@@ -175,8 +177,9 @@ namespace Breakout.BreakoutStates {
 
 
         public void RenderState() {
-            ballCon.RenderEntities();
             level.blocks.RenderEntities();
+            ballCon.RenderEntities();
+            player.RenderEntity();
             player.Render();
         }
 
