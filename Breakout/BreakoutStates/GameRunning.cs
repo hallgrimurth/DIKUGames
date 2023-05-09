@@ -35,7 +35,7 @@ namespace Breakout.BreakoutStates {
         
         public void InitializeGameState(){
             playerImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png"));
-            player =new Player(new Vec2F(0.2f, 0.2f), playerImage);
+            player =new Player();
             // FIX: The stuff below could be refactored to another method
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
@@ -179,7 +179,6 @@ namespace Breakout.BreakoutStates {
         public void RenderState() {
             level.blocks.RenderEntities();
             ballCon.RenderEntities();
-            player.RenderEntity();
             player.Render();
         }
 
