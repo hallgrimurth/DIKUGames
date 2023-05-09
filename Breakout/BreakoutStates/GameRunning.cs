@@ -18,7 +18,7 @@ namespace Breakout.BreakoutStates {
         //Entities
         private Player player;
         private EntityContainer<Ball> ballCon;
-        private LevelManager level = new LevelManager();
+        private LevelManager level;
 
         // Strides and animations
         private IBaseImage ballImage;
@@ -35,6 +35,7 @@ namespace Breakout.BreakoutStates {
         public void InitializeGameState(){
             player =new Player();
             // FIX: The stuff below could be refactored to another method
+            level = new LevelManager();
             ballCon =  new EntityContainer<Ball>();
             Vec2F pos = player.GetPosition().Position;
             Vec2F ex = player.GetPosition().Extent;
