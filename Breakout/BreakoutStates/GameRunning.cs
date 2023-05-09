@@ -45,6 +45,7 @@ namespace Breakout.BreakoutStates {
         private void IterateBall() {
             ballCon.Iterate(ball => {
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
+                //ball.BallMove();
 
                 if (ball.Shape.Position.X < 0.0f) {
                     ball.DeleteEntity();
