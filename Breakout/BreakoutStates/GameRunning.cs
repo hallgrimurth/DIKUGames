@@ -67,6 +67,7 @@ namespace Breakout.BreakoutStates {
                             // if (block.Health == 0) {
                             //     block.DeleteEntity();
                             // }
+                            //
                         }
                     });     
                 }
