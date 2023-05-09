@@ -14,5 +14,12 @@ public class NormalBlock : Block {
         : base(Shape, image) {
         
     }
+
+    public override void DecreaseHealth() {
+        this.Health--;
+        
+        
+        
+    }
         
 }

@@ -17,27 +17,28 @@ namespace Breakout{
         private StateMachine stateMachine;
         //Entities
         private GameEventBus eventBus;
-        private string fileName;
-        private string path;
+        private String[] levelPaths;
         private Player player;
+        private Score score;
         private LevelManager level;
         private List<GameEventType> eventQueue;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            // fileName = "firstLine.txt";
-            // path = Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/", fileName);
+
             level = new LevelManager();
-            var levelPaths = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
+            levelPaths = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Breakout/Assets/Levels/"));
 
-            //write level to console
-            // foreach (var level in levelPaths) {
-            //     Console.WriteLine(level);
-            // }
+            
 
-            level.LoadMap(levelPaths[3]);
+            level.LoadMap(levelPaths[5]);
+
         
             //define player 
             player = new Player();
+            //define score
+            score = new Score(
+                new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
+
 
             //define event bus
             eventBus = BreakoutBus.GetBus();
@@ -70,6 +71,7 @@ namespace Breakout{
         public override void Render() {
             window.Clear();
             level.blocks.RenderEntities();
+            score.Render();
             stateMachine.ActiveState.RenderState();
         }
         
