@@ -7,8 +7,8 @@ namespace Breakout;
 public class Ball : Entity {
 
     // private DynamicShape shape;
-    private static Vec2F extent = new Vec2F(0.1f, 0.1f);
-    private static Vec2F direction = new Vec2F(-0.01f, 0.01f);
+    private static Vec2F extent = new Vec2F(0.015f, 0.015f);
+    private static Vec2F direction = new Vec2F(0.0f, 0.01f);
     public Vec2F Direction {
         get { return direction; }
         set { direction = value; }
