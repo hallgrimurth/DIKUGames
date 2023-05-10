@@ -7,8 +7,9 @@ using DIKUArcade.Events;
 
 namespace Breakout{   
     public class Player : IGameEventProcessor{
+
         private Entity player;
-        // private Player player;
+
         private DynamicShape shape;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
@@ -17,10 +18,12 @@ namespace Breakout{
         public DynamicShape Shape {
             get { return shape; }
         }
+
         private static Vec2F playerPos = new Vec2F(0.4f, 0.15f);
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
 
         public Player() {
+
             playerStride = new Image(Path.Combine(
                 Constants.MAIN_PATH, "Assets", "Images", "player.png"));
             this.shape = new DynamicShape(playerPos, playerExtent);

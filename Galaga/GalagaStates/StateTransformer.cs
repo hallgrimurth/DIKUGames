@@ -18,6 +18,8 @@ public class StateTransformer{
                     return GameStateType.GameOver;
                 case "MAIN_MENU":
                     return GameStateType.MainMenu;
+                case "LEVEL_ONE":
+                    return GameStateType.levelOne;
                 default:
                     throw(new ArgumentException());
             }
@@ -33,6 +35,8 @@ public class StateTransformer{
                     return "GAME_OVER";
                 case GameStateType.MainMenu:
                     return "MAIN_MENU";
+                case GameStateType.levelOne:
+                    return "LEVEL_ONE";
                 default:
                     throw(new ArgumentException());
             }

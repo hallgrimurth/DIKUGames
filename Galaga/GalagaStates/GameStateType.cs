@@ -5,7 +5,8 @@ namespace Galaga.GalagaStates {
         GameRunning,
         GamePaused,
         GameOver,
-        MainMenu
+        MainMenu,
+        levelOne
     }
 }
 
