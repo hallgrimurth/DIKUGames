@@ -91,20 +91,19 @@ namespace Breakout.BreakoutStates {
             ballCon.Iterate(ball => {
                 ball.Shape.Move(ball.Direction); 
 
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
-                } else if (ball.Shape.Position.X <= 0.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
+                HandleWallCollision(ball);
+
+                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
                 } else {
+                    Console.WriteLine((ball.Shape.AsDynamicShape().Direction.X, ball.Shape.AsDynamicShape().Direction.Y));
+                    // Console.WriteLine(ball.Direction.Y);
                     // level.blocks.Iterate(block => {
-                    if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsStationaryShape()).Collision) {
+                    var CollisionData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsStationaryShape());
+                    if (CollisionData.Collision) {
                         // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                        // ball.DeleteEntity();
-                        Console.WriteLine("Collision with player!");
+                        ball.DeleteEntity();
+                        Console.WriteLine("Collision with player going {0}", CollisionData.CollisionDir);
                     };     
                 }
             });
@@ -193,6 +192,16 @@ namespace Breakout.BreakoutStates {
             IterateBall();
             IterateBall2();
             player.Move();
+        }
+
+        public void HandleWallCollision(Ball ball) {
+            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
+                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
+                } else if (ball.Shape.Position.X <= 0.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                }
         }
     }
 }
