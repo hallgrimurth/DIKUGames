@@ -116,7 +116,15 @@ namespace Breakout.BreakoutStates {
 
                 if (Coll) {
 
-                            
+                            // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
+                            // ball.DeleteEntity();
+                            // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
+                            GameEvent AddScore = (new GameEvent{
+                                EventType = GameEventType.ScoreEvent, To = score,
+                                Message = "ADD_SCORE",
+                                StringArg1 = block.ToString()});
+                            BreakoutBus.GetBus().RegisterEvent(AddScore);
+
                             block.DecreaseHealth();
                             if (block.Health == 0) {
                                 block.DeleteEntity();
@@ -285,7 +293,5 @@ namespace Breakout.BreakoutStates {
             if (level.Start) IterateBall();
             player.Move();
         }
-
-   
     }
 }
