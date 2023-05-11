@@ -13,7 +13,7 @@ namespace Breakout{
         private DynamicShape shape;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        const float MOVEMENT_SPEED = 0.01f;
+        const float MOVEMENT_SPEED = 0.02f;
         private Image playerStride;
         public DynamicShape Shape {
             get { return shape; }

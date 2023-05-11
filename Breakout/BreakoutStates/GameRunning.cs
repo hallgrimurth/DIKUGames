@@ -42,10 +42,6 @@ namespace Breakout.BreakoutStates {
         private void GetLevels() {
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
-            //write level to console
-            // foreach (var level in levelPaths) {
-            //     Console.WriteLine(level);
-            // }
         }
 
         private void SetScore() {
@@ -70,9 +66,6 @@ namespace Breakout.BreakoutStates {
 
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
-                } else {
-                    // BallBlockCollision(ball);
-                    // BallPlayerCollision(ball);
                 }
             });
         }
@@ -85,83 +78,80 @@ namespace Breakout.BreakoutStates {
         }
 
         //Method that handles collision with walls
-        private Vec2F WallCollision(Ball ball){
+        private void WallCollision(Ball ball){
 
             var normal = new Vec2F(0.0f, 0.0f); 
 
             if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                Console.WriteLine(ball.Direction);
+                // Console.WriteLine(ball.Direction);
                 normal = new Vec2F(0.0f, -1.0f);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 Console.WriteLine(ball.Direction);
 
             } else if (ball.Shape.Position.X <= 0.0f) {
                 normal = new Vec2F(1.0f, 0.0f);
-                Console.WriteLine(ball.Direction);
+                // Console.WriteLine(ball.Direction);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 Console.WriteLine(ball.Direction);
 
             } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
                 normal = new Vec2F(-1.0f, 0.0f);
-                Console.WriteLine(ball.Direction);
+                // Console.WriteLine(ball.Direction);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 Console.WriteLine(ball.Direction);
-
-             } //else if (ball.Shape.Position.Y <= 0.0f) {
-            //     normal = new Vec2F(0.0f, 1.0f);
-            //     ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-            // }
-            return normal;
+            }
         }
 
         private void BallBlockCollision(Ball ball){
+            // Console.WriteLine(ball.Direction);
+
             level.blocks.Iterate(block => {
                 var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
-                var CollDir = ConverteDir(CollData.CollisionDir);
+                var CollDirNorm = ConvertDir(CollData.CollisionDir);
                 var Coll = CollData.Collision;
 
                 if (Coll) {
+                    Console.WriteLine("Collision with block going {0}", CollData.CollisionDir);
+                    GameEvent AddScore = (new GameEvent{
+                        EventType = GameEventType.ScoreEvent, To = score,
+                        Message = "ADD_SCORE" });
+                    BreakoutBus.GetBus().RegisterEvent(AddScore);
 
-                            // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                            // ball.DeleteEntity();
-                            // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
-                            GameEvent AddScore = (new GameEvent{
-                                EventType = GameEventType.ScoreEvent, To = score,
-                                Message = "ADD_SCORE" });
-                            BreakoutBus.GetBus().RegisterEvent(AddScore);
+                    block.DecreaseHealth();
+                    if (block.Health == 0) {
+                        block.DeleteEntity();
 
-                            block.DecreaseHealth();
-                            if (block.Health == 0) {
-                                block.DeleteEntity();
-
-                            }     
-                            ball.Direction = VectorOperations.Reflection(ball.Direction, CollDir);
-
+                    }     
+                    ball.Direction = VectorOperations.Reflection(ball.Direction, CollDirNorm);
+                    // Console.WriteLine(ball.Direction);
                 }
             });
         } 
 
         private void BallPlayerCollision(Ball ball){
-            // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
-                if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
-                Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
+            
+            CollisionData CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape());
+
+            if (CollData.Collision && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
                 var normal = new Vec2F(0.0f, 1.0f);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine(ball.Direction);
             }
-
         }
 
-        private Vec2F ConverteDir(CollisionDirection CollDir){
+        private Vec2F ConvertDir(CollisionDirection CollDir){
             // var normal = new Vec2F(0.0f, 0.0f); 
             switch(CollDir){
                 case CollisionDirection.CollisionDirDown:
-                    return new Vec2F(1.0f, 0.0f);
-                case CollisionDirection.CollisionDirLeft:
-                    return new Vec2F(-1.0f, 0.0f);
-                case CollisionDirection.CollisionDirRight:
-                    return new Vec2F(0.0f, -1.0f);
-                case CollisionDirection.CollisionDirUp:
                     return new Vec2F(0.0f, 1.0f);
+                case CollisionDirection.CollisionDirUp:
+                    return new Vec2F(0.0f, -1.0f);
+                case CollisionDirection.CollisionDirLeft:
+                    return new Vec2F(1.0f, 0.0f);
+                case CollisionDirection.CollisionDirRight:
+                    return new Vec2F(-1.0f, 0.0f);
+                // case CollisionDirection.CollisionDirUnchecked:
+                //     return new Vec2F(0.0f, 0.0f);
             }
             return new Vec2F(0.0f, 0.0f);
         }
