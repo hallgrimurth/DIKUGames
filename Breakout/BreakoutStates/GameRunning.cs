@@ -224,13 +224,10 @@ namespace Breakout.BreakoutStates {
                     break;
 
                 case KeyboardKey.Escape:
-                    BreakoutBus.GetBus().RegisterEvent(
-                        new GameEvent{
-                            EventType = GameEventType.WindowEvent,
-                            Message = "CHANGE_STATE",
-                            StringArg1 = "GAME_PAUSED"
-                        }
-                    );
+                    BreakoutBus.GetBus().RegisterEvent(new GameEvent{
+                        EventType = GameEventType.GameStateEvent,
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_PAUSED"});
                     break;
             }
         }
@@ -264,7 +261,5 @@ namespace Breakout.BreakoutStates {
             IterateBall();
             player.Move();
         }
-
-   
-    }
+    } 
 }
