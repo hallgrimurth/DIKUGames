@@ -20,6 +20,11 @@ namespace Breakout{
         private Dictionary<char, string> legendDict;
         private int levelCounter = 1;
         private String[] levelPaths;
+        private bool start = false;
+        public bool Start{
+            get{ return start; }
+            
+        }
         
         public EntityContainer<Block> blocks {get;}
         public List<string> MetaData{
@@ -33,6 +38,7 @@ namespace Breakout{
         }
 
         public void LoadMap(string filePath) {
+            start = false;
             LoadTextData(filePath);
             LoadMapEntities(mapData);
         }
@@ -132,6 +138,9 @@ namespace Breakout{
                         break;
                     case "NEXT_LEVEL":
                         NextLvl();
+                        break;
+                    case "START_GAME":
+                        start = true;
                         break;
                     
                 }
