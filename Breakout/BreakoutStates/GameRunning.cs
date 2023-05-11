@@ -33,19 +33,18 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
-            player =new Player();
             GetLevels();
-            SetBall();
+            SetActors();
             SetScore();
+        }
+        public void SetActors(){
+            player = new Player();
+            SetBall();
         }
 
         private void GetLevels() {
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
-            //write level to console
-            // foreach (var level in levelPaths) {
-            //     Console.WriteLine(level);
-            // }
         }
 
         private void SetScore() {
@@ -59,14 +58,11 @@ namespace Breakout.BreakoutStates {
             Vec2F pos = player.GetPosition().Position;
             Vec2F ex = player.GetPosition().Extent;
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
-            // ballCon.AddEntity(new Ball(new Vec2F(0.475f, 0.25f), ballImage)); 
-            ballCon.AddEntity(new Ball(new Vec2F(0.425f, 0.25f), ballImage));
+            ballCon.AddEntity(new Ball(new Vec2F(0.495f, 0.25f), ballImage));
         }
         private void IterateBall() {
             ballCon.Iterate(ball => {
-                // ball.Direction = VectorOperations.Normalize(ball.Direction);
                 HandleCollisions(ball);
-                // Console.WriteLine(ball.Direction);
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
 
 
@@ -101,10 +97,7 @@ namespace Breakout.BreakoutStates {
                 normal = new Vec2F(-1.0f, 0.0f);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
 
-             } //else if (ball.Shape.Position.Y <= 0.0f) {
-            //     normal = new Vec2F(0.0f, 1.0f);
-            //     ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-            // }
+             }
             return normal;
         }
 
@@ -116,9 +109,7 @@ namespace Breakout.BreakoutStates {
 
                 if (Coll) {
 
-                            // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                            // ball.DeleteEntity();
-                            // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
+                            
                             GameEvent AddScore = (new GameEvent{
                                 EventType = GameEventType.ScoreEvent, To = score,
                                 Message = "ADD_SCORE",
@@ -141,41 +132,26 @@ namespace Breakout.BreakoutStates {
             var CollDir = ConverteDir(CollData.CollisionDir);
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
-            // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
                 if (Coll) {
-                // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
                 var normal = new Vec2F(0.0f, 1.0f);
                 var speed = ball.Direction.Length();
                 var collision_point = ball.Shape.Position * CollPos;
-
-                Console.WriteLine("speed: {0}", speed);
-
                 var x_bounce_directions = get_x_bounce_directions(ball, collision_point);
-                // x_bounce_directions = VectorOperations.Normalize(x_bounce_directions);
-                
-                // change direction of ball depending on where it hits the player
                 var velocity = x_bounce_directions * speed + 0.02f;
+
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 ball.Direction.X = x_bounce_directions;
-                // ball.Direction = VectorOperations.Normalize(ball.Direction);
-                // Console.WriteLine("ball.Direction: {0}", ball.Direction);
+
             }
         }
 
         private float get_x_bounce_directions(Ball ball, Vec2F collision_point){
             var relativeIntersectX = (ball.Shape.Position.X - player.Shape.Position.X );
-            // Console.WriteLine("collision_point.X: {0}", collision_point.X);
-            // Console.WriteLine("ball.Shape.Position.X: {0}", ball.Shape.Position.X);
-            // Console.WriteLine("player.Shape.Position.X: {0}", player.Shape.Position.X);
-            // Console.WriteLine("relativeIntersectX: {0}", relativeIntersectX);
-            // Console.WriteLine("player.Shape.Extent.X: {0}", player.Shape.Extent.X);
-            // Console.WriteLine("relativeIntersectX / (player.Shape.Extent.X): {0}", (((relativeIntersectX / (player.Shape.Extent.X))) - 0.5f ) * 2.0f);
             
             var normalizedRelativeIntersectionX = relativeIntersectX / (player.Shape.Extent.X);
             return (((normalizedRelativeIntersectionX)- 0.5f)*2.0f) * 0.02f ;//* 0.01f; //range -1 to 1  
         }
         private Vec2F ConverteDir(CollisionDirection CollDir){
-            // var normal = new Vec2F(0.0f, 0.0f); 
             switch(CollDir){
                 case CollisionDirection.CollisionDirDown:
                     return new Vec2F(0.0f, 1.0f);
@@ -217,12 +193,14 @@ namespace Breakout.BreakoutStates {
                         EventType = GameEventType.StatusEvent, To = level,
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
+                    SetActors();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
                         EventType = GameEventType.StatusEvent, To = level,
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
+                    SetActors();
                     break;
                 case KeyboardKey.Space:
                     GameEvent Shoot = (new GameEvent{
