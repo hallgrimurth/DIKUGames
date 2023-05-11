@@ -17,6 +17,8 @@ public class Value : IGameEventProcessor {
     }
 
     private void AddValue(string blockType) {
+        // var block = new BlockFactory();
+
         switch (blockType) {
             case "Breakout.NormalBlock":
             value += 2; 
