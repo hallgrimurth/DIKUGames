@@ -54,13 +54,12 @@ namespace Breakout.BreakoutStates {
                 new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
         }
 
+        // Initializes one or more balls 
         private void SetBall() {
             ballCon =  new EntityContainer<Ball>();
             Vec2F pos = player.GetPosition().Position;
-            Vec2F ex = player.GetPosition().Extent;
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
-            // ballCon.AddEntity(new Ball(new Vec2F(0.475f, 0.25f), ballImage)); 
-            ballCon.AddEntity(new Ball(new Vec2F(0.425f, 0.25f), ballImage));
+            ballCon.AddEntity(new Ball(pos, ballImage));
         }
         private void IterateBall() {
             ballCon.Iterate(ball => {
@@ -70,9 +69,6 @@ namespace Breakout.BreakoutStates {
 
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
-                } else {
-                    // BallBlockCollision(ball);
-                    // BallPlayerCollision(ball);
                 }
             });
         }
@@ -114,6 +110,7 @@ namespace Breakout.BreakoutStates {
             return normal;
         }
 
+        // Detects whether the ball collides with a block
         private void BallBlockCollision(Ball ball){
             level.blocks.Iterate(block => {
                 var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
@@ -121,8 +118,6 @@ namespace Breakout.BreakoutStates {
                 var Coll = CollData.Collision;
 
                 if (Coll) {
-
-                            // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             // ball.DeleteEntity();
                             // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
                             GameEvent AddScore = (new GameEvent{
@@ -141,7 +136,7 @@ namespace Breakout.BreakoutStates {
                 }
             });
         } 
-
+        // Detects whether the ball collides with the player
         private void BallPlayerCollision(Ball ball){
             // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
                 if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
@@ -224,10 +219,13 @@ namespace Breakout.BreakoutStates {
                     break;
 
                 case KeyboardKey.Escape:
-                    BreakoutBus.GetBus().RegisterEvent(new GameEvent{
-                        EventType = GameEventType.GameStateEvent,
-                        Message = "CHANGE_STATE",
-                        StringArg1 = "GAME_PAUSED"});
+                    BreakoutBus.GetBus().RegisterEvent(
+                        new GameEvent{
+                            EventType = GameEventType.WindowEvent,
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_PAUSED"
+                        }
+                    );
                     break;
             }
         }
@@ -261,5 +259,7 @@ namespace Breakout.BreakoutStates {
             IterateBall();
             player.Move();
         }
-    } 
+
+   
+    }
 }
