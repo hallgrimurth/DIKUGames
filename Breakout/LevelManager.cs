@@ -30,7 +30,6 @@ namespace Breakout{
             blocks = new EntityContainer<Block>();
             levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
             LoadMap(levelPaths[levelCounter]);
-
         }
 
         public void LoadMap(string filePath) {

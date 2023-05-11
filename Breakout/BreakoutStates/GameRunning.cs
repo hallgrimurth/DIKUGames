@@ -159,9 +159,9 @@ namespace Breakout.BreakoutStates {
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             // ball.DeleteEntity();
                             Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
-                            // PLayer should be rewarded
+                            // PLayer is being rewarded when ball hits a block
                             GameEvent AddScore = (new GameEvent{
-                                EventType = GameEventType.StatusEvent, To = level,
+                                EventType = GameEventType.ScoreEvent, To = score,
                                 Message = "ADD_SCORE" });
                             BreakoutBus.GetBus().RegisterEvent(AddScore);
 
