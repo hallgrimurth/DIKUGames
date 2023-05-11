@@ -2,6 +2,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
+using System;
 
 namespace Breakout;
 public class Value : IGameEventProcessor {
@@ -15,8 +16,21 @@ public class Value : IGameEventProcessor {
         display.SetFontSize(30);
     }
 
-    private void AddValue() {
-        value++;
+    private void AddValue(string blockType) {
+        switch (blockType) {
+            case "Breakout.NormalBlock":
+            value += 2; 
+            break;
+            case "Breakout.IndestructibleBlock":
+            value += 0;
+            break;
+            case "Breakout.HardenedBlock":
+            value += 5;
+            break;
+            case "Breakout.PowerUpBlock":
+            value += 10;
+            break;
+        }
         display.SetText("Score:" + value.ToString());
     }
 
@@ -33,8 +47,8 @@ public class Value : IGameEventProcessor {
         if (gameEvent.EventType == GameEventType.ScoreEvent) {
             switch (gameEvent.Message) {
                 case "ADD_SCORE":
-                    AddValue();
-                    // FinalValue();
+                    Console.WriteLine(gameEvent.StringArg1);
+                    AddValue(gameEvent.StringArg1.ToString());
                     break;
             }
         }
