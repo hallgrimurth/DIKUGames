@@ -1,14 +1,15 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
 
 namespace Breakout;
-public class Value {
+public class Value : IGameEventProcessor {
     private Text display;
-    public int value;
+    private int value;
 
     public Value(Vec2F position, Vec2F extent, int startingvalue) {
-        display = new Text("level:" + value.ToString(), position, extent);
+        display = new Text("Score:" + value.ToString(), position, extent);
         display.SetColor(new Vec3I(0, 255, 255));
         display.SetFontSize(30);
         value = startingvalue;
@@ -16,7 +17,7 @@ public class Value {
 
     public void AddValue() {
         value++;
-        display.SetText("level:" + value.ToString());
+        display.SetText("Score:" + value.ToString());
     }
 
     public void FinalValue() {
@@ -26,6 +27,17 @@ public class Value {
     }
     public void Render() {
         display.RenderText();
+    }
+
+     public void ProcessEvent(GameEvent gameEvent) {
+        if (gameEvent.EventType == GameEventType.ScoreEvent) {
+            switch (gameEvent.Message) {
+                case "ADD_SCORE":
+                    AddValue();
+                    // FinalValue();
+                    break;
+            }
+        }
     }
 
 }
