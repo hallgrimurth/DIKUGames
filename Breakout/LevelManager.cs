@@ -11,7 +11,7 @@ using DIKUArcade.Graphics;
 
 
 namespace Breakout{ 
-    public class LevelManager : IGameEventProcessor{
+    public class LevelManager : IGameEventProcessor {
         private string[] textData;
         private List<string> mapData = new List<string>();
         private List<string> metaData = new List<string>();

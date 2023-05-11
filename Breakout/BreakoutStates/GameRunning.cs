@@ -22,8 +22,7 @@ namespace Breakout.BreakoutStates {
 
         // Strides and animations
         private IBaseImage ballImage;
-        //private IBaseImage playerImage;
-
+        private Value score;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -35,17 +34,27 @@ namespace Breakout.BreakoutStates {
         
         public void InitializeGameState(){
             player =new Player();
-            // FIX: The stuff below could be refactored to another method
+            GetLevels();
+            SetBall();
+            SetScore();
+        }
+
+        private void GetLevels() {
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
-
             //write level to console
             // foreach (var level in levelPaths) {
             //     Console.WriteLine(level);
             // }
+        }
 
+        private void SetScore() {
+            //define score
+            score = new Value(
+                new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
+        }
 
-            // Ball
+        private void SetBall() {
             ballCon =  new EntityContainer<Ball>();
             Vec2F pos = player.GetPosition().Position;
             Vec2F ex = player.GetPosition().Extent;
@@ -53,19 +62,10 @@ namespace Breakout.BreakoutStates {
             // ballCon.AddEntity(new Ball(new Vec2F(0.475f, 0.25f), ballImage)); 
             ballCon.AddEntity(new Ball(new Vec2F(0.425f, 0.25f), ballImage));
         }
-
         private void IterateBall() {
             ballCon.Iterate(ball => {
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
-                //ball.BallMove();
-
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
-                } else if (ball.Shape.Position.X <= 0.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                }
+                HandleWallCollision(ball);
 
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
@@ -81,44 +81,39 @@ namespace Breakout.BreakoutStates {
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             // ball.DeleteEntity();
                             Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
-                            // block.DecreaseHealth();
-                            // if (block.Health == 0) {
-                            //     block.DeleteEntity();
+                            // PLayer should be rewarded
+                            GameEvent AddScore = (new GameEvent{
+                                EventType = GameEventType.StatusEvent, To = level,
+                                Message = "ADD_SCORE" });
+                            BreakoutBus.GetBus().RegisterEvent(AddScore);
 
-                            // }     
+                            block.DecreaseHealth();
+                            if (block.Health == 0) {
+                                block.DeleteEntity();
+
+                            }     
                 }
             });
         }
 
-
-        private void IterateBall2() {
-            ballCon.Iterate(ball => {
-                ball.Shape.Move(ball.Direction); 
-
-                HandleWallCollision(ball);
-
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
-                    ball.DeleteEntity();
-                } else {
-                    Console.WriteLine((ball.Shape.AsDynamicShape().Direction.X, ball.Shape.AsDynamicShape().Direction.Y));
-                    // Console.WriteLine(ball.Direction.Y);
-                    // level.blocks.Iterate(block => {
-                    var CollisionData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsStationaryShape());
-                    if (CollisionData.Collision) {
-                        // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                        ball.DeleteEntity();
-                        Console.WriteLine("Collision with player going {0}", CollisionData.CollisionDir);
-                    };     
-                }
-            });
-        }  
-
         private void BallPlayerCollision(Ball ball){
+            Console.WriteLine((ball.Shape.AsDynamicShape().Direction.X, ball.Shape.AsDynamicShape().Direction.Y));
             if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
                 // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                 ball.DeleteEntity();
+                Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
             }
 
+        }
+
+        public void HandleWallCollision(Ball ball) {
+            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
+                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
+                } else if (ball.Shape.Position.X <= 0.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
+                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
+                }
         }
 
 
@@ -206,6 +201,7 @@ namespace Breakout.BreakoutStates {
         public void RenderState() {
             level.blocks.RenderEntities();
             ballCon.RenderEntities();
+            score.Render();
             player.Render();
         }
 
@@ -215,18 +211,8 @@ namespace Breakout.BreakoutStates {
 
         public void UpdateState(){
             IterateBall();
-            //IterateBall2();
             player.Move();
         }
 
-        public void HandleWallCollision(Ball ball) {
-            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
-                } else if (ball.Shape.Position.X <= 0.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                }
-        }
     }
 }
