@@ -127,7 +127,8 @@ namespace Breakout.BreakoutStates {
                             // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
                             GameEvent AddScore = (new GameEvent{
                                 EventType = GameEventType.ScoreEvent, To = score,
-                                Message = "ADD_SCORE" });
+                                Message = "ADD_SCORE",
+                                StringArg1 = block.ToString()});
                             BreakoutBus.GetBus().RegisterEvent(AddScore);
 
                             block.DecreaseHealth();

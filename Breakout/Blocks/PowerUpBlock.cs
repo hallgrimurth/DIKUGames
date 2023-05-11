@@ -7,12 +7,14 @@ using DIKUArcade.Math;
 
 namespace Breakout;
 public class PowerUpBlock : Block {
-
-    
+    private int value;
+    public int Value {
+        get { return value; }
+    }
     //constructor for block
     public PowerUpBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
-        
+        value = 10;
     }
 
     public override void DecreaseHealth() {
