@@ -12,7 +12,7 @@ using DIKUArcade.Graphics;
 
 namespace Breakout {
     public class BlockFactory {
-        private static Vec2F blockExtent = new Vec2F((1/12.0f), (1/24.0f));
+        private static Vec2F blockExtent = new Vec2F((1/12.0f), (1/36.0f));
         // private static DynamicShape blockShape;
         // private static Vec2F blockPos;
         // private static IBaseImage image;
