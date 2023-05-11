@@ -8,6 +8,10 @@ namespace Breakout;
 public class Value : IGameEventProcessor {
     private Text display;
     private int value;
+    public int Score{
+        get {return value;}
+        set {value = value;}
+    }
 
     public Value(Vec2F position, Vec2F extent, int startingvalue) {
         value = startingvalue;
@@ -17,14 +21,13 @@ public class Value : IGameEventProcessor {
     }
 
     private void AddValue(string blockType) {
-        // var block = new BlockFactory();
-
+        // In the future we should use the Block classes and the BlockFactory class 
         switch (blockType) {
             case "Breakout.NormalBlock":
             value += 2; 
             break;
             case "Breakout.IndestructibleBlock":
-            value += 0;
+            value += 100000;
             break;
             case "Breakout.HardenedBlock":
             value += 5;
@@ -33,7 +36,12 @@ public class Value : IGameEventProcessor {
             value += 10;
             break;
         }
-        display.SetText("Score:" + value.ToString());
+        // Value must always be positive
+        if (value >= 0){
+            display.SetText("Score:" + value.ToString());
+        } else {
+            value = 0;
+        }
     }
 
     private void FinalValue() {

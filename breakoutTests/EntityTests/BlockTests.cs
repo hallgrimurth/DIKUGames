@@ -13,7 +13,6 @@ namespace BreakoutTests
     {
         private Block Normalblock;
         private Block indestructibleblock;
-        // private Block powerupblock;
         private Block hardenedblock;
 
 
