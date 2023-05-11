@@ -52,8 +52,6 @@ namespace BreakoutTests
             var prehealth = indestructibleblock.Health;
             indestructibleblock.DecreaseHealth();
             Assert.That(indestructibleblock.Health, Is.EqualTo(prehealth));
-        }
-
-        
+        } 
     }
 }
