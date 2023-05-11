@@ -41,7 +41,5 @@ namespace Breakout {
             Vec2F reflection = new Vec2F(vec.X - 2 * projection.X, vec.Y - 2 * projection.Y);
             return reflection;
         }
-                // if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-        //             ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
     }
 }

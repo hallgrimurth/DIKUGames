@@ -33,7 +33,7 @@ namespace BreakoutTests
             level.LoadTextData(path+fileName); 
             string fileTextPost = File.ReadAllText(path+fileName);
 
-            Assert.AreEqual(fileTextPre, fileTextPost);
+            Assert.That(fileTextPre, Is.EqualTo(fileTextPost));
 
         }
 

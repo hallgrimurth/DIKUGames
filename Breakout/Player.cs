@@ -13,13 +13,13 @@ namespace Breakout{
         private DynamicShape shape;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        const float MOVEMENT_SPEED = 0.01f;
+        const float MOVEMENT_SPEED = 0.02f;
         private Image playerStride;
         public DynamicShape Shape {
             get { return shape; }
         }
 
-        private static Vec2F playerPos = new Vec2F(0.4f, 0.15f);
+        private static Vec2F playerPos = new Vec2F(0.4f, 0.2f);
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
 
         public Player() {

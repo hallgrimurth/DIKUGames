@@ -13,7 +13,6 @@ namespace BreakoutTests
     {
         private Block Normalblock;
         private Block indestructibleblock;
-        // private Block powerupblock;
         private Block hardenedblock;
 
 
@@ -53,8 +52,6 @@ namespace BreakoutTests
             var prehealth = indestructibleblock.Health;
             indestructibleblock.DecreaseHealth();
             Assert.That(indestructibleblock.Health, Is.EqualTo(prehealth));
-        }
-
-        
+        } 
     }
 }
