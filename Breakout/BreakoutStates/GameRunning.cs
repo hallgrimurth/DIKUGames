@@ -39,11 +39,7 @@ namespace Breakout.BreakoutStates {
             level = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
 
-            //write level to console
-            // foreach (var level in levelPaths) {
-            //     Console.WriteLine(level);
-            // }
-
+        
 
             // Ball
             ballCon =  new EntityContainer<Ball>();
@@ -57,68 +53,104 @@ namespace Breakout.BreakoutStates {
         private void IterateBall() {
             ballCon.Iterate(ball => {
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
-                //ball.BallMove();
 
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
-                } else if (ball.Shape.Position.X <= 0.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                }
+                HandleCollisions(ball);
 
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
                 } else {
-                    BallBlockCollision(ball);
-                    BallPlayerCollision(ball);
+                    // BallBlockCollision(ball);
+                    // BallPlayerCollision(ball);
                 }
             });
         }
+
+        //Method that handles all collisions
+        private void HandleCollisions(Ball ball){
+            WallCollision(ball);
+            BallBlockCollision(ball);
+            BallPlayerCollision(ball);
+        }
+
+        //Method that handles collision with walls
+        private Vec2F WallCollision(Ball ball){
+
+            var normal = new Vec2F(0.0f, 0.0f); 
+
+            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
+                Console.WriteLine(ball.Direction);
+                normal = new Vec2F(0.0f, -1.0f);
+                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine(ball.Direction);
+
+            } else if (ball.Shape.Position.X <= 0.0f) {
+                normal = new Vec2F(1.0f, 0.0f);
+                Console.WriteLine(ball.Direction);
+                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine(ball.Direction);
+
+            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
+                normal = new Vec2F(-1.0f, 0.0f);
+                Console.WriteLine(ball.Direction);
+                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine(ball.Direction);
+
+             } //else if (ball.Shape.Position.Y <= 0.0f) {
+            //     normal = new Vec2F(0.0f, 1.0f);
+            //     ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+            // }
+            return normal;
+        }
+
         private void BallBlockCollision(Ball ball){
             level.blocks.Iterate(block => {
-                if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).Collision) {
+                var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
+                var CollDir = ConverteDir(CollData.CollisionDir);
+                var Coll = CollData.Collision;
+
+                if (Coll) {
+
                             // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
                             // ball.DeleteEntity();
-                            Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
-                            // block.DecreaseHealth();
-                            // if (block.Health == 0) {
-                            //     block.DeleteEntity();
+                            // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
+                            block.DecreaseHealth();
+                            if (block.Health == 0) {
+                                block.DeleteEntity();
 
-                            // }     
+                            }     
+                            ball.Direction = VectorOperations.Reflection(ball.Direction, CollDir);
+
                 }
             });
-        }
-
-
-        private void IterateBall2() {
-            ballCon.Iterate(ball => {
-                ball.Shape.Move(ball.Direction); 
-
-                HandleWallCollision(ball);
-
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
-                    ball.DeleteEntity();
-                } else {
-                    Console.WriteLine((ball.Shape.AsDynamicShape().Direction.X, ball.Shape.AsDynamicShape().Direction.Y));
-                    // Console.WriteLine(ball.Direction.Y);
-                    // level.blocks.Iterate(block => {
-                    var CollisionData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsStationaryShape());
-                    if (CollisionData.Collision) {
-                        // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                        ball.DeleteEntity();
-                        Console.WriteLine("Collision with player going {0}", CollisionData.CollisionDir);
-                    };     
-                }
-            });
-        }  
+        } 
 
         private void BallPlayerCollision(Ball ball){
-            if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
-                // FIX: Ball should change direction upon collision (not be deleted - only to test whether it works)
-                ball.DeleteEntity();
+            // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
+                if (CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).Collision) {
+                Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
+                var normal = new Vec2F(0.0f, 1.0f);
+                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
             }
 
+        }
+
+        private Vec2F ConverteDir(CollisionDirection CollDir){
+            var normal = new Vec2F(0.0f, 0.0f); 
+            switch(CollDir){
+                case CollisionDirection.CollisionDirDown:
+                    normal = new Vec2F(1.0f, 0.0f);
+                    break;
+                case CollisionDirection.CollisionDirLeft:
+                    normal = new Vec2F(-1.0f, 0.0f);
+                    break;
+                case CollisionDirection.CollisionDirRight:
+                    normal = new Vec2F(0.0f, -1.0f);
+                    break;
+                case CollisionDirection.CollisionDirUp:
+                    normal = new Vec2F(0.0f, 1.0f);
+                    break;
+            }
+            return normal;
         }
 
 
@@ -219,14 +251,6 @@ namespace Breakout.BreakoutStates {
             player.Move();
         }
 
-        public void HandleWallCollision(Ball ball) {
-            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
-                    ball.Direction = new Vec2F(ball.Direction.X, -ball.Direction.Y);
-                } else if (ball.Shape.Position.X <= 0.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
-                    ball.Direction = new Vec2F(-ball.Direction.X, ball.Direction.Y);
-                }
-        }
+   
     }
 }
