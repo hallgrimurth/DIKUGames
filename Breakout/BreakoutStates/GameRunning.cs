@@ -97,9 +97,8 @@ namespace Breakout.BreakoutStates {
                 normal = new Vec2F(-1.0f, 0.0f);
                 // Console.WriteLine(ball.Direction);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-
-             }
-            return normal;
+                Console.WriteLine(ball.Direction);
+            }
         }
 
         // Detects whether the ball collides with a block
@@ -135,9 +134,8 @@ namespace Breakout.BreakoutStates {
             var CollDir = ConvertDir(CollData.CollisionDir);
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
-            // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
+
                 if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
-                // Console.WriteLine("Collision with player going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape.AsDynamicShape()).CollisionDir);
                 var normal = new Vec2F(0.0f, 1.0f);
                 var speed = ball.Direction.Length();
                 var collision_point = ball.Shape.Position * CollPos;
@@ -145,7 +143,7 @@ namespace Breakout.BreakoutStates {
                 var velocity = x_bounce_directions * speed + 0.02f;
 
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-                ball.Direction.X = x_bounce_directions;
+                ball.Direction.X = velocity;
 
             }
         }
@@ -156,7 +154,8 @@ namespace Breakout.BreakoutStates {
             var normalizedRelativeIntersectionX = relativeIntersectX / (player.Shape.Extent.X);
             return (((normalizedRelativeIntersectionX)- 0.5f)*2.0f) * 0.02f ;//* 0.01f; //range -1 to 1  
         }
-        private Vec2F ConverteDir(CollisionDirection CollDir){
+        private Vec2F ConvertDir(CollisionDirection CollDir){
+            // var normal = new Vec2F(0.0f, 0.0f); 
             switch(CollDir){
                 case CollisionDirection.CollisionDirDown:
                     return new Vec2F(0.0f, 1.0f);
