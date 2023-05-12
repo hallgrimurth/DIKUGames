@@ -233,7 +233,7 @@ namespace Breakout.BreakoutStates {
                 case KeyboardKey.Escape:
                     BreakoutBus.GetBus().RegisterEvent(
                         new GameEvent{
-                            EventType = GameEventType.WindowEvent,
+                            EventType = GameEventType.GameStateEvent,
                             Message = "CHANGE_STATE",
                             StringArg1 = "GAME_PAUSED"
                         }
