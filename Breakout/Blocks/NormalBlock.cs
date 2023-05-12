@@ -15,15 +15,11 @@ public class NormalBlock : Block {
     //constructor for block
     public NormalBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
-        value = 1;
-        
+        value = 1;     
     }
 
     public override void DecreaseHealth() {
-        this.Health--;
-        
-        
-        
+        this.Health--; 
     }
         
 }

@@ -19,8 +19,7 @@ public class IndestructibleBlock : Block {
         value = 5;
     }
 
-    public override void DecreaseHealth() {
-      
+    public override void DecreaseHealth() { 
         //do nothing
     }
         

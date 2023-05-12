@@ -23,14 +23,10 @@ public class HardenedBlock : Block {
         value = 2;
         Health = 2;
         damageImage = DamageImage;
-        
-
     }
-
     public override void DecreaseHealth() {
-        
         this.Health--;
-
+        
         if (this.Health == 1) {
             this.Image = damageImage;
         }

@@ -22,7 +22,7 @@ namespace Breakout.BreakoutStates {
 
         // Strides and animations
         private IBaseImage ballImage;
-        private Value score;
+        private Points score;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -49,14 +49,14 @@ namespace Breakout.BreakoutStates {
 
         private void SetScore() {
             //define score
-            score = new Value(
+            score = new Points(
                 new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
         }
 
         // Initializes one or more balls 
         private void SetBall() {
             ballCon =  new EntityContainer<Ball>();
-            Vec2F pos = player.GetPosition().Position;
+            Vec2F pos = new Vec2F(0.495f, 0.2f);
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
             ballCon.AddEntity(new Ball(pos, ballImage));
         }
@@ -64,10 +64,14 @@ namespace Breakout.BreakoutStates {
             ballCon.Iterate(ball => {
                 HandleCollisions(ball);
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
-
-
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
+                    GameEvent gameover = (new GameEvent{
+                            EventType = GameEventType.WindowEvent,
+                            Message = "CANGE_STATE",
+                            StringArg1 = "GAME_OVER"});
+                    BreakoutBus.GetBus().RegisterEvent(gameover);
+
                 }
                 
             });
@@ -95,24 +99,18 @@ namespace Breakout.BreakoutStates {
 
             } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
                 normal = new Vec2F(-1.0f, 0.0f);
-                // Console.WriteLine(ball.Direction);
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-                Console.WriteLine(ball.Direction);
             }
         }
 
         // Detects whether the ball collides with a block
         private void BallBlockCollision(Ball ball){
-            // Console.WriteLine(ball.Direction);
-
             level.blocks.Iterate(block => {
                 var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
                 var CollDirNorm = ConvertDir(CollData.CollisionDir);
                 var Coll = CollData.Collision;
 
                 if (Coll) {
-                    // ball.DeleteEntity();
-                    // Console.WriteLine("Collision with block going {0}", CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape).CollisionDir);
                     GameEvent AddScore = (new GameEvent{
                         EventType = GameEventType.ScoreEvent, To = score,
                         Message = "ADD_SCORE",
@@ -143,7 +141,7 @@ namespace Breakout.BreakoutStates {
                 var velocity = x_bounce_directions * speed + 0.02f;
 
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-                ball.Direction.X = velocity;
+                ball.Direction.X = x_bounce_directions;
 
             }
         }
@@ -155,7 +153,6 @@ namespace Breakout.BreakoutStates {
             return (((normalizedRelativeIntersectionX)- 0.5f)*2.0f) * 0.02f ;//* 0.01f; //range -1 to 1  
         }
         private Vec2F ConvertDir(CollisionDirection CollDir){
-            // var normal = new Vec2F(0.0f, 0.0f); 
             switch(CollDir){
                 case CollisionDirection.CollisionDirDown:
                     return new Vec2F(0.0f, 1.0f);
@@ -165,8 +162,6 @@ namespace Breakout.BreakoutStates {
                     return new Vec2F(1.0f, 0.0f);
                 case CollisionDirection.CollisionDirRight:
                     return new Vec2F(-1.0f, 0.0f);
-                // case CollisionDirection.CollisionDirUnchecked:
-                //     return new Vec2F(0.0f, 0.0f);
             }
             return new Vec2F(0.0f, 0.0f);
         }
@@ -213,7 +208,6 @@ namespace Breakout.BreakoutStates {
                         EventType = GameEventType.StatusEvent, To = level,
                         Message = "START_GAME" });
                     BreakoutBus.GetBus().RegisterEvent(Shoot);
-                    Console.WriteLine(level.Start);
                     break;
             }
 

@@ -16,12 +16,8 @@ public class PowerUpBlock : Block {
         : base(Shape, image) {
         value = 10;
     }
-
     public override void DecreaseHealth() {
-        this.Health--;
-        
-        
-        
+        this.Health--; 
     }
         
     

@@ -12,7 +12,7 @@ using DIKUArcade.State;
 using Breakout.BreakoutStates;
 
 namespace Breakout{
-    public class Game : DIKUGame, IGameEventProcessor {
+    class Game : DIKUGame, IGameEventProcessor {
         //state machine
         private StateMachine stateMachine;
         //Entities

@@ -19,7 +19,7 @@ namespace Breakout{
             get { return shape; }
         }
 
-        private static Vec2F playerPos = new Vec2F(0.4f, 0.2f);
+        private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
 
         public Player() {
