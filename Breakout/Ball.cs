@@ -11,6 +11,7 @@ public class Ball : Entity {
 
     public Vec2F Extent {
         get { return extent; }
+        set { extent = value; }
     }
     public Vec2F Direction {
         get { return direction; }
@@ -18,7 +19,8 @@ public class Ball : Entity {
     }
 
     public Ball(Vec2F pos, IBaseImage image)
-        : base(new DynamicShape(pos, extent), image) {
-        Shape.AsDynamicShape().Direction = direction;
+        : base(new DynamicShape(pos, extent, direction), image) {
+        // Shape.AsDynamicShape().Direction = direction;
+        // Shape.AsDynamicShape().Extent = extent;
     }
 }

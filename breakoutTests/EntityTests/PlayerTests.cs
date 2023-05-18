@@ -13,25 +13,25 @@ namespace BreakoutTests
     [TestFixture]
     public class PlayerTest
     {
-        private Player player;
+        private Player? player;
 
        [SetUp]
         public void Setup()
         {
-            //adding enitites
-            player = new Player();      
-            
+
         }
 
         [Test]
         public void TestPlayerMovement()
         {
+            player = new Player();
             player.Move();
             Assert.That(player.Shape.Position.Y, Is.EqualTo(0.2f));
         }
 
         [Test]
         public void TestPlayerMovesRight() {
+            player = new Player();
             player.SetMoveRight(true);
             player.Move();
             Assert.That(player.Shape.Position.X, Is.EqualTo((0.41f)));
@@ -40,6 +40,7 @@ namespace BreakoutTests
 
         [Test]
         public void TestPlayerMovesLeft() {
+            player = new Player();
             player.SetMoveLeft(true);
             player.Move();
             Assert.That(player.Shape.Position.Y, Is.EqualTo((0.2f)));

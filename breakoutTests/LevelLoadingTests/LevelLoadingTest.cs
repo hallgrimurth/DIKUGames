@@ -9,16 +9,12 @@ namespace BreakoutTests
     public class LevelLoadingTests
     {
         // private string fileName;
-        private string path;
-        private LevelManager level;
+        private string? path;
+        private LevelManager? level;
         [SetUp]
         public void Setup()
-        {
-            //loading levels   
-            
+        {  
             path = Path.Combine(Constants.MAIN_PATH, "Assets", "Levels/"); 
-
-            level = new LevelManager();
         }
 
         [TestCase("central-mass.txt")]
@@ -29,6 +25,7 @@ namespace BreakoutTests
         public void TestMapChange(string fileName)
         {
             //Testing if txt level file alters when loading new level
+            level = new LevelManager();
             string fileTextPre = File.ReadAllText(path+fileName);
             level.LoadTextData(path+fileName); 
             string fileTextPost = File.ReadAllText(path+fileName);
@@ -41,6 +38,7 @@ namespace BreakoutTests
         [Test]
         public void TestEmptyFile()
         {
+            level = new LevelManager();
             Assert.DoesNotThrow(() => level.LoadTextData(path+"empty.txt"));
         }
     

@@ -22,7 +22,7 @@ namespace Breakout.BreakoutStates {
 
         // Strides and animations
         private IBaseImage ballImage;
-        private Points score;
+        private Points points;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -35,7 +35,7 @@ namespace Breakout.BreakoutStates {
         public void InitializeGameState(){
             GetLevels();
             SetActors();
-            SetScore();
+            SetPoints();
         }
         public void SetActors(){
             player = new Player();
@@ -47,9 +47,9 @@ namespace Breakout.BreakoutStates {
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
         }
 
-        private void SetScore() {
-            //define score
-            score = new Points(
+        private void SetPoints() {
+            //define points
+            points = new Points(
                 new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
         }
 
@@ -112,11 +112,11 @@ namespace Breakout.BreakoutStates {
                 var Coll = CollData.Collision;
 
                 if (Coll) {
-                    GameEvent AddScore = (new GameEvent{
-                        EventType = GameEventType.ScoreEvent, To = score,
-                        Message = "ADD_SCORE",
+                    GameEvent AddPoints = (new GameEvent{
+                        EventType = GameEventType.ScoreEvent, To = points,
+                        Message = "ADD_POINTS",
                         StringArg1 = block.ToString()});
-                    BreakoutBus.GetBus().RegisterEvent(AddScore);
+                    BreakoutBus.GetBus().RegisterEvent(AddPoints);
 
                     block.DecreaseHealth();
                     if (block.Health == 0) {
@@ -141,11 +141,13 @@ namespace Breakout.BreakoutStates {
 
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 ball.Direction.X = x_bounce_directions;
+
                 var ySquared = Math.Pow(targetVelocity, 2) - Math.Abs(Math.Pow(x_bounce_directions, 2));
                 ball.Direction.Y = (float)Math.Sqrt(ySquared);
 
                 var speed = ball.Direction.Length();
                 Console.WriteLine("Ball velocity: " + speed);
+
             }
         }
 
@@ -265,7 +267,7 @@ namespace Breakout.BreakoutStates {
         public void RenderState() {
             level.blocks.RenderEntities();
             ballCon.RenderEntities();
-            score.Render();
+            points.Render();
             player.Render();
         }
 
