@@ -138,11 +138,10 @@ namespace Breakout.BreakoutStates {
                 var speed = ball.Direction.Length();
                 var collision_point = ball.Shape.Position * CollPos;
                 var x_bounce_directions = get_x_bounce_directions(ball, collision_point);
-                // var velocity = x_bounce_directions * speed + 0.02f;
+                var velocity = x_bounce_directions * speed + 0.02f;
 
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 ball.Direction.X = x_bounce_directions;
-
             }
         }
 
