@@ -56,7 +56,8 @@ namespace Breakout.BreakoutStates {
         // Initializes one or more balls 
         private void SetBall() {
             ballCon =  new EntityContainer<Ball>();
-            Vec2F pos = new Vec2F(0.495f, 0.2f);
+            // Vec2F pos = new Vec2F(0.495f, 0.2f);
+            Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
             ballCon.AddEntity(new Ball(pos, ballImage));
         }
@@ -133,25 +134,30 @@ namespace Breakout.BreakoutStates {
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
 
-                if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
+            if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
                 var normal = new Vec2F(0.0f, 1.0f);
-                var speed = ball.Direction.Length();
-                var collision_point = ball.Shape.Position * CollPos;
-                var x_bounce_directions = get_x_bounce_directions(ball, collision_point);
-                var velocity = x_bounce_directions * speed + 0.02f;
+                var x_bounce_directions = get_x_bounce_directions(ball);
+                var targetVelocity = 0.01f;
 
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 ball.Direction.X = x_bounce_directions;
+                var ySquared = Math.Pow(targetVelocity, 2) - Math.Abs(Math.Pow(x_bounce_directions, 2));
+                ball.Direction.Y = (float)Math.Sqrt(ySquared);
 
+                var speed = ball.Direction.Length();
+                Console.WriteLine("Ball velocity: " + speed);
             }
         }
 
-        private float get_x_bounce_directions(Ball ball, Vec2F collision_point){
+        private float get_x_bounce_directions(Ball ball){
             var relativeIntersectX = (ball.Shape.Position.X - player.Shape.Position.X );
             
             var normalizedRelativeIntersectionX = relativeIntersectX / (player.Shape.Extent.X);
-            return (((normalizedRelativeIntersectionX)- 0.5f)*2.0f) * 0.02f ;//* 0.01f; //range -1 to 1  
+            var norm = (normalizedRelativeIntersectionX - 0.5f) * 2.0f; // range -1 to 1
+
+            return norm * 0.01f; //to get a reasonable speed 
         }
+
         private Vec2F ConvertDir(CollisionDirection CollDir){
             switch(CollDir){
                 case CollisionDirection.CollisionDirDown:
