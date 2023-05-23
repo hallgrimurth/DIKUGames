@@ -5,7 +5,8 @@ namespace Breakout.BreakoutStates {
         GameRunning,
         GamePaused,
         GameOver,
-        MainMenu
+        MainMenu,
+        GameWon
     }
 }
 

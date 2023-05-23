@@ -15,20 +15,47 @@ namespace Breakout{
         private float moveRight = 0.0f;
         const float MOVEMENT_SPEED = 0.02f;
         private Image playerStride;
+        private int playerLives;
+        private Text display;
         public DynamicShape Shape {
             get { return shape; }
         }
-
+        public int PlayerLives {
+            get { return playerLives; }
+            set { playerLives = value; }
+        }
+        private static Vec2F livesPos = new Vec2F(0.06f, -0.3f);
+        private static Vec2F livesExtent = new Vec2F(0.4f, 0.4f);
         private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
 
-        public Player() {
+        public Player(int startinglife) {
 
             playerStride = new Image(Path.Combine(
                 Constants.MAIN_PATH, "Assets", "Images", "player.png"));
             this.shape = new DynamicShape(playerPos, playerExtent);
             player = new Entity(this.shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
+
+            SetLives(startinglife);
+        }
+
+        public void SetLives(int startinglife) {
+            // Setting the lives of the player
+            playerLives = startinglife;
+            display = new Text("Lives:" + playerLives.ToString(), livesPos, livesExtent);
+            display.SetColor(new Vec3I(255, 255, 0));
+            display.SetFontSize(30);
+        }
+
+
+        public void DecreaseLives() {
+            if (playerLives >= 1){
+                playerLives -= 1;
+                display.SetText("Lives:" + playerLives.ToString());
+            } else {
+                playerLives = 0;
+            }
         }
 
         public void Move() {
@@ -66,6 +93,7 @@ namespace Breakout{
             return shape;
         }
 
+
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.MovementEvent) {
                 switch (gameEvent.Message) {
@@ -87,6 +115,8 @@ namespace Breakout{
 
         public void Render() {
             player.RenderEntity();
+            // Render the lives of the player
+            display.RenderText();
         }
     }
 }

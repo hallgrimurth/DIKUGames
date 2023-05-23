@@ -8,6 +8,7 @@ using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using System.Collections.Generic;
 using DIKUArcade.Graphics;
+using Breakout.BreakoutStates;
 
 
 namespace Breakout{ 
@@ -21,9 +22,12 @@ namespace Breakout{
         private int levelCounter = 1;
         private String[] levelPaths;
         private bool start = false;
+        private char type;
         public bool Start{
-            get{ return start; }
-            
+            get{ return start; }  
+        }
+        public char Type{
+            get{ return type; }   
         }
         
         public EntityContainer<Block> blocks {get;}
@@ -71,7 +75,7 @@ namespace Breakout{
                     // Attempts to add a block to the entity container depending on the char
                     try {
                         if (legendDict.ContainsKey(mapLines[i][j])) {
-                            char type = 'N' ;
+                            type = 'N' ;
 
                             // Check if the char is a value in the meta dictionary if so, set 
                             // type to that key
@@ -85,8 +89,7 @@ namespace Breakout{
                             string blockImage = legendDict[mapLines[i][j]];
                             blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage, type));
                         }
-
-                    // // These catches is needed to avoid crashing if the file is empty or data is missing
+                    // // These catches are needed to avoid crashing if the file is empty or data is missing
                     // // The program will continue without placing a block
                     } catch (ArgumentOutOfRangeException) {
 
