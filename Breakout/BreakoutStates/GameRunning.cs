@@ -18,6 +18,7 @@ namespace Breakout.BreakoutStates {
         private static GameRunning instance = null;
         //Entities
         private Player player;
+        private Ball ball;
         private EntityContainer<Ball> ballCon;
         private LevelManager level;
 
@@ -70,13 +71,19 @@ namespace Breakout.BreakoutStates {
             ballCon =  new EntityContainer<Ball>();
             // Vec2F pos = new Vec2F(0.495f, 0.2f);
             Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
+            Vec2F extent = new Vec2F(0.03f, 0.03f);
+            Vec2F dir = new Vec2F(0.01f, 0.01f);
+            DynamicShape shape = new DynamicShape(pos, extent);
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
-            ballCon.AddEntity(new Ball(pos, ballImage));
+            ball = new Ball(shape, ballImage);
+            ball.ChangeDirection(dir);
+            ballCon.AddEntity(ball);
         }
         private void IterateBall() {
             ballCon.Iterate(ball => {
+                ball.Move();
                 HandleCollisions(ball);
-                ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
+                // ball.Move();
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
                     player.DecreaseLives();
@@ -110,18 +117,29 @@ namespace Breakout.BreakoutStates {
         private void WallCollision(Ball ball){
 
             var normal = new Vec2F(0.0f, 0.0f); 
+            Vec2F dir = ball.GetDirection();
 
-            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 1.0f) {
+            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 0.99f) {
                 normal = new Vec2F(0.0f, -1.0f);
-                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine("direction: " + dir);
+                Console.WriteLine("normal: " + normal);
+                Console.WriteLine("reflection: " + VectorOperations.Reflection(dir, normal));
+                ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
+                Console.WriteLine("direction: " + dir);
 
-            } else if (ball.Shape.Position.X <= 0.0f) {
+            } else if (ball.Shape.Position.X <= 0.01f) {
                 normal = new Vec2F(1.0f, 0.0f);
-                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine("direction: " + dir);
+                Console.WriteLine("normal: " + normal);
+                Console.WriteLine("reflection: " + VectorOperations.Reflection(dir, normal));
+                ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
 
-            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 1.0f) {
+            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 0.99f) {
                 normal = new Vec2F(-1.0f, 0.0f);
-                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                Console.WriteLine("direction: " + dir);
+                Console.WriteLine("normal: " + normal);
+                Console.WriteLine("reflection: " + VectorOperations.Reflection(dir, normal));
+                ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
             }
         }
 
@@ -146,9 +164,9 @@ namespace Breakout.BreakoutStates {
 
                     // Determine the normal vector based on the collision direction
                     var normal = CollDir;
-
+                    Console.WriteLine("normal: " + normal);
                     // Reflect the ball's direction using the normal vector
-                    ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+                    ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
 
                     // Handle the block's health and deletion
                     block.DecreaseHealth();
@@ -179,13 +197,13 @@ namespace Breakout.BreakoutStates {
                 var x_bounce_directions = get_x_bounce_directions(ball);
                 var targetVelocity = 0.01f;
 
-                ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
-                ball.Direction.X = x_bounce_directions;
+                ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
+                ball.Shape.AsDynamicShape().Direction.X = x_bounce_directions;
 
                 var ySquared = Math.Pow(targetVelocity, 2) - Math.Abs(Math.Pow(x_bounce_directions, 2));
-                ball.Direction.Y = (float)Math.Sqrt(ySquared);
+                ball.Shape.AsDynamicShape().Direction.Y = (float)Math.Sqrt(ySquared);
 
-                var speed = ball.Direction.Length();
+                // var speed = ball.Direction.Length();
                 // Console.WriteLine("Ball velocity: " + speed);
 
             }
