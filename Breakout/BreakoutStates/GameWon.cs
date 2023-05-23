@@ -5,34 +5,32 @@ using DIKUArcade.Math;
 using DIKUArcade.Input;
 using DIKUArcade.Events;
 
-
-
 namespace Breakout.BreakoutStates {
-    public class MainMenu : IGameState {
-        private static MainMenu instance = null;
-        private Entity backGroundImage;
+    public class GameWon : IGameState {
+        private static GameWon instance = null;
+        private Text gamewon;
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButtons;
-
-        public static MainMenu GetInstance() {
-            if (MainMenu.instance == null) {
-                MainMenu.instance = new MainMenu();
-                MainMenu.instance.InitializeGameState();
+        public static GameWon GetInstance() {
+            if (GameWon.instance == null) {
+                GameWon.instance = new GameWon();
+                GameWon.instance.InitializeGameState();
             }
-            return MainMenu.instance;
+            return GameWon.instance;
         }
 
         private void InitializeGameState(){
-            //Initialize the menu buttons
-            Text newGameButton = new Text("New Game", new Vec2F(0.1f, 0.2f), new Vec2F(0.5f, 0.5f));
-            Text Quit = new Text("Quit", new Vec2F(0.1f, 0.1f), new Vec2F(0.5f, 0.5f));
+            gamewon = new Text("You Win!", new Vec2F(0.1f, 0.3f), new Vec2F(0.5f, 0.5f));
+            gamewon.SetColor(new Vec3I(255, 255, 0));
+
+            Text mainMenuButton = new Text("Main Menu", new Vec2F(0.1f, 0.15f), new Vec2F(0.5f, 0.5f));
+            Text Quit = new Text("Quit", new Vec2F(0.1f, 0.05f), new Vec2F(0.5f, 0.5f));
             activeMenuButton = 0;
-            newGameButton.SetColor(new Vec3I(255, 255, 255));
+            mainMenuButton.SetColor(new Vec3I(255, 255, 255));
             Quit.SetColor(new Vec3I(255, 255, 255));
-            menuButtons = new Text[2] {newGameButton, Quit};
+            menuButtons = new Text[2] {mainMenuButton, Quit};
             maxMenuButtons = menuButtons.Length;
-            backGroundImage = new Entity(new StationaryShape(0.0f, 0.0f, 1.0f, 1.0f), new Image("Assets/Images/BreakoutTitleScreen.png")); 
         }
         
 
@@ -62,8 +60,8 @@ namespace Breakout.BreakoutStates {
                                         new GameEvent{
                                             EventType = GameEventType.GameStateEvent,
                                             Message = "CHANGE_STATE",
-                                            StringArg1 = "GAME_RUNNING",
-                                            StringArg2 = "NEW_GAME"
+                                            StringArg1 = "MAIN_MENU",
+                                            //StringArg2 = "NEW_GAME"
                                         }
                                     );
                                     BreakoutBus.GetBus().ProcessEventsSequentially();
@@ -88,7 +86,8 @@ namespace Breakout.BreakoutStates {
 
          //Render the titile image and the menu buttons
         public void RenderState() {
-            backGroundImage.RenderEntity();
+            gamewon.RenderText();
+
             foreach (Text button in menuButtons) {
                 button.RenderText();
             }

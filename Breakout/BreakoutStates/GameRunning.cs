@@ -10,6 +10,7 @@ using DIKUArcade.Input;
 using System.Collections.Generic;
 using DIKUArcade.Physics;
 using System;
+using DIKUArcade.Timers;
 
 
 namespace Breakout.BreakoutStates {
@@ -23,6 +24,8 @@ namespace Breakout.BreakoutStates {
         // Strides and animations
         private IBaseImage ballImage;
         private Points points;
+        private Text display;
+        private long elapsedTime;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -36,10 +39,19 @@ namespace Breakout.BreakoutStates {
             GetLevels();
             SetActors();
             SetPoints();
+            SetTimers();
         }
         public void SetActors(){
-            player = new Player();
+            player = new Player(1);
             SetBall();
+        }
+
+         public void SetTimers() {
+            elapsedTime = StaticTimer.GetElapsedMilliseconds();
+            display = new Text("Time:" + elapsedTime.ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
+            display.SetColor(new Vec3I(255, 255, 0));
+            display.SetFontSize(30);
+        
         }
 
         private void GetLevels() {
@@ -67,12 +79,21 @@ namespace Breakout.BreakoutStates {
                 ball.Shape.Move(ball.Direction); // Using the Direction property from Ball.cs
                 if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
                     ball.DeleteEntity();
+                    player.DecreaseLives();
                     GameEvent gameover = (new GameEvent{
-                            EventType = GameEventType.WindowEvent,
-                            Message = "CANGE_STATE",
+                            EventType = GameEventType.GameStateEvent, 
+                            Message = "CHANGE_STATE",
                             StringArg1 = "GAME_OVER"});
                     BreakoutBus.GetBus().RegisterEvent(gameover);
+                }
 
+                if (points.PointsValue >= 3) {
+    
+                    GameEvent gamewon = (new GameEvent{
+                            EventType = GameEventType.GameStateEvent, 
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_WON"});
+                    BreakoutBus.GetBus().RegisterEvent(gamewon);
                 }
                 
             });
@@ -146,7 +167,7 @@ namespace Breakout.BreakoutStates {
                 ball.Direction.Y = (float)Math.Sqrt(ySquared);
 
                 var speed = ball.Direction.Length();
-                Console.WriteLine("Ball velocity: " + speed);
+                // Console.WriteLine("Ball velocity: " + speed);
 
             }
         }
@@ -203,6 +224,7 @@ namespace Breakout.BreakoutStates {
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     SetActors();
+                    // StaticTimer.RestartTimer();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
@@ -210,6 +232,7 @@ namespace Breakout.BreakoutStates {
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     SetActors();
+                    // StaticTimer.RestartTimer();
                     break;
                 case KeyboardKey.Space:
                     GameEvent Shoot = (new GameEvent{
@@ -269,6 +292,7 @@ namespace Breakout.BreakoutStates {
             ballCon.RenderEntities();
             points.Render();
             player.Render();
+            display.RenderText();
         }
 
         public void ResetState(){ 
