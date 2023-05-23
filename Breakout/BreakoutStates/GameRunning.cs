@@ -116,6 +116,7 @@ namespace Breakout.BreakoutStates {
                 var CollPos = CollData.DirectionFactor;
 
                 if (Coll) {
+                    Console.WriteLine("Collision detected {0}", CollData.CollisionDir);
                     GameEvent AddPoints = (new GameEvent{
                         EventType = GameEventType.ScoreEvent, To = points,
                         Message = "ADD_POINTS",
@@ -146,12 +147,13 @@ namespace Breakout.BreakoutStates {
         }
         
         private void BallPlayerCollision(Ball ball){
-            var CollData = CollisionDetection.Aabb(player.Shape.AsDynamicShape(), ball.Shape);
+            var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape);
             var CollDir = ConvertDir(CollData.CollisionDir);
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
 
-            if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
+            if (Coll) {
+                
                 var normal = new Vec2F(0.0f, 1.0f);
                 var x_bounce_directions = get_x_bounce_directions(ball);
                 var targetVelocity = 0.01f;
