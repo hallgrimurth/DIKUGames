@@ -115,24 +115,12 @@ namespace Breakout.BreakoutStates {
                 var Coll = CollData.Collision;
                 var CollPos = CollData.DirectionFactor;
 
-<<<<<<< HEAD
-                if (Coll)
-                {
-                    //writeline block type
-                    Console.WriteLine(block.ToString());
-
-                    // Console.WriteLine("Collision detected + {0}", CollData.CollisionDir);
-
-                    // Adjust the ball's position based on the collision direction
-                    ball.Shape.Position += CollPos * ball.Direction;
-=======
                 if (Coll) {
                     GameEvent AddPoints = (new GameEvent{
                         EventType = GameEventType.ScoreEvent, To = points,
                         Message = "ADD_POINTS",
                         StringArg1 = block.ToString()});
                     BreakoutBus.GetBus().RegisterEvent(AddPoints);
->>>>>>> 818888d207b47f8a40bff4b675cbacbfdcce8aa5
 
                     // Determine the normal vector based on the collision direction
                     var normal = CollDir;
@@ -148,7 +136,7 @@ namespace Breakout.BreakoutStates {
                     GameEvent AddScore = new GameEvent
                     {
                         EventType = GameEventType.ScoreEvent,
-                        To = score,
+                        To = points,
                         Message = "ADD_SCORE",
                         StringArg1 = block.ToString()
                     };
@@ -163,19 +151,10 @@ namespace Breakout.BreakoutStates {
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
 
-<<<<<<< HEAD
-                if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
-                var normal = new Vec2F(0.0f, -1.0f);
-                var speed = ball.Direction.Length();
-                var collision_point = ball.Shape.Position * CollPos;
-                var x_bounce_directions = get_x_bounce_directions(ball, collision_point);
-                var velocity = x_bounce_directions * speed + 0.02f;
-=======
             if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
                 var normal = new Vec2F(0.0f, 1.0f);
                 var x_bounce_directions = get_x_bounce_directions(ball);
                 var targetVelocity = 0.01f;
->>>>>>> 818888d207b47f8a40bff4b675cbacbfdcce8aa5
 
                 ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
                 ball.Direction.X = x_bounce_directions;
