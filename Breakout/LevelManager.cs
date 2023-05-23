@@ -27,12 +27,14 @@ namespace Breakout{
         }
         
         public EntityContainer<Block> blocks {get;}
+        public EntityContainer<PowerUp> powerups {get;}
         public List<string> MetaData{
             get{ return metaData; }
         }
 
         public LevelManager(){
             blocks = new EntityContainer<Block>();
+            powerups = new EntityContainer<PowerUp>();
             levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
             LoadMap(levelPaths[levelCounter]);
         }
@@ -84,6 +86,9 @@ namespace Breakout{
                             // Calls the block-factory to create and add a block entity
                             string blockImage = legendDict[mapLines[i][j]];
                             blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage, type));
+                            if (type == 'P'){
+                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(i, j));
+                            }
                         }
 
                     // // These catches is needed to avoid crashing if the file is empty or data is missing
