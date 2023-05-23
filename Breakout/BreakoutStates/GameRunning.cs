@@ -46,12 +46,20 @@ namespace Breakout.BreakoutStates {
             SetBall();
         }
 
-         public void SetTimers() {
+        // Isn't working yet
+         private void SetTimers() {
             elapsedTime = StaticTimer.GetElapsedMilliseconds();
             display = new Text("Time:" + elapsedTime.ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
-            display.SetColor(new Vec3I(255, 255, 0));
+            display.SetColor(new Vec3I(255, 255, 255));
             display.SetFontSize(30);
-        
+        }
+        // Isn't working yet
+        private void UpdateTimers(){
+            if(level.Type == 'T') {
+                elapsedTime = StaticTimer.GetElapsedMilliseconds();
+                SetTimers();
+                Console.WriteLine('T');
+            }
         }
 
         private void GetLevels() {
@@ -321,6 +329,7 @@ namespace Breakout.BreakoutStates {
         public void UpdateState(){
             if (level.Start) IterateBall();
             player.Move();
+            SetTimers();
         }
     }
 }
