@@ -30,6 +30,10 @@ public class HardenedBlock : Block {
         if (this.Health == 1) {
             this.Image = damageImage;
         }
+        if (Health == 0) {
+            DeleteEntity();
+        }
+    
         
         
         

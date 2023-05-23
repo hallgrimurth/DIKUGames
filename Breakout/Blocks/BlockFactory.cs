@@ -19,7 +19,7 @@ namespace Breakout {
             IBaseImage damageimage = new Image(
                 Path.Combine("Assets", "Images", Imagename.Substring(0, Imagename.Length-4) +"-damaged.png"));
 
-            Vec2F blockPos = new Vec2F(blockExtent.X*j, 1.0f - blockExtent.Y*i - blockExtent.Y);
+            Vec2F blockPos = new Vec2F(blockExtent.X * j, 1.0f - blockExtent.Y * i);
             DynamicShape blockShape = new DynamicShape(blockPos, blockExtent);
             
             //Case for each block type. Normal block, indestructible block, powerup block, hardened block

@@ -104,37 +104,57 @@ namespace Breakout.BreakoutStates {
         }
 
         // Detects whether the ball collides with a block
-        private void BallBlockCollision(Ball ball){
-            level.blocks.Iterate(block => {
+        private void BallBlockCollision(Ball ball)
+        {
+            level.blocks.Iterate(block =>
+            {
                 var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
-                var CollDirNorm = ConvertDir(CollData.CollisionDir);
+                // calculate the collision data of the right and top side of the block
+                var CollDir = ConvertDir(CollData.CollisionDir);
                 var Coll = CollData.Collision;
+                var CollPos = CollData.DirectionFactor;
 
-                if (Coll) {
-                    GameEvent AddScore = (new GameEvent{
-                        EventType = GameEventType.ScoreEvent, To = score,
-                        Message = "ADD_SCORE",
-                        StringArg1 = block.ToString()});
-                    BreakoutBus.GetBus().RegisterEvent(AddScore);
+                if (Coll)
+                {
+                    //writeline block type
+                    Console.WriteLine(block.ToString());
 
+                    // Console.WriteLine("Collision detected + {0}", CollData.CollisionDir);
+
+                    // Adjust the ball's position based on the collision direction
+                    ball.Shape.Position += CollPos * ball.Direction;
+
+                    // Determine the normal vector based on the collision direction
+                    var normal = CollDir;
+
+                    // Reflect the ball's direction using the normal vector
+                    ball.Direction = VectorOperations.Reflection(ball.Direction, normal);
+
+                    // Handle the block's health and deletion
                     block.DecreaseHealth();
-                    if (block.Health == 0) {
-                        block.DeleteEntity();
 
-                    }     
-                    ball.Direction = VectorOperations.Reflection(ball.Direction, CollDirNorm);
+
+                    // Register score event
+                    GameEvent AddScore = new GameEvent
+                    {
+                        EventType = GameEventType.ScoreEvent,
+                        To = score,
+                        Message = "ADD_SCORE",
+                        StringArg1 = block.ToString()
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(AddScore);
                 }
             });
-        } 
-        // Detects whether the ball collides with the player
+        }
+        
         private void BallPlayerCollision(Ball ball){
-            var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), player.Shape);
+            var CollData = CollisionDetection.Aabb(player.Shape.AsDynamicShape(), ball.Shape);
             var CollDir = ConvertDir(CollData.CollisionDir);
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
 
                 if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirDown) {
-                var normal = new Vec2F(0.0f, 1.0f);
+                var normal = new Vec2F(0.0f, -1.0f);
                 var speed = ball.Direction.Length();
                 var collision_point = ball.Shape.Position * CollPos;
                 var x_bounce_directions = get_x_bounce_directions(ball, collision_point);
@@ -145,6 +165,8 @@ namespace Breakout.BreakoutStates {
 
             }
         }
+    
+
 
         private float get_x_bounce_directions(Ball ball, Vec2F collision_point){
             var relativeIntersectX = (ball.Shape.Position.X - player.Shape.Position.X );
@@ -159,9 +181,9 @@ namespace Breakout.BreakoutStates {
                 case CollisionDirection.CollisionDirUp:
                     return new Vec2F(0.0f, -1.0f);
                 case CollisionDirection.CollisionDirLeft:
-                    return new Vec2F(1.0f, 0.0f);
-                case CollisionDirection.CollisionDirRight:
                     return new Vec2F(-1.0f, 0.0f);
+                case CollisionDirection.CollisionDirRight:
+                    return new Vec2F(1.0f, 0.0f);
             }
             return new Vec2F(0.0f, 0.0f);
         }

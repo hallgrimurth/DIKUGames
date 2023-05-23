@@ -16,10 +16,15 @@ public class NormalBlock : Block {
     public NormalBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
         value = 1;     
+        
     }
 
     public override void DecreaseHealth() {
         this.Health--; 
+        if (Health == 0) {
+            DeleteEntity();
+        }
+    
     }
         
 }

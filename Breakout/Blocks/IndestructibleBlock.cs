@@ -21,6 +21,10 @@ public class IndestructibleBlock : Block {
 
     public override void DecreaseHealth() { 
         //do nothing
+        if (Health == 0) {
+            DeleteEntity();
+        }
+    
     }
         
 }
