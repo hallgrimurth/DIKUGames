@@ -26,7 +26,7 @@ namespace Breakout{
         public bool Start{
             get{ return start; }  
         }
-        public char Type{
+        public char Type {
             get{ return type; }   
         }
         

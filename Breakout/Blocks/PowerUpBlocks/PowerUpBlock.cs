@@ -38,7 +38,7 @@ public class PowerUpBlock : Block {
         switch(random){
             case 0:
                 powerUp = new BigPowerUp(PowerUpShape, new Image(Path.Combine("Assets", "Images", "BigPowerUp.png")));
-                Console.WriteLine(powerUp);
+                // Console.WriteLine(powerUp);
                 break;
             case 1:
                 powerUp = new WidePowerUp(PowerUpShape, new Image(Path.Combine("Assets", "Images", "WidePowerUp.png")));
