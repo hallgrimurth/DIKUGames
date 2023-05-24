@@ -1,0 +1,47 @@
+using System;
+using System.IO;
+using System.Linq;
+using DIKUArcade.Entities;
+using DIKUArcade.Math;
+using DIKUArcade;
+using DIKUArcade.GUI;
+using DIKUArcade.Events;
+using System.Collections.Generic;
+using DIKUArcade.Graphics;
+
+
+namespace Breakout {
+    public class PowerUpFactory {
+        private static Random rand = new Random();
+        private static Vec2F powerupExtent = new Vec2F(0.05f, 0.05f);
+        private static DynamicShape PowerUpShape = new DynamicShape(new Vec2F(0.0f, 0.0f), powerupExtent);
+
+        public static PowerUp CreatePowerUp(int i, int j) {
+
+            Vec2F powerupPos = new Vec2F(powerupExtent.X * j, 1.0f - powerupExtent.Y * i);
+            DynamicShape powerupShape = new DynamicShape(powerupPos, powerupExtent);
+            
+            //Case for each block type. Normal block, indestructible block, powerup block, hardened block
+            int random = rand.Next(0, 3);
+            switch(random){
+                case 0:
+                    var bigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
+                    // Console.WriteLine(BigPowerUp);
+                    return new BigPowerUp(PowerUpShape, bigImage);
+                case 1:
+                    var wideImage = new Image(Path.Combine("Assets", "Images", "WidePowerUp.png"));
+                    // Console.WriteLine(WidePowerUp);
+                    return new WidePowerUp(PowerUpShape, wideImage);
+                case 2:
+                    var splitImage = new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png"));
+                    // Console.WriteLine(SplitPowerUp);
+                    return new SplitPowerUp(PowerUpShape, splitImage);
+                default:
+                    var defaultBigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
+                    // Console.WriteLine(BigPowerUp);
+                    return new BigPowerUp(PowerUpShape, defaultBigImage);
+            }
+        }
+    }
+
+}
