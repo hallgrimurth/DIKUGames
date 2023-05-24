@@ -31,6 +31,7 @@ public class PowerUpBlock : Block {
     // private void SpawnPowerUp() {
     //     Random rand = new Random();
 
+<<<<<<< HEAD:Breakout/Blocks/PowerUpBlock.cs
     //     Vec2F position = Shape.Position;
     //     Vec2F extent = new Vec2F(0.0f, -0.01f);
     //     DynamicShape PowerUpShape = new DynamicShape(position, extent);
@@ -47,6 +48,24 @@ public class PowerUpBlock : Block {
     //             powerUp = new SplitPowerUp(PowerUpShape, new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png")));
     //             break;
     //     }
+=======
+        Vec2F position = Shape.Position;
+        Vec2F extent = new Vec2F(0.0f, -0.01f);
+        DynamicShape PowerUpShape = new DynamicShape(position, extent);
+        int random = rand.Next(0, 3);
+        switch(random){
+            case 0:
+                powerUp = new BigPowerUp(PowerUpShape, new Image(Path.Combine("Assets", "Images", "BigPowerUp.png")));
+                // Console.WriteLine(powerUp);
+                break;
+            case 1:
+                powerUp = new WidePowerUp(PowerUpShape, new Image(Path.Combine("Assets", "Images", "WidePowerUp.png")));
+                break;
+            case 2:
+                powerUp = new SplitPowerUp(PowerUpShape, new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png")));
+                break;
+        }
+>>>>>>> master:Breakout/Blocks/PowerUpBlocks/PowerUpBlock.cs
 
 
         // if (random == 0) {
