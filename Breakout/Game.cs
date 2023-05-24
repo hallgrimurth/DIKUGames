@@ -29,6 +29,7 @@ namespace Breakout{
                 GameEventType.MovementEvent,
                 GameEventType.GameStateEvent,
                 GameEventType.StatusEvent,
+                GameEventType.ControlEvent,
                 GameEventType.ScoreEvent
             };
             eventBus.InitializeEventBus(eventQueue);
