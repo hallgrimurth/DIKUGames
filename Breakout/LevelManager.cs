@@ -89,9 +89,11 @@ namespace Breakout{
                                 }
                             // Calls the block-factory to create and add a block entity
                             string blockImage = legendDict[mapLines[i][j]];
-                            blocks.AddEntity(BlockFactory.CreateBlock(i, j, blockImage, type));
+                            Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
+                            blocks.AddEntity(block);
                             if (type == 'P'){
-                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(i, j));
+                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
+                                Console.WriteLine("Powerup added{0}", powerups.CountEntities());
                             }
                         }
                     // // These catches are needed to avoid crashing if the file is empty or data is missing

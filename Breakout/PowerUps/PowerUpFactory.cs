@@ -13,13 +13,16 @@ using DIKUArcade.Graphics;
 namespace Breakout {
     public class PowerUpFactory {
         private static Random rand = new Random();
-        private static Vec2F powerupExtent = new Vec2F(0.05f, 0.05f);
-        private static DynamicShape PowerUpShape = new DynamicShape(new Vec2F(0.0f, 0.0f), powerupExtent);
+        private static Vec2F powerupExtent = new Vec2F(0.03f, (1/36.0f));
+        // private static DynamicShape PowerUpShape = new DynamicShape(new Vec2F(0.0f, 0.0f), powerupExtent);
 
-        public static PowerUp CreatePowerUp(int i, int j) {
+        public static PowerUp CreatePowerUp(Vec2F pos){
 
-            Vec2F powerupPos = new Vec2F(powerupExtent.X * j, 1.0f - powerupExtent.Y * i);
-            DynamicShape powerupShape = new DynamicShape(powerupPos, powerupExtent);
+            // Vec2F powerupPos = new Vec2F(powerupExtent.X * j, 1.0f - powerupExtent.Y * i);
+            Vec2F powerupPos = new Vec2F(pos.X + 1/36.0f, pos.Y);
+            Console.WriteLine(powerupPos);
+            DynamicShape PowerUpShape = new DynamicShape(powerupPos, powerupExtent);
+            
             
             //Case for each block type. Normal block, indestructible block, powerup block, hardened block
             int random = rand.Next(0, 3);

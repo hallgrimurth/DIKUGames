@@ -18,7 +18,7 @@ public class WidePowerUp : PowerUp  {
 
     public override void PowerUpEffect(){
 
-        timer = new StaticTimer();
+        // timer = new StaticTimer();
 
         GameEvent WidePaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
