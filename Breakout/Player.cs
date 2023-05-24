@@ -109,6 +109,12 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
+                    case "Widen":
+                        shape.Extent.X = 0.4f;
+                        break;
+                    case "Narrow":
+                        shape.Extent.X = 0.2f;
+                        break;
                 }
             }
         }

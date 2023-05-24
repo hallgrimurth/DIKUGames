@@ -27,6 +27,7 @@ namespace Breakout.BreakoutStates {
         private Points points;
         private Text display;
         private long elapsedTime;
+        private WidePowerUp widen;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -41,6 +42,9 @@ namespace Breakout.BreakoutStates {
             SetActors();
             SetPoints();
             SetTimers();
+            widen = new WidePowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "WidePowerUp.png")));
+            widen.PowerUpEffect();
+
         }
         public void SetActors(){
             player = new Player(1);
@@ -347,6 +351,7 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
+            widen.PowerDownEffect();
             if (level.Start) IterateBall();
             player.Move();
             SetTimers();

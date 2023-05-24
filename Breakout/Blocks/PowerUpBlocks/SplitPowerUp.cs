@@ -14,5 +14,9 @@ public class SplitPowerUp : PowerUp  {
     public override void PowerUpEffect(){
 
     } 
+
+    public override void PowerDownEffect(){
+
+    }
     
 }

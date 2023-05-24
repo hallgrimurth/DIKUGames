@@ -16,5 +16,9 @@ public class BigPowerUp : PowerUp  {
     public override void PowerUpEffect(){
 
     } 
+
+    public override void PowerDownEffect(){
+
+    }
     
 }

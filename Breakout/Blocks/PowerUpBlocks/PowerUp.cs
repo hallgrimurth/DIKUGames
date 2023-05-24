@@ -15,5 +15,7 @@ public abstract class PowerUp : Entity {
 
     public abstract void PowerUpEffect() ;
 
+    public abstract void PowerDownEffect() ;
+
     
 }
