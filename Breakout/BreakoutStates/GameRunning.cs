@@ -92,7 +92,7 @@ namespace Breakout.BreakoutStates {
                 ball.Move();
                 HandleCollisions(ball);
                 // ball.Move();
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.0f) {
+                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.01f) {
                     ball.DeleteEntity();
                     player.DecreaseLives();
                     GameEvent gameover = (new GameEvent{
