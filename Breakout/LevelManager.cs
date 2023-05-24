@@ -127,6 +127,7 @@ namespace Breakout{
                 levelCounter = 0;
             }
             blocks.ClearContainer();
+            powerups.ClearContainer();
             LoadMap(levelPaths[levelCounter]);
         }
 
@@ -136,6 +137,7 @@ namespace Breakout{
                 levelCounter = levelPaths.Count() - 1;
             }
             blocks.ClearContainer();
+            powerups.ClearContainer();
             LoadMap(levelPaths[levelCounter]);
         }
 
