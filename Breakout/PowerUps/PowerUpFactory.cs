@@ -13,12 +13,10 @@ using DIKUArcade.Graphics;
 namespace Breakout {
     public class PowerUpFactory {
         private static Random rand = new Random();
-        private static Vec2F powerupExtent = new Vec2F(0.05f, 0.05f); // new Vec2F((1/12.0f), (1/36.0f));
+        private static Vec2F powerupExtent = new Vec2F(0.05f, 0.05f);
+        private static DynamicShape PowerUpShape = new DynamicShape(new Vec2F(0.0f, 0.0f), powerupExtent);
+
         public static PowerUp CreatePowerUp(int i, int j) {
-            // IBaseImage image = new Image(
-            //     Path.Combine("Assets", "Images", Imagename));
-            // IBaseImage damageimage = new Image(
-            //     Path.Combine("Assets", "Images", Imagename.Substring(0, Imagename.Length-4) +"-damaged.png"));
 
             Vec2F powerupPos = new Vec2F(powerupExtent.X * j, 1.0f - powerupExtent.Y * i);
             DynamicShape powerupShape = new DynamicShape(powerupPos, powerupExtent);
@@ -27,23 +25,21 @@ namespace Breakout {
             int random = rand.Next(0, 3);
             switch(random){
                 case 0:
-                    bigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
-                    powerUp = new BigPowerUp(PowerUpShape, bigImage);
+                    var bigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
                     // Console.WriteLine(BigPowerUp);
-                    return powerUp;
-                    // break;
+                    return new BigPowerUp(PowerUpShape, bigImage);
                 case 1:
-                    wideImage = new Image(Path.Combine("Assets", "Images", "WidePowerUp.png"));
-                    powerUp = new WidePowerUp(PowerUpShape, wideImage);
+                    var wideImage = new Image(Path.Combine("Assets", "Images", "WidePowerUp.png"));
                     // Console.WriteLine(WidePowerUp);
-                    return powerUp;
-                    // break;
+                    return new WidePowerUp(PowerUpShape, wideImage);
                 case 2:
-                    splitImage = new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png"));
-                    powerUp = new SplitPowerUp(PowerUpShape, splitImage);
+                    var splitImage = new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png"));
                     // Console.WriteLine(SplitPowerUp);
-                    return powerUp;
-                    // break;
+                    return new SplitPowerUp(PowerUpShape, splitImage);
+                default:
+                    var defaultBigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
+                    // Console.WriteLine(BigPowerUp);
+                    return new BigPowerUp(PowerUpShape, defaultBigImage);
             }
         }
     }
