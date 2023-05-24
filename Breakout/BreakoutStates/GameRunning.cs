@@ -336,6 +336,7 @@ namespace Breakout.BreakoutStates {
 
         public void RenderState() {
             level.blocks.RenderEntities();
+            level.powerups.RenderEntities();
             ballCon.RenderEntities();
             points.Render();
             player.Render();
