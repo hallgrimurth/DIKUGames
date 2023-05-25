@@ -27,7 +27,8 @@ namespace Breakout.BreakoutStates {
         private Points points;
         private Text display;
         private long elapsedTime;
-        private WidePowerUp widen;
+        // private WidePowerUp widen;
+        private BigPowerUp bigball;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -42,8 +43,10 @@ namespace Breakout.BreakoutStates {
             SetActors();
             SetPoints();
             SetTimers();
-            widen = new WidePowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "WidePowerUp.png")));
-            widen.PowerUpEffect();
+            // widen = new WidePowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "WidePowerUp.png")));
+            // widen.PowerUpEffect();
+            bigball = new BigPowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "BigPowerUp.png")));
+            bigball.PowerUpEffect();
 
         }
         public void SetActors(){
@@ -85,9 +88,9 @@ namespace Breakout.BreakoutStates {
             Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
             Vec2F extent = new Vec2F(0.03f, 0.03f);
             Vec2F dir = new Vec2F(0.01f, 0.01f);
-            DynamicShape shape = new DynamicShape(pos, extent);
+            DynamicShape ballShape = new DynamicShape(pos, extent);
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
-            ball = new Ball(shape, ballImage);
+            ball = new Ball(ballShape, ballImage);
             ball.ChangeDirection(dir);
             ballCon.AddEntity(ball);
         }
@@ -347,6 +350,25 @@ namespace Breakout.BreakoutStates {
             }
         }
 
+        // public void ProcessEvent(GameEvent gameEvent) {
+        //     if (gameEvent.EventType == GameEventType.MovementEvent) {
+        //         switch (gameEvent.Message) {
+        //             case "DOUBLE_SIZE":
+        //                 ballCon.Iterate(ball => {
+        //                     ball.Shape.Extent.X = 0.1f;
+        //                     ball.Shape.Extent.Y = 0.1f;
+        //                 });
+        //                 break;
+        //             case "NORMAL_SIZE":
+        //                 ballCon.Iterate(ball => {
+        //                     ball.Shape.Extent.X = 0.03f;
+        //                     ball.Shape.Extent.Y = 0.03f;
+        //                 });
+        //                 break;
+        //         }
+        //     }
+        // }
+
         public void RenderState() {
             level.blocks.RenderEntities();
             level.powerups.RenderEntities();
@@ -361,11 +383,17 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
+<<<<<<< HEAD
             widen.PowerDownEffect();
             if (level.Start) {
                 IterateBall();
                 IteratePowerUps();
             }
+=======
+            // widen.PowerDownEffect();
+            bigball.PowerDownEffect();
+            if (level.Start) IterateBall();
+>>>>>>> 3a5c7c17ce8369648c7aec1eded1f906bf740624
             player.Move();
             SetTimers();
         }

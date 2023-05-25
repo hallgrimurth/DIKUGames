@@ -10,12 +10,14 @@ using Breakout;
 
 namespace Breakout;
 
-public class Ball : Entity {
+public class Ball : Entity, IGameEventProcessor {
 
     private static Vec2F extent = new Vec2F(0.030f, 0.030f);
     private static Vec2F direction = new Vec2F(0.01f, 0.005f);
+    // private static DynamicShape shape;// = new DynamicShape(new Vec2F(0.5f, 0.5f), extent, direction);
 
     public Ball(DynamicShape shape, IBaseImage image) : base (shape, image) {
+        BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
     }
 
     public void Move() {
@@ -33,7 +35,19 @@ public class Ball : Entity {
         base.Shape.AsDynamicShape().ChangeDirection(newDir);
     }
 
-
-
+    public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.MovementEvent) {
+                switch (gameEvent.Message) {
+                    case "DOUBLE_SIZE":
+                        Shape.Extent.X = 0.1f;
+                        Shape.Extent.Y = 0.1f;
+                        break;
+                    case "NORMAL_SIZE":
+                        Shape.Extent.X = 0.03f;
+                        Shape.Extent.Y = 0.03f;
+                        break;
+                }
+            }
+        }
    
 }

@@ -10,8 +10,12 @@ using DIKUArcade.Events;
 namespace Breakout;
 public class WidePowerUp : PowerUp  {
 
+<<<<<<< HEAD
     private StaticTimer timer;
     private double startTime;
+=======
+    // private StaticTimer timer;
+>>>>>>> 3a5c7c17ce8369648c7aec1eded1f906bf740624
     
     public WidePowerUp(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
