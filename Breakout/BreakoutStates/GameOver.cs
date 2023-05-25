@@ -25,11 +25,9 @@ namespace Breakout.BreakoutStates {
             gameover.SetColor(new Vec3I(255, 255, 0));
 
             Text mainMenuButton = new Text("Main Menu", new Vec2F(0.1f, 0.15f), new Vec2F(0.5f, 0.5f));
-            Text Quit = new Text("Quit", new Vec2F(0.1f, 0.05f), new Vec2F(0.5f, 0.5f));
             activeMenuButton = 0;
             mainMenuButton.SetColor(new Vec3I(255, 255, 255));
-            Quit.SetColor(new Vec3I(255, 255, 255));
-            menuButtons = new Text[2] {mainMenuButton, Quit};
+            menuButtons = new Text[1] {mainMenuButton};
             maxMenuButtons = menuButtons.Length;
         }
         

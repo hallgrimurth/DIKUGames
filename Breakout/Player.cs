@@ -50,12 +50,18 @@ namespace Breakout{
 
 
         public void DecreaseLives() {
-            if (playerLives >= 1){
-                playerLives -= 1;
-                display.SetText("Lives:" + playerLives.ToString());
-            } else {
-                playerLives = 0;
-            }
+            this.playerLives--;
+            if (playerLives <= 0) {
+
+                    GameEvent gameover = (new GameEvent{
+                            EventType = GameEventType.GameStateEvent, 
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_OVER"});
+                    BreakoutBus.GetBus().RegisterEvent(gameover);
+                    Console.WriteLine("GAME OVER");
+                }
+        
+
         }
 
         public void Move() {

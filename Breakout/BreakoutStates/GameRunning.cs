@@ -97,6 +97,7 @@ namespace Breakout.BreakoutStates {
         private void IteratePowerUps() {
             level.powerups.Iterate(powerup => {
                 powerup.Move();
+                powerup.PowerDownEffect();
                 if (CollisionDetection.Aabb(player.Shape.AsDynamicShape(), powerup.Shape).Collision) {
                     powerup.DeleteEntity();
                     powerup.PowerUpEffect();
@@ -108,15 +109,13 @@ namespace Breakout.BreakoutStates {
                 ball.Move();
                 HandleCollisions(ball);
                 // ball.Move();
-                if (ball.Shape.Position.Y + ball.Shape.Extent.Y < 0.01f) {
+                if (ball.Shape.Position.Y < 0.01f) {
                     ball.DeleteEntity();
                     player.DecreaseLives();
-                    GameEvent gameover = (new GameEvent{
-                            EventType = GameEventType.GameStateEvent, 
-                            Message = "CHANGE_STATE",
-                            StringArg1 = "GAME_OVER"});
-                    BreakoutBus.GetBus().RegisterEvent(gameover);
+
                 }
+                
+                
 
                 if (points.PointsValue >= 3) {
     
@@ -340,6 +339,8 @@ namespace Breakout.BreakoutStates {
                     break;        
             }
         }
+
+        
 
         // public void ProcessEvent(GameEvent gameEvent) {
         //     if (gameEvent.EventType == GameEventType.MovementEvent) {

@@ -12,6 +12,7 @@ namespace Galaga {
         private float moveRight = 0.0f;
         private float moveUp = 0.0f;
         private float moveDown = 0.0f;
+        private int lives = 1;
         const float MOVEMENT_SPEED = 0.01f;
         public DynamicShape Shape {
             get { return shape; }
@@ -114,6 +115,21 @@ namespace Galaga {
                 }
             }
         }
+
+        private void DecreaseHealth(){
+            this.lives--;
+            if (lives <= 0) {
+
+                    GameEvent gameover = (new GameEvent{
+                            EventType = GameEventType.GameStateEvent, 
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_OVER"});
+                    GalagaBus.GetBus().RegisterEvent(gameover);
+                }
+        }
+           
+            
+        
 
         public void Render() {
             entity.RenderEntity();

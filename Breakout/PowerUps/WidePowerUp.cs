@@ -10,7 +10,6 @@ using DIKUArcade.Events;
 namespace Breakout;
 public class WidePowerUp : PowerUp  {
 
-    private StaticTimer timer;
     private double startTime;
     
     public WidePowerUp(DynamicShape Shape, IBaseImage image)
@@ -19,7 +18,7 @@ public class WidePowerUp : PowerUp  {
 
     public override void PowerUpEffect(){
 
-        // startTime = StaticTimer.GetElapsedSeconds();
+        startTime = (int)StaticTimer.GetElapsedSeconds();
 
         GameEvent WidePaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
@@ -31,7 +30,7 @@ public class WidePowerUp : PowerUp  {
     public override void PowerDownEffect(){
 
 
-        if (StaticTimer.GetElapsedSeconds() > 10.0){
+        if ((int)StaticTimer.GetElapsedSeconds() > startTime + 10){
             GameEvent NarrowPaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "Narrow" });
