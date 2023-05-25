@@ -35,9 +35,9 @@ namespace Breakout {
                     // Console.WriteLine(WidePowerUp);
                     return new WidePowerUp(PowerUpShape, wideImage);
                 case 2:
-                    var splitImage = new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png"));
-                    // Console.WriteLine(SplitPowerUp);
-                    return new SplitPowerUp(PowerUpShape, splitImage);
+                    var LifePickUpImage = new Image(Path.Combine("Assets", "Images", "LifePickUp.png"));
+                    // Console.WriteLine(LifePickUpPowerUp);
+                    return new SplitPowerUp(PowerUpShape, LifePickUpImage);
                 default:
                     var defaultBigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
                     // Console.WriteLine(BigPowerUp);

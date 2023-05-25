@@ -27,8 +27,10 @@ namespace Breakout.BreakoutStates {
         private Points points;
         private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
         private double elapsedTime;
+
         private WidePowerUp widen;
         private BigPowerUp bigball;
+        private LifePickUpPowerUp life;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -47,6 +49,8 @@ namespace Breakout.BreakoutStates {
             // widen.PowerUpEffect();
             bigball = new BigPowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "BigPowerUp.png")));
             bigball.PowerUpEffect();
+            life = new LifePickUpPowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "LifePickUp.png")));
+            life.PowerUpEffect();
 
         }
         public void SetActors(){
