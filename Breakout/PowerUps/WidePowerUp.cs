@@ -11,6 +11,7 @@ namespace Breakout;
 public class WidePowerUp : PowerUp  {
 
     private StaticTimer timer;
+    private double startTime;
     
     public WidePowerUp(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
@@ -18,7 +19,7 @@ public class WidePowerUp : PowerUp  {
 
     public override void PowerUpEffect(){
 
-        // timer = new StaticTimer();
+        startTime = StaticTimer.GetElapsedSeconds();
 
         GameEvent WidePaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
@@ -29,7 +30,8 @@ public class WidePowerUp : PowerUp  {
 
     public override void PowerDownEffect(){
 
-        if (StaticTimer.GetElapsedSeconds() > 10.0f){
+
+        if (StaticTimer.GetElapsedSeconds() > startTime + 10.0){
             GameEvent NarrowPaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "Narrow" });

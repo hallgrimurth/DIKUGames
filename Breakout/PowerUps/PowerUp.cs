@@ -13,6 +13,11 @@ public abstract class PowerUp : Entity {
         : base(Shape, image) {
     }
 
+    public void Move() {
+        Shape.MoveY(-0.001f);
+    }
+
+
     public abstract void PowerUpEffect() ;
 
     public abstract void PowerDownEffect() ;

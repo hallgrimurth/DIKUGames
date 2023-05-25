@@ -91,6 +91,15 @@ namespace Breakout.BreakoutStates {
             ball.ChangeDirection(dir);
             ballCon.AddEntity(ball);
         }
+        private void IteratePowerUps() {
+            level.powerups.Iterate(powerup => {
+                powerup.Move();
+                if (CollisionDetection.Aabb(player.Shape.AsDynamicShape(), powerup.Shape).Collision) {
+                    powerup.DeleteEntity();
+                    powerup.PowerUpEffect();
+                }
+            });
+        }
         private void IterateBall() {
             ballCon.Iterate(ball => {
                 ball.Move();
@@ -353,7 +362,10 @@ namespace Breakout.BreakoutStates {
 
         public void UpdateState(){
             widen.PowerDownEffect();
-            if (level.Start) IterateBall();
+            if (level.Start) {
+                IterateBall();
+                IteratePowerUps();
+            }
             player.Move();
             SetTimers();
         }
