@@ -14,7 +14,7 @@ using DIKUArcade.Timers;
 
 
 namespace Breakout.BreakoutStates {
-    public class GameRunning : IGameState {
+        public class GameRunning : IGameState {
         private static GameRunning instance = null;
         //Entities
         private Player player;
@@ -25,9 +25,9 @@ namespace Breakout.BreakoutStates {
         // Strides and animations
         private IBaseImage ballImage;
         private Points points;
-        private Text display;
-        private long elapsedTime;
-        // private WidePowerUp widen;
+        private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
+        private double elapsedTime;
+        private WidePowerUp widen;
         private BigPowerUp bigball;
 
         public static GameRunning GetInstance() {
@@ -43,7 +43,7 @@ namespace Breakout.BreakoutStates {
             SetActors();
             SetPoints();
             SetTimers();
-            // widen = new WidePowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "WidePowerUp.png")));
+            widen = new WidePowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "WidePowerUp.png")));
             // widen.PowerUpEffect();
             bigball = new BigPowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "BigPowerUp.png")));
             bigball.PowerUpEffect();
@@ -54,19 +54,19 @@ namespace Breakout.BreakoutStates {
             SetBall();
         }
 
-        // Isn't working yet
          private void SetTimers() {
-            elapsedTime = StaticTimer.GetElapsedMilliseconds();
-            display = new Text("Time:" + elapsedTime.ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
-            display.SetColor(new Vec3I(255, 255, 255));
-            display.SetFontSize(30);
+            // if(level.MetaDict.ContainsKey('T')) {
+            StaticTimer.RestartTimer();
+            // }
         }
         // Isn't working yet
         private void UpdateTimers(){
-            if(level.Type == 'T') {
-                elapsedTime = StaticTimer.GetElapsedMilliseconds();
-                SetTimers();
-                Console.WriteLine('T');
+            if (level.MetaDict.ContainsKey('T')) {
+                int timer = Int32.Parse(level.MetaDict['T']);
+                elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
+                display = new Text("Time:" + (timer - elapsedTime).ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
+                display.SetColor(new Vec3I(255, 255, 255));
+                display.SetFontSize(30);
             }
         }
 
@@ -145,24 +145,17 @@ namespace Breakout.BreakoutStates {
 
             if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 0.99f) {
                 normal = new Vec2F(0.0f, -1.0f);
-                Console.WriteLine("direction: " + dir);
-                Console.WriteLine("normal: " + normal);
-                Console.WriteLine("reflection: " + VectorOperations.Reflection(dir, normal));
+                
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
-                Console.WriteLine("direction: " + dir);
-
+                
             } else if (ball.Shape.Position.X <= 0.01f) {
                 normal = new Vec2F(1.0f, 0.0f);
-                Console.WriteLine("direction: " + dir);
-                Console.WriteLine("normal: " + normal);
-                Console.WriteLine("reflection: " + VectorOperations.Reflection(dir, normal));
+               
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
 
             } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 0.99f) {
                 normal = new Vec2F(-1.0f, 0.0f);
-                Console.WriteLine("direction: " + dir);
-                Console.WriteLine("normal: " + normal);
-                Console.WriteLine("reflection: " + VectorOperations.Reflection(dir, normal));
+                
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
             }
         }
@@ -179,7 +172,6 @@ namespace Breakout.BreakoutStates {
                 var CollPos = CollData.DirectionFactor;
 
                 if (Coll) {
-                    Console.WriteLine("Collision detected {0}", CollData.CollisionDir);
                     GameEvent AddPoints = (new GameEvent{
                         EventType = GameEventType.ScoreEvent, To = points,
                         Message = "ADD_POINTS",
@@ -188,7 +180,6 @@ namespace Breakout.BreakoutStates {
 
                     // Determine the normal vector based on the collision direction
                     var normal = CollDir;
-                    Console.WriteLine("normal: " + normal);
                     // Reflect the ball's direction using the normal vector
                     ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
 
@@ -383,19 +374,13 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
-<<<<<<< HEAD
-            widen.PowerDownEffect();
+            // widen.PowerDownEffect();        
             if (level.Start) {
                 IterateBall();
                 IteratePowerUps();
             }
-=======
-            // widen.PowerDownEffect();
-            bigball.PowerDownEffect();
-            if (level.Start) IterateBall();
->>>>>>> 3a5c7c17ce8369648c7aec1eded1f906bf740624
             player.Move();
-            SetTimers();
+            UpdateTimers();
         }
     }
 }

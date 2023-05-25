@@ -28,6 +28,7 @@ Map/
 Meta:
 Name: Central Mass
 PowerUp: #
+Timer: 100
 Meta/
 
 Legend:

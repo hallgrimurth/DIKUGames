@@ -18,6 +18,9 @@ namespace Breakout{
         private List<string> metaData = new List<string>();
         private List<string> legendData = new List<string>();
         private Dictionary<char, string> metaDict;
+        public Dictionary<char, string> MetaDict{
+            get{ return metaDict; }
+        }
         private Dictionary<char, string> legendDict;
         private int levelCounter = 1;
         private String[] levelPaths;
@@ -93,7 +96,6 @@ namespace Breakout{
                             blocks.AddEntity(block);
                             if (type == 'P'){
                                 powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
-                                Console.WriteLine("Powerup added{0}", powerups.CountEntities());
                             }
                         }
                     // // These catches are needed to avoid crashing if the file is empty or data is missing

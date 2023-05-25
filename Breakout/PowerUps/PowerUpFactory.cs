@@ -20,7 +20,6 @@ namespace Breakout {
 
             // Vec2F powerupPos = new Vec2F(powerupExtent.X * j, 1.0f - powerupExtent.Y * i);
             Vec2F powerupPos = new Vec2F(pos.X + 1/36.0f, pos.Y);
-            Console.WriteLine(powerupPos);
             DynamicShape PowerUpShape = new DynamicShape(powerupPos, powerupExtent);
             
             
