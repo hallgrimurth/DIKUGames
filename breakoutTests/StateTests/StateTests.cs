@@ -39,6 +39,7 @@ namespace BreakoutTests {
             stateMachine = new StateMachine();
             // (3) Subscribe the BreakoutBus to proper GameEventTypes and GameEventProcessors
             var windowArgs = new WindowArgs() { Title = "Breakout v0.1" };
+
             for (int i = 0; i < eventQueue.Count; i++) {
                 eventBus.Subscribe(eventQueue[i], stateMachine);
             }
