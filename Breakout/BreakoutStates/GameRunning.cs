@@ -78,7 +78,6 @@ namespace Breakout.BreakoutStates {
         // Initializes one or more balls 
         private void SetBall() {
             ballCon =  new EntityContainer<Ball>();
-            // Vec2F pos = new Vec2F(0.495f, 0.2f);
             Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
             Vec2F extent = new Vec2F(0.03f, 0.03f);
             Vec2F dir = new Vec2F(0.01f, 0.01f);
@@ -104,7 +103,6 @@ namespace Breakout.BreakoutStates {
             ballCon.Iterate(ball => {
                 ball.Move();
                 HandleCollisions(ball);
-                // ball.Move();
                 if (ball.Shape.Position.Y < 0.01f) {
                     ball.DeleteEntity();
                     player.DecreaseLives();
@@ -176,7 +174,7 @@ namespace Breakout.BreakoutStates {
                     GameEvent AddScore = new GameEvent
                     {
                         EventType = GameEventType.ScoreEvent, To = points,
-                        Message = "ADD_SCORE",
+                        Message = "ADD_POINTS",
                         StringArg1 = block.ToString()
                     };
                     BreakoutBus.GetBus().RegisterEvent(AddScore);
@@ -189,8 +187,7 @@ namespace Breakout.BreakoutStates {
                         
                     };
                     BreakoutBus.GetBus().RegisterEvent(AddPowerup);
-                    Console.WriteLine("Powerup sent");
-                    }
+                }
 
 
                         
@@ -332,26 +329,6 @@ namespace Breakout.BreakoutStates {
             }
         }
 
-        
-
-        // public void ProcessEvent(GameEvent gameEvent) {
-        //     if (gameEvent.EventType == GameEventType.MovementEvent) {
-        //         switch (gameEvent.Message) {
-        //             case "DOUBLE_SIZE":
-        //                 ballCon.Iterate(ball => {
-        //                     ball.Shape.Extent.X = 0.1f;
-        //                     ball.Shape.Extent.Y = 0.1f;
-        //                 });
-        //                 break;
-        //             case "NORMAL_SIZE":
-        //                 ballCon.Iterate(ball => {
-        //                     ball.Shape.Extent.X = 0.03f;
-        //                     ball.Shape.Extent.Y = 0.03f;
-        //                 });
-        //                 break;
-        //         }
-        //     }
-        // }
 
         public void RenderState() {
             level.blocks.RenderEntities();
@@ -367,7 +344,6 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
-            // widen.PowerDownEffect();        
             if (level.Start) {
                 IterateBall();
                 IteratePowerUps();

@@ -10,7 +10,6 @@ using DIKUArcade.Events;
 namespace Breakout;
 public class PowerUpBlock : Block {
     private int value;
-    private PowerUp powerUp;
     
     public int Value {
         get { return value; }
@@ -18,7 +17,7 @@ public class PowerUpBlock : Block {
     //constructor for block
     public PowerUpBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
-        value = 10;
+        this.value = 20;
     }
     public override void DecreaseHealth() {
         this.Health--; 
@@ -29,10 +28,6 @@ public class PowerUpBlock : Block {
     
     }
 
-    //render powerup
-    public void Render(){
-        powerUp.RenderEntity();
-    }
      
     
 }
