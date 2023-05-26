@@ -25,23 +25,7 @@ public class PowerUpBlock : Block {
         if (Health == 0) {
             DeleteEntity();
             // Register score event
-            GameEvent AddScore = new GameEvent
-            {
-                EventType = GameEventType.ScoreEvent,
-                Message = "ADD_SCORE",
-                StringArg1 = this.ToString()
-            };
-            BreakoutBus.GetBus().RegisterEvent(AddScore);
-            GameEvent AddPowerup = new GameEvent
-            {
-                EventType = GameEventType.StatusEvent,
-                Message = "SPAWN_POWERUP",
-                StringArg1 = this.Shape.Position.X.ToString(),
-                
-            };
-            BreakoutBus.GetBus().RegisterEvent(AddPowerup);
-            Console.WriteLine("Powerup sent");
-            }
+        }
     
     }
 

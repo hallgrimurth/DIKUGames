@@ -160,12 +160,10 @@ namespace Breakout{
                         start = true;
                         break;
                     case "SPAWN_POWERUP":
-                        Console.WriteLine("Spawning powerup");
                         Vec2F pos = new Vec2F(
                             float.Parse(gameEvent.StringArg1), 
                             float.Parse(gameEvent.StringArg2));
                         powerups.AddEntity(PowerUpFactory.CreatePowerUp(pos));
-                        Console.WriteLine("Powerup spawned");
                         break;
                     
                 }

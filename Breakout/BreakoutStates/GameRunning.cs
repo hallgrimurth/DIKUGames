@@ -171,10 +171,28 @@ namespace Breakout.BreakoutStates {
                     ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
                     // Handle the block's health and deletion
                     block.DecreaseHealth();
+                    GameEvent AddScore = new GameEvent
+                    {
+                        EventType = GameEventType.ScoreEvent, To = points,
+                        Message = "ADD_SCORE",
+                        StringArg1 = block.ToString()
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(AddScore);
+                    GameEvent AddPowerup = new GameEvent
+                    {
+                        EventType = GameEventType.StatusEvent, To = level,
+                        Message = "SPAWN_POWERUP",
+                        StringArg1 = block.Shape.Position.X.ToString(),
+                        StringArg2 = block.Shape.Position.Y.ToString()
+                        
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(AddPowerup);
+                    Console.WriteLine("Powerup sent");
+                    }
 
 
-                }
-            });
+                        
+                    });
         }
         
         private void BallPlayerCollision(Ball ball){
