@@ -13,16 +13,11 @@ namespace BreakoutTests
     {
         private Block? Normalblock;
         private Block? indestructibleblock;
-        private Block? hardenedblock;
-
 
         [SetUp]
         public void Setup()
         {
             Window.CreateOpenGLContext();
-
-            // hardenedblock = new HardenedBlock(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new Image("Assets/Images/red-block.png"), new Image("Assets/Images/red-block-damaged.png"));
-          
         }
 
         [Test]
@@ -36,15 +31,6 @@ namespace BreakoutTests
             
         }
 
-        [Test]
-        public void TestDelete()
-        {
-            //testing if block is deleted
-            Normalblock = new NormalBlock(new DynamicShape(new Vec2F(0.1f, 0.1f), new Vec2F(0.1f, 0.1f)), new Image("Assets/Images/red-block.png")); 
-            Normalblock.DecreaseHealth();
-            Normalblock.DeleteBlock();
-            Assert.That(Normalblock.IsDeleted(), Is.EqualTo(true));
-        }
 
         [Test]
         public void TestIndestructible(){

@@ -15,6 +15,12 @@ public class Ball : Entity, IGameEventProcessor {
     private static Vec2F extent = new Vec2F(0.030f, 0.030f);
     private static Vec2F direction = new Vec2F(0.01f, 0.005f);
     // private static DynamicShape shape;// = new DynamicShape(new Vec2F(0.5f, 0.5f), extent, direction);
+    public static Vec2F Extent {
+       get {return extent; }
+    }
+    public static Vec2F Direction {
+       get {return direction; }
+    }
 
     public Ball(DynamicShape shape, IBaseImage image) : base (shape, image) {
         BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);

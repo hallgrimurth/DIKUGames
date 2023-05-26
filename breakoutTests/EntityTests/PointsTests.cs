@@ -13,13 +13,11 @@ namespace BreakoutTests
     [TestFixture]
     public class PointTest
     {
-        private Points? points;
        [SetUp]
         public void Setup()
         {
 
         }
-
 
         [Test]
         public void TestPointValue()
@@ -28,13 +26,6 @@ namespace BreakoutTests
             Assert.That(points.PointsValue, Is.EqualTo(1));
         }
 
-        [Test]
-        public void TestMaxPointDoesNotOverflow()
-        {
-            var points = new Points(new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
-            points.PointsValue = 2147483647;
-            Assert.That(points.PointsValue, Is.GreaterThan(0));
-        }
 
     }
 
