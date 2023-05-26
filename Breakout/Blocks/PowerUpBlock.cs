@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
+
 
 namespace Breakout;
 public class PowerUpBlock : Block {
@@ -22,8 +24,24 @@ public class PowerUpBlock : Block {
         this.Health--; 
         if (Health == 0) {
             DeleteEntity();
-            // send event to make powerup move down
-        }
+            // Register score event
+            GameEvent AddScore = new GameEvent
+            {
+                EventType = GameEventType.ScoreEvent,
+                Message = "ADD_SCORE",
+                StringArg1 = this.ToString()
+            };
+            BreakoutBus.GetBus().RegisterEvent(AddScore);
+            GameEvent AddPowerup = new GameEvent
+            {
+                EventType = GameEventType.StatusEvent,
+                Message = "SPAWN_POWERUP",
+                StringArg1 = this.Shape.Position.X.ToString(),
+                
+            };
+            BreakoutBus.GetBus().RegisterEvent(AddPowerup);
+            Console.WriteLine("Powerup sent");
+            }
     
     }
 

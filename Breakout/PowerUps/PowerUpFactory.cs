@@ -28,19 +28,17 @@ namespace Breakout {
             switch(random){
                 case 0:
                     var bigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
-                    // Console.WriteLine(BigPowerUp);
+                    
                     return new BigPowerUp(PowerUpShape, bigImage);
                 case 1:
                     var wideImage = new Image(Path.Combine("Assets", "Images", "WidePowerUp.png"));
-                    // Console.WriteLine(WidePowerUp);
                     return new WidePowerUp(PowerUpShape, wideImage);
                 case 2:
                     var splitImage = new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png"));
-                    // Console.WriteLine(SplitPowerUp);
                     return new SplitPowerUp(PowerUpShape, splitImage);
                 default:
                     var defaultBigImage = new Image(Path.Combine("Assets", "Images", "BigPowerUp.png"));
-                    // Console.WriteLine(BigPowerUp);
+                    
                     return new BigPowerUp(PowerUpShape, defaultBigImage);
             }
         }

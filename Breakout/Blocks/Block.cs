@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
+
 
 namespace Breakout;
 public abstract class Block : Entity {

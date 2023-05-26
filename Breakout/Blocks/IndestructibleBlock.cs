@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
+
 
 namespace Breakout;
 public class IndestructibleBlock : Block {
@@ -23,6 +25,14 @@ public class IndestructibleBlock : Block {
         //do nothing
         if (Health == 0) {
             DeleteEntity();
+            // Register score event
+            GameEvent AddScore = new GameEvent
+            {
+                EventType = GameEventType.ScoreEvent,
+                Message = "ADD_SCORE",
+                StringArg1 = this.ToString()
+            };
+            BreakoutBus.GetBus().RegisterEvent(AddScore);
         }
     
     }

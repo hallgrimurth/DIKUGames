@@ -55,9 +55,10 @@ public class Points : IGameEventProcessor {
 
      public void ProcessEvent(GameEvent gameEvent) {
         if (gameEvent.EventType == GameEventType.ScoreEvent) {
+            Console.WriteLine("Score event");
             switch (gameEvent.Message) {
                 case "ADD_POINTS":
-                    AddPoints(gameEvent.StringArg1.ToString());
+                    AddPoints(gameEvent.StringArg1);
                     break;
                 case "GAME_OVER":
                     FinalPoints();

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
+
 
 namespace Breakout;
 public class HardenedBlock : Block {
@@ -20,7 +22,7 @@ public class HardenedBlock : Block {
     //constructor for block
     public HardenedBlock(DynamicShape Shape, IBaseImage image, IBaseImage DamageImage)
         : base(Shape, image) {
-        value = 2;
+        value = 20;
         Health = 2;
         damageImage = DamageImage;
     }
@@ -31,6 +33,15 @@ public class HardenedBlock : Block {
             this.Image = damageImage;
         }
         if (Health == 0) {
+            // Register score event
+            GameEvent AddScore = new GameEvent
+            {
+                EventType = GameEventType.ScoreEvent,
+                Message = "ADD_SCORE",
+                StringArg1 = this.ToString()
+            };
+            BreakoutBus.GetBus().RegisterEvent(AddScore);
+            Console.WriteLine("Hardened block destroyed {0}", this.ToString());
             DeleteEntity();
         }
     

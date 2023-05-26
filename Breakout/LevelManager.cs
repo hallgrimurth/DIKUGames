@@ -95,7 +95,7 @@ namespace Breakout{
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
                             blocks.AddEntity(block);
                             if (type == 'P'){
-                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
+                                // powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
                             }
                         }
                     // // These catches are needed to avoid crashing if the file is empty or data is missing
@@ -108,6 +108,8 @@ namespace Breakout{
                 }
             }
         }
+
+        
 
         // Parse a segment of the text file
         private List<string> ParseSegment(string[] lines ,string segment){
@@ -146,6 +148,7 @@ namespace Breakout{
 
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
+                Console.WriteLine("Status event");
                 switch (gameEvent.Message) {
                     case "PREV_LEVEL":
                         PrevLvl();
@@ -155,6 +158,14 @@ namespace Breakout{
                         break;
                     case "START_GAME":
                         start = true;
+                        break;
+                    case "SPAWN_POWERUP":
+                        Console.WriteLine("Spawning powerup");
+                        Vec2F pos = new Vec2F(
+                            float.Parse(gameEvent.StringArg1), 
+                            float.Parse(gameEvent.StringArg2));
+                        powerups.AddEntity(PowerUpFactory.CreatePowerUp(pos));
+                        Console.WriteLine("Powerup spawned");
                         break;
                     
                 }

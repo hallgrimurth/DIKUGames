@@ -43,11 +43,6 @@ namespace Breakout.BreakoutStates {
             SetActors();
             SetPoints();
             SetTimers();
-            widen = new WidePowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "WidePowerUp.png")));
-            // widen.PowerUpEffect();
-            bigball = new BigPowerUp(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)), new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "BigPowerUp.png")));
-            bigball.PowerUpEffect();
-
         }
         public void SetActors(){
             player = new Player(1);
@@ -55,11 +50,8 @@ namespace Breakout.BreakoutStates {
         }
 
          private void SetTimers() {
-            // if(level.MetaDict.ContainsKey('T')) {
             StaticTimer.RestartTimer();
-            // }
         }
-        // Isn't working yet
         private void UpdateTimers(){
             if (level.MetaDict.ContainsKey('T')) {
                 int timer = Int32.Parse(level.MetaDict['T']);
@@ -171,30 +163,14 @@ namespace Breakout.BreakoutStates {
                 var CollPos = CollData.DirectionFactor;
 
                 if (Coll) {
-                    GameEvent AddPoints = (new GameEvent{
-                        EventType = GameEventType.ScoreEvent, To = points,
-                        Message = "ADD_POINTS",
-                        StringArg1 = block.ToString()});
-                    BreakoutBus.GetBus().RegisterEvent(AddPoints);
-
                     // Determine the normal vector based on the collision direction
                     var normal = CollDir;
                     // Reflect the ball's direction using the normal vector
                     ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
-
                     // Handle the block's health and deletion
                     block.DecreaseHealth();
 
 
-                    // Register score event
-                    GameEvent AddScore = new GameEvent
-                    {
-                        EventType = GameEventType.ScoreEvent,
-                        To = points,
-                        Message = "ADD_SCORE",
-                        StringArg1 = block.ToString()
-                    };
-                    BreakoutBus.GetBus().RegisterEvent(AddScore);
                 }
             });
         }
@@ -216,10 +192,6 @@ namespace Breakout.BreakoutStates {
 
                 var ySquared = Math.Pow(targetVelocity, 2) - Math.Abs(Math.Pow(x_bounce_directions, 2));
                 ball.Shape.AsDynamicShape().Direction.Y = (float)Math.Sqrt(ySquared);
-
-                // var speed = ball.Direction.Length();
-                // Console.WriteLine("Ball velocity: " + speed);
-
             }
         }
     
