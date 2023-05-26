@@ -53,15 +53,17 @@ namespace Breakout{
             this.playerLives--;
             if (playerLives <= 0) {
 
-                    GameEvent gameover = (new GameEvent{
-                            EventType = GameEventType.GameStateEvent, 
-                            Message = "CHANGE_STATE",
-                            StringArg1 = "GAME_OVER"});
-                    BreakoutBus.GetBus().RegisterEvent(gameover);
-                    Console.WriteLine("GAME OVER");
-                }
-        
+                GameEvent gameover = (new GameEvent{
+                        EventType = GameEventType.GameStateEvent, 
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_OVER"});
+                BreakoutBus.GetBus().RegisterEvent(gameover);
+                Console.WriteLine("GAME OVER");
+            }
+        }
 
+        private void IncreaseLives() {
+            this.playerLives++;
         }
 
         public void Move() {
@@ -120,6 +122,12 @@ namespace Breakout{
                         break;
                     case "Narrow":
                         shape.Extent.X = 0.2f;
+                        break;
+                }
+            } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
+                switch (gameEvent.Message) {
+                    case "INCREASE_HEALTH":
+                        IncreaseLives();
                         break;
                 }
             }

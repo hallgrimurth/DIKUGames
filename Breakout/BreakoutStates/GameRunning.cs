@@ -27,8 +27,10 @@ namespace Breakout.BreakoutStates {
         private Points points;
         private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
         private double elapsedTime;
+
         private WidePowerUp widen;
         private BigPowerUp bigball;
+        private LifePickUpPowerUp life;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
