@@ -20,16 +20,17 @@ namespace Breakout{
         public DynamicShape Shape {
             get { return shape; }
         }
-        public int PlayerLives {
-            get { return playerLives; }
-            set { playerLives = value; }
+        public int LivesCount {
+            get { return livesCount; }
+            set { livesCount = value; }
         }
         private static Vec2F livesPos = new Vec2F(0.06f, -0.3f);
         private static Vec2F livesExtent = new Vec2F(0.4f, 0.4f);
         private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
+        private int livesCount;
 
-        public Player(int startinglife) {
+        public Player(int livesCount) {
 
             playerStride = new Image(Path.Combine(
                 Constants.MAIN_PATH, "Assets", "Images", "player.png"));
@@ -37,12 +38,12 @@ namespace Breakout{
             player = new Entity(this.shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
 
-            SetLives(startinglife);
+            SetLives(livesCount);
         }
 
-        public void SetLives(int startinglife) {
+        public void SetLives(int livesCount) {
             // Setting the lives of the player
-            playerLives = startinglife;
+            playerLives = livesCount;
             display = new Text("Lives:" + playerLives.ToString(), livesPos, livesExtent);
             display.SetColor(new Vec3I(255, 255, 0));
             display.SetFontSize(30);
@@ -50,8 +51,8 @@ namespace Breakout{
 
 
         public void DecreaseLives() {
-            this.playerLives--;
-            if (playerLives <= 0) {
+            this.livesCount--;
+            if (livesCount <= 0) {
 
                 GameEvent gameover = (new GameEvent{
                         EventType = GameEventType.GameStateEvent, 
@@ -62,8 +63,8 @@ namespace Breakout{
             }
         }
 
-        private void IncreaseLives() {
-            this.playerLives++;
+        public void IncreaseLives() {
+            this.livesCount++;
         }
 
         public void Move() {
@@ -94,7 +95,7 @@ namespace Breakout{
             UpdateDirection();
         }
 
-        private void UpdateDirection() {
+        public void UpdateDirection() {
             shape.Direction.X = moveLeft + moveRight;
         }
         public Shape GetPosition() {

@@ -19,11 +19,12 @@ namespace BreakoutTests {
     public class StateMachineTesting {
         private StateMachine stateMachine;
         private GameRunning gameRunning;
+        private GameEventBus eventBus;
         [SetUp]
         public void InitiateStateMachine() {
             Window.CreateOpenGLContext();
             // (1) Initialize a BreakoutBus with proper GameEventTypes
-            var eventBus = BreakoutBus.GetBus();
+            var eventBus = new BreakoutBus.GetBus();// eventBus = new BreakoutBus(); 
             var eventQueue = new List<GameEventType> {
                 GameEventType.InputEvent,
                 GameEventType.WindowEvent,
@@ -36,27 +37,27 @@ namespace BreakoutTests {
 
             // (2) Instantiate the StateMachine
             stateMachine = new StateMachine();
-            // (3) Subscribe the GalagaBus to proper GameEventTypes and GameEventProcessors
+            // (3) Subscribe the BreakoutBus to proper GameEventTypes and GameEventProcessors
             var windowArgs = new WindowArgs() { Title = "Breakout v0.1" };
             var game = new Game(windowArgs);
-            for (int i = 0; i < eventQueue.Count; i++) {
-                eventBus.Subscribe(eventQueue[i], game);
-            }
+            // for (int i = 0; i < eventQueue.Count; i++) {
+            //     eventBus.Subscribe(eventQueue[i], game);
+            // }
         
 
             gameRunning = new GameRunning();
         }
         
-        // [Test]
-        // public void TestInitialState() {
-        //     Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
-        // }
+        [Test]
+        public void TestInitialState() {
+            Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
+        }
 
         [Test]
         public void TestEventGamePaused() {
             stateMachine.SwitchState(GameStateType.GamePaused);
             gameRunning.KeyRelease(KeyboardKey.Escape);
-            BreakoutBus.GetBus().ProcessEventsSequentially();
+            eventBus.ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
 

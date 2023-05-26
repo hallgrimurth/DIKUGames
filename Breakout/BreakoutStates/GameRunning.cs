@@ -47,7 +47,7 @@ namespace Breakout.BreakoutStates {
             SetTimers();
         }
         public void SetActors(){
-            player = new Player(1);
+            player = new Player(5);
             SetBall();
         }
 
@@ -88,6 +88,8 @@ namespace Breakout.BreakoutStates {
             ball.ChangeDirection(dir);
             ballCon.AddEntity(ball);
         }
+
+
         private void IteratePowerUps() {
             level.powerups.Iterate(powerup => {
                 powerup.Move();
@@ -269,7 +271,6 @@ namespace Breakout.BreakoutStates {
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     SetActors();
-                    // StaticTimer.RestartTimer();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
@@ -277,7 +278,6 @@ namespace Breakout.BreakoutStates {
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     SetActors();
-                    // StaticTimer.RestartTimer();
                     break;
                 case KeyboardKey.Space:
                     GameEvent Shoot = (new GameEvent{
