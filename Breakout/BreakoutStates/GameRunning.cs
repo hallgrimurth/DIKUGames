@@ -93,10 +93,10 @@ namespace Breakout.BreakoutStates {
         private void IteratePowerUps() {
             level.powerups.Iterate(powerup => {
                 powerup.Move();
-                powerup.PowerDownEffect();
+                // powerup.PowerDownEffect();
                 if (CollisionDetection.Aabb(player.Shape.AsDynamicShape(), powerup.Shape).Collision) {
-                    powerup.DeleteEntity();
                     powerup.PowerUpEffect();
+                    powerup.DeleteEntity();
                 }
             });
         }

@@ -14,7 +14,7 @@ public abstract class PowerUp : Entity {
     }
 
     public void Move() {
-        Shape.MoveY(-0.001f);
+        Shape.MoveY(-0.005f);
     }
 
 
