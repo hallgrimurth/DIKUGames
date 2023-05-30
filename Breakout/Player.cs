@@ -119,13 +119,13 @@ namespace Breakout{
 
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
-                // Console.WriteLine("hi");
                 switch (gameEvent.Message) {
                     case "INCREASE_HEALTH":
                         IncreaseLives();
                         break;
                     case "DECREASE_HEALTH":
                         DecreaseLives();
+                        break;
                     case "Widen":
                         shape.Extent.X = 0.4f;
                         break;
