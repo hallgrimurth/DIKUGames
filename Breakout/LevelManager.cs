@@ -72,7 +72,7 @@ namespace Breakout{
                             float.Parse(gameEvent.StringArg2));
                         PowerUp newPowerUp = PowerUpFactory.CreatePowerUp(pos);
                         newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.005f));
-                        CurrentLevel.powerups.AddEntity(newPowerUp);
+                        currentLevel.powerups.AddEntity(newPowerUp);
                         break;
                     
                 }

@@ -4,6 +4,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
+using DIKUArcade.Timers;
 
 namespace Breakout{   
     public class Player : IGameEventProcessor{
@@ -15,36 +16,34 @@ namespace Breakout{
         private float moveRight = 0.0f;
         const float MOVEMENT_SPEED = 0.02f;
         private Image playerStride;
-        private int playerLives;
         private Text display;
+        private double startTime;
+        private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
+        private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
+        private int livesCount = 3;
+        private double endTime;
         public DynamicShape Shape {
             get { return shape; }
         }
         public int LivesCount {
             get { return livesCount; }
-            set { livesCount = value; }
+            // set { livesCount = value; }
         }
         private static Vec2F livesPos = new Vec2F(0.06f, -0.3f);
         private static Vec2F livesExtent = new Vec2F(0.4f, 0.4f);
-        private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
-        private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
-        private int livesCount;
 
-        public Player(int livesCount) {
+        public Player() { //int livesCount
 
             playerStride = new Image(Path.Combine(
                 Constants.MAIN_PATH, "Assets", "Images", "player.png"));
             this.shape = new DynamicShape(playerPos, playerExtent);
             player = new Entity(this.shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
-
-            SetLives(livesCount);
         }
 
-        public void SetLives(int livesCount) {
+        public void SetLives() {
             // Setting the lives of the player
-            playerLives = livesCount;
-            display = new Text("Lives:" + playerLives.ToString(), livesPos, livesExtent);
+            display = new Text("Lives:" + livesCount.ToString(), livesPos, livesExtent);
             display.SetColor(new Vec3I(255, 255, 0));
             display.SetFontSize(30);
         }
@@ -53,7 +52,6 @@ namespace Breakout{
         public void DecreaseLives() {
             this.livesCount--;
             if (livesCount <= 0) {
-
                 GameEvent gameover = (new GameEvent{
                         EventType = GameEventType.GameStateEvent, 
                         Message = "CHANGE_STATE",
@@ -118,6 +116,7 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
+<<<<<<< HEAD
                     case "Widen":
                         Console.WriteLine("Widen message received");
                         shape.Extent.X = 0.4f;
@@ -125,13 +124,26 @@ namespace Breakout{
                     case "Narrow":
                         shape.Extent.X = 0.2f;
                         break;
+=======
+
+>>>>>>> 0add5cef3b94fbc37c1b053ef6379d9dac1f1adb
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
+                // Console.WriteLine("hi");
                 switch (gameEvent.Message) {
                     case "INCREASE_HEALTH":
                         IncreaseLives();
                         break;
+                    case "DECREASE_HEALTH":
+                        DecreaseLives();
+                    case "Widen":
+                        shape.Extent.X = 0.4f;
+                        break;
+                    case "Narrow":
+                        shape.Extent.X = 0.2f;
+                        break;
                 }
+            
             }
         }
 
