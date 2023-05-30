@@ -43,10 +43,6 @@ public class Points : IGameEventProcessor {
     }
 
      public void ProcessEvent(GameEvent gameEvent) {
-<<<<<<< HEAD
-=======
-
->>>>>>> 0add5cef3b94fbc37c1b053ef6379d9dac1f1adb
         if (gameEvent.EventType == GameEventType.PlayerEvent) {
             switch (gameEvent.Message) {
                 case "ADD_POINTS":

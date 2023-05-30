@@ -360,12 +360,7 @@ namespace Breakout.BreakoutStates {
             }
             player.Move();
             UpdateTimers();
-<<<<<<< HEAD
-            BreakoutBus.GetBus().ProcessEventsSequentially();
-
-=======
             player.SetLives();
->>>>>>> 0add5cef3b94fbc37c1b053ef6379d9dac1f1adb
         }
     
     }

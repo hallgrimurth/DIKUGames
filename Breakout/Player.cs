@@ -116,7 +116,6 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
-<<<<<<< HEAD
                     case "Widen":
                         Console.WriteLine("Widen message received");
                         shape.Extent.X = 0.4f;
@@ -124,9 +123,6 @@ namespace Breakout{
                     case "Narrow":
                         shape.Extent.X = 0.2f;
                         break;
-=======
-
->>>>>>> 0add5cef3b94fbc37c1b053ef6379d9dac1f1adb
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 // Console.WriteLine("hi");
@@ -136,6 +132,7 @@ namespace Breakout{
                         break;
                     case "DECREASE_HEALTH":
                         DecreaseLives();
+                        break;
                     case "Widen":
                         shape.Extent.X = 0.4f;
                         break;
