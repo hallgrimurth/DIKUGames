@@ -44,7 +44,7 @@ namespace Breakout.BreakoutStates {
             SetTimers();
         }
         public void SetActors(){
-            player = new Player(3);
+            player = new Player();
             SetBall();
         }
 
@@ -78,7 +78,7 @@ namespace Breakout.BreakoutStates {
         private void SetPoints() {
             //define points
             points = new Points(
-                new Vec2F(0.65f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
+                new Vec2F(0.65f, -0.3f), new Vec2F(0.4f, 0.4f));
         }
 
         // Initializes one or more balls 
@@ -114,12 +114,11 @@ namespace Breakout.BreakoutStates {
                 HandleCollisions(ball);
                 if (ball.Shape.Position.Y < 0.01f) {
                     ball.DeleteEntity();
-                    player.DecreaseLives();
-
+                    GameEvent decreaseLives = (new GameEvent{
+                            EventType = GameEventType.PlayerEvent, To = player, 
+                            Message = "DECREASE_HEALTH"});
+                    BreakoutBus.GetBus().RegisterEvent(decreaseLives);
                 }
-                
-                
-
                 if (points.PointsValue >= 3) {
     
                     GameEvent gamewon = (new GameEvent{
@@ -180,13 +179,13 @@ namespace Breakout.BreakoutStates {
                     ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
                     // Handle the block's health and deletion
                     block.DecreaseHealth();
-                    // GameEvent AddScore = new GameEvent
-                    // {
-                    //     EventType = GameEventType.ScoreEvent,// To = points,
-                    //     Message = "ADD_POINTS",
-                    //     IntArg1 = block.Value
-                    // };
-                    // BreakoutBus.GetBus().RegisterEvent(AddScore);
+                    GameEvent AddScore = new GameEvent
+                    {
+                        EventType = GameEventType.StatusEvent, To = points,
+                        Message = "ADD_POINTS" ,
+                        IntArg1 = block.Value
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(AddScore);
                     GameEvent AddPowerup = new GameEvent
                     {
                         EventType = GameEventType.StatusEvent, To = levelManager,
@@ -362,6 +361,8 @@ namespace Breakout.BreakoutStates {
             }
             player.Move();
             UpdateTimers();
+            player.SetLives();
         }
+    
     }
 }

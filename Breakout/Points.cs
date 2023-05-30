@@ -13,8 +13,7 @@ public class Points : IGameEventProcessor {
         set {pointsValue = value;}
     }
 
-    public Points(Vec2F position, Vec2F extent, int startingvalue) {
-        pointsValue = startingvalue;
+    public Points(Vec2F position, Vec2F extent) {
         display = new Text("Score:" + pointsValue.ToString(), position, extent);
         display.SetColor(new Vec3I(0, 255, 255));
         display.SetFontSize(30);
@@ -24,10 +23,11 @@ public class Points : IGameEventProcessor {
     }
 
     private void AddPoints(int point) {
+        // Value must always be positive
 
         pointsValue += point;
         if (pointsValue >= 0){
-            display.SetText("Score:" + pointsValue.ToString());
+            display.SetText("Score: " + pointsValue.ToString());
         } else {
             pointsValue = 0;
         }
@@ -43,6 +43,7 @@ public class Points : IGameEventProcessor {
     }
 
      public void ProcessEvent(GameEvent gameEvent) {
+
         if (gameEvent.EventType == GameEventType.PlayerEvent) {
             switch (gameEvent.Message) {
                 case "ADD_POINTS":
