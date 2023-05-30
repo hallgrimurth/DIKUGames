@@ -89,7 +89,11 @@ namespace Breakout.BreakoutStates {
         private void IteratePowerUps() {
             levelManager.CurrentLevel.powerups.Iterate(powerup => {
                 powerup.Move();
-                if (CollisionDetection.Aabb(player.Shape.AsDynamicShape(), powerup.Shape).Collision) {
+                // Console.WriteLine("Powerup direction: " + powerup.GetDirection());
+                // powerup.PowerDownEffect();
+                CollisionData powerupCollision = CollisionDetection.Aabb(powerup.Shape.AsDynamicShape(), player.Shape);
+                if (powerupCollision.Collision) {
+                    // Console.WriteLine("PowerUp collision");
                     powerup.PowerUpEffect();
                     powerup.DeleteEntity();
                 }

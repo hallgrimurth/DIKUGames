@@ -11,13 +11,16 @@ namespace Breakout;
 public class LifePickUpPowerUp : PowerUp  {
 
     private double startTime;
+    private double endTime;
     
     public LifePickUpPowerUp(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
     }
 
     public override void PowerUpEffect(){
-
+        startTime = (int)StaticTimer.GetElapsedSeconds();
+        endTime = startTime + 10;
+        
         GameEvent LifePickUpEvent = (new GameEvent{
                         EventType = GameEventType.PlayerEvent, 
                         Message = "INCREASE_HEALTH" });
@@ -28,7 +31,7 @@ public class LifePickUpPowerUp : PowerUp  {
     public override void PowerDownEffect(){
 
 
-        if ((int)StaticTimer.GetElapsedSeconds() > startTime + 10){
+        if ((int)StaticTimer.GetElapsedSeconds() > endTime){
             GameEvent NarrowPaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "Narrow" });
