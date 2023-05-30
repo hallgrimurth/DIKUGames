@@ -24,6 +24,13 @@ public class PowerUpBlock : Block {
         if (Health == 0) {
             DeleteEntity();
             // Register score event
+            GameEvent AddScore = new GameEvent
+            {
+                EventType = GameEventType.PlayerEvent,  
+                Message = "ADD_POINTS",
+                IntArg1 = this.Value
+            };
+            BreakoutBus.GetBus().RegisterEvent(AddScore);
         }
     
     }

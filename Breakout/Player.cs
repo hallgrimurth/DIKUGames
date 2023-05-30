@@ -121,6 +121,13 @@ namespace Breakout{
                     case "NORMAL_MOVEMENT":
                         break;
 
+                    case "Widen":
+                        Console.WriteLine("Widen message received");
+                        shape.Extent.X = 0.4f;
+                        break;
+                    case "Narrow":
+                        shape.Extent.X = 0.2f;
+                        break;
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {

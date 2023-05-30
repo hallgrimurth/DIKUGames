@@ -102,7 +102,6 @@ namespace Breakout.BreakoutStates {
                 // powerup.PowerDownEffect();
                 CollisionData powerupCollision = CollisionDetection.Aabb(powerup.Shape.AsDynamicShape(), player.Shape);
                 if (powerupCollision.Collision) {
-                    // Console.WriteLine("PowerUp collision");
                     powerup.PowerUpEffect();
                     powerup.DeleteEntity();
                 }

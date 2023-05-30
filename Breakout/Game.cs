@@ -21,16 +21,16 @@ namespace Breakout{
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             //define event bus
             stateMachine = new StateMachine();
-            eventQueue = new List<GameEventType> {
-                GameEventType.InputEvent,
-                GameEventType.WindowEvent,
-                GameEventType.MovementEvent,
-                GameEventType.GameStateEvent,
-                GameEventType.StatusEvent,
-                GameEventType.ControlEvent,
-                GameEventType.PlayerEvent,
-                GameEventType.ScoreEvent
-            };    
+            // eventQueue = new List<GameEventType> {
+            //     GameEventType.InputEvent,
+            //     GameEventType.WindowEvent,
+            //     GameEventType.MovementEvent,
+            //     GameEventType.GameStateEvent,
+            //     GameEventType.StatusEvent,
+            //     GameEventType.ControlEvent,
+            //     GameEventType.PlayerEvent,
+            //     GameEventType.ScoreEvent
+            // };    
             //initialize event bus
             InitializeEventBus(eventQueue);
 
@@ -41,11 +41,14 @@ namespace Breakout{
         //Initialize Event Bus
         public void InitializeEventBus(List<GameEventType> eventQueue) {
             
-            BreakoutBus.GetBus().InitializeEventBus(eventQueue);
+            // BreakoutBus.GetBus().InitializeEventBus(eventQueue);
+            //subscribe to events
+            BreakoutBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
+            BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
 
-            for (int i = 0; i < eventQueue.Count-1; i++) {
-                BreakoutBus.GetBus().Subscribe(eventQueue[i], this);
-            }
+            // for (int i = 0; i < eventQueue.Count-1; i++) {
+            //     BreakoutBus.GetBus().Subscribe(eventQueue[i], this);
+            
         }
         
         //process event types
@@ -62,6 +65,7 @@ namespace Breakout{
                     stateMachine.ProcessEvent(gameEvent);
                     window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
                     break;
+                
             }    
         }
 

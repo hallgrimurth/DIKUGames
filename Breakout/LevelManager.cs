@@ -57,7 +57,6 @@ namespace Breakout{
 
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
-                Console.WriteLine(gameEvent.Message + " received in level manager " );
                 switch (gameEvent.Message) {
                     case "PREV_LEVEL":
                         PrevLvl();
