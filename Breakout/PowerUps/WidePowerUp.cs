@@ -22,13 +22,11 @@ public class WidePowerUp : PowerUp  {
         startTime = (int)StaticTimer.GetElapsedSeconds();
         endTime = startTime + 10;
         //currTime = new GameTimer();
-
         GameEvent WidePaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "Widen" });
         BreakoutBus.GetBus().RegisterEvent(WidePaddleEvent);
-        Console.WriteLine("Starttime", startTime);
-        Console.WriteLine("Endtime", endTime);
+
 
     }
 

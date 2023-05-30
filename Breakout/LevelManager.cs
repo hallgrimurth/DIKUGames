@@ -13,7 +13,7 @@ using Breakout.BreakoutStates;
 
 namespace Breakout{ 
     public class LevelManager : IGameEventProcessor {
-        private int levelCounter = 1;
+        private int levelCounter = 0;
         private String[] levelPaths;
         private Level currentLevel;
         public Level CurrentLevel {
@@ -56,7 +56,6 @@ namespace Breakout{
 
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
-                Console.WriteLine(gameEvent.Message + " received in level manager " );
                 switch (gameEvent.Message) {
                     case "PREV_LEVEL":
                         PrevLvl();

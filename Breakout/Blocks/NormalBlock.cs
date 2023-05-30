@@ -26,10 +26,9 @@ public class NormalBlock : Block {
         if (Health == 0) {
             DeleteEntity();
             // Register score event
-            Console.WriteLine("normal block destroyed");
             GameEvent AddScore = new GameEvent
             {
-                EventType = GameEventType.StatusEvent,  
+                EventType = GameEventType.PlayerEvent,  
                 Message = "ADD_SCORE",
                 StringArg1 = this.ToString()
             };

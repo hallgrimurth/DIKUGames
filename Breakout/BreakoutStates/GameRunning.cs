@@ -93,7 +93,6 @@ namespace Breakout.BreakoutStates {
                 // powerup.PowerDownEffect();
                 CollisionData powerupCollision = CollisionDetection.Aabb(powerup.Shape.AsDynamicShape(), player.Shape);
                 if (powerupCollision.Collision) {
-                    // Console.WriteLine("PowerUp collision");
                     powerup.PowerUpEffect();
                     powerup.DeleteEntity();
                 }
@@ -268,6 +267,7 @@ namespace Breakout.BreakoutStates {
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     SetActors();
+                    SetTimers();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
@@ -275,6 +275,7 @@ namespace Breakout.BreakoutStates {
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     SetActors();
+                    SetTimers();
                     break;
                 case KeyboardKey.Space:
                     GameEvent Shoot = (new GameEvent{
@@ -350,6 +351,8 @@ namespace Breakout.BreakoutStates {
             }
             player.Move();
             UpdateTimers();
+            BreakoutBus.GetBus().ProcessEventsSequentially();
+
         }
     }
 }

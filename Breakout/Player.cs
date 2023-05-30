@@ -119,6 +119,7 @@ namespace Breakout{
                         SetMoveRight(false);
                         break;
                     case "Widen":
+                        Console.WriteLine("Widen message received");
                         shape.Extent.X = 0.4f;
                         break;
                     case "Narrow":
