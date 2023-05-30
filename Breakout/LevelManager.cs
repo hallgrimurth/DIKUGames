@@ -164,7 +164,9 @@ namespace Breakout{
                         Vec2F pos = new Vec2F(
                             float.Parse(gameEvent.StringArg1), 
                             float.Parse(gameEvent.StringArg2));
-                        powerups.AddEntity(PowerUpFactory.CreatePowerUp(pos));
+                        PowerUp newPowerUp = PowerUpFactory.CreatePowerUp(pos);
+                        newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.005f));
+                        powerups.AddEntity(newPowerUp);
                         break;
                     
                 }
