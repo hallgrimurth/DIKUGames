@@ -22,6 +22,7 @@ namespace Breakout{
         private bool start = false;
         public bool Start{
             get{ return start; }  
+            set{ start = value; } 
         }
 
         public LevelManager(){

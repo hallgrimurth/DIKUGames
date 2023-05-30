@@ -116,6 +116,10 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
+                    case "SLOW_MOVEMENT":
+                        break;
+                    case "NORMAL_MOVEMENT":
+                        break;
 
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
