@@ -10,37 +10,35 @@ using DIKUArcade.Events;
 namespace Breakout;
 public class WidePowerUp : PowerUp  {
 
-    private double startTime;
-    private double endTime;
-    //private GameTimer currTime;
-    
+    // private double startTime;
+    // private double endTime;
+ 
     public WidePowerUp(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
     }
 
     public override void PowerUpEffect(){
-        startTime = (int)StaticTimer.GetElapsedSeconds();
-        endTime = startTime + 10;
-        //currTime = new GameTimer();
+        // startTime = (int)StaticTimer.GetElapsedSeconds();
+        // endTime = startTime + 10;
 
         GameEvent WidePaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "Widen" });
         BreakoutBus.GetBus().RegisterEvent(WidePaddleEvent);
-        Console.WriteLine("Starttime", startTime);
-        Console.WriteLine("Endtime", endTime);
+        // Console.WriteLine("Starttime", startTime);
+        // Console.WriteLine("Endtime", endTime);
 
     }
 
     public override void PowerDownEffect(){
 
 
-        if ((int)StaticTimer.GetElapsedSeconds() > endTime){
+        // if ((int)StaticTimer.GetElapsedSeconds() > endTime){
             GameEvent NarrowPaddleEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "Narrow" });
             BreakoutBus.GetBus().RegisterEvent(NarrowPaddleEvent);
-        }
+        // }
 
        
 

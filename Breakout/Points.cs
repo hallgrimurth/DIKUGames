@@ -13,8 +13,7 @@ public class Points : IGameEventProcessor {
         set {pointsValue = value;}
     }
 
-    public Points(Vec2F position, Vec2F extent, int startingvalue) {
-        pointsValue = startingvalue;
+    public Points(Vec2F position, Vec2F extent) {
         display = new Text("Score:" + pointsValue.ToString(), position, extent);
         display.SetColor(new Vec3I(0, 255, 255));
         display.SetFontSize(30);
@@ -24,6 +23,7 @@ public class Points : IGameEventProcessor {
     }
 
     private void AddPoints(int point) {
+        Console.WriteLine("hi");
         // In the future we should use the Block classes and the BlockFactory class 
         // switch (blockType) {
         //     case "Breakout.NormalBlock":
@@ -42,7 +42,7 @@ public class Points : IGameEventProcessor {
         // Value must always be positive
         pointsValue += point;
         if (pointsValue >= 0){
-            display.SetText("Score:" + pointsValue.ToString());
+            display.SetText("Score: " + pointsValue.ToString());
         } else {
             pointsValue = 0;
         }
@@ -58,7 +58,7 @@ public class Points : IGameEventProcessor {
     }
 
      public void ProcessEvent(GameEvent gameEvent) {
-        if (gameEvent.EventType == GameEventType.ScoreEvent) {
+        if (gameEvent.EventType == GameEventType.StatusEvent) {
             switch (gameEvent.Message) {
                 case "ADD_POINTS":
                     Console.WriteLine("Points: " + gameEvent.IntArg1);
