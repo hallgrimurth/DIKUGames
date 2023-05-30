@@ -116,17 +116,7 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
-                    case "Widen":
-                        // startTime = (int)StaticTimer.GetElapsedSeconds();
-                        //  = startTime + 10;
-                        shape.Extent.X = 0.4f;
-                        if ((int)StaticTimer.GetElapsedSeconds() > 3){
-                            shape.Extent.X = 0.2f;
-                        }
-                        break;
-                    // case "Narrow":
-                    //     shape.Extent.X = 0.2f;
-                    //     break;
+
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 // Console.WriteLine("hi");
@@ -136,6 +126,11 @@ namespace Breakout{
                         break;
                     case "DECREASE_HEALTH":
                         DecreaseLives();
+                    case "Widen":
+                        shape.Extent.X = 0.4f;
+                        break;
+                    case "Narrow":
+                        shape.Extent.X = 0.2f;
                         break;
                 }
             

@@ -20,17 +20,14 @@ namespace Breakout.BreakoutStates {
         private Player player;
         private Ball ball;
         private EntityContainer<Ball> ballCon;
-        private LevelManager level;
+        private LevelManager levelManager;
 
         // Strides and animations
         private IBaseImage ballImage;
         private Points points;
         private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
-        private double elapsedTime;
+        private int elapsedTime;
 
-        // private WidePowerUp widen;
-        // private BigPowerUp bigball;
-        private LifePickUpPowerUp life;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -52,20 +49,29 @@ namespace Breakout.BreakoutStates {
         }
 
          private void SetTimers() {
+            display.SetColor(new Vec3I(255, 255, 255));
+            display.SetFontSize(30);
             StaticTimer.RestartTimer();
+            StaticTimer.PauseTimer();
         }
         private void UpdateTimers(){
-            if (level.MetaDict.ContainsKey('T')) {
-                int timer = Int32.Parse(level.MetaDict['T']);
+            if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start == false) {
+                // Display the given time if the level has a time limit
+                int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
+                display.SetText("Time:" + (givenTime).ToString());
+            } else if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start) {
+                // Update the time
+                int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
                 elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
-                display = new Text("Time:" + (timer - elapsedTime).ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
-                display.SetColor(new Vec3I(255, 255, 255));
-                display.SetFontSize(30);
+                display.SetText("Time:" + (givenTime - elapsedTime).ToString());
+            } else {
+                // display nothing
+                display.SetText("");
             }
         }
 
         private void GetLevels() {
-            level = new LevelManager();
+            levelManager = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
         }
 
@@ -90,7 +96,7 @@ namespace Breakout.BreakoutStates {
 
 
         private void IteratePowerUps() {
-            level.powerups.Iterate(powerup => {
+            levelManager.CurrentLevel.powerups.Iterate(powerup => {
                 powerup.Move();
                 // Console.WriteLine("Powerup direction: " + powerup.GetDirection());
                 // powerup.PowerDownEffect();
@@ -138,17 +144,17 @@ namespace Breakout.BreakoutStates {
             var normal = new Vec2F(0.0f, 0.0f); 
             Vec2F dir = ball.GetDirection();
 
-            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 0.99f) {
+            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 0.98f) {
                 normal = new Vec2F(0.0f, -1.0f);
                 
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
                 
-            } else if (ball.Shape.Position.X <= 0.01f) {
+            } else if (ball.Shape.Position.X <= 0.02f) {
                 normal = new Vec2F(1.0f, 0.0f);
                
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
 
-            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 0.99f) {
+            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 0.98f) {
                 normal = new Vec2F(-1.0f, 0.0f);
                 
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
@@ -158,7 +164,7 @@ namespace Breakout.BreakoutStates {
         // Detects whether the ball collides with a block
         private void BallBlockCollision(Ball ball)
         {
-            level.blocks.Iterate(block =>
+            levelManager.CurrentLevel.blocks.Iterate(block =>
             {
                 var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
                 // calculate the collision data of the right and top side of the block
@@ -182,7 +188,7 @@ namespace Breakout.BreakoutStates {
                     BreakoutBus.GetBus().RegisterEvent(AddScore);
                     GameEvent AddPowerup = new GameEvent
                     {
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "SPAWN_POWERUP",
                         StringArg1 = block.Shape.Position.X.ToString(),
                         StringArg2 = block.Shape.Position.Y.ToString()
@@ -202,7 +208,7 @@ namespace Breakout.BreakoutStates {
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
 
-            if (Coll) {
+            if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirUp) {
                 
                 var normal = new Vec2F(0.0f, 1.0f);
                 var x_bounce_directions = get_x_bounce_directions(ball);
@@ -266,23 +272,26 @@ namespace Breakout.BreakoutStates {
                     break;                     
                 case KeyboardKey.Left:
                     GameEvent NextLevel = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     SetActors();
+                    SetTimers();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     SetActors();
+                    SetTimers();
                     break;
                 case KeyboardKey.Space:
-                    GameEvent Shoot = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = level,
+                    GameEvent StartGame = (new GameEvent{
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "START_GAME" });
-                    BreakoutBus.GetBus().RegisterEvent(Shoot);
+                    BreakoutBus.GetBus().RegisterEvent(StartGame);
+                    StaticTimer.ResumeTimer();
                     break;
             }
 
@@ -333,8 +342,8 @@ namespace Breakout.BreakoutStates {
 
 
         public void RenderState() {
-            level.blocks.RenderEntities();
-            level.powerups.RenderEntities();
+            levelManager.RenderLevel();
+
             ballCon.RenderEntities();
             points.Render();
             player.Render();
@@ -346,7 +355,7 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
-            if (level.Start) {
+            if (levelManager.Start) {
                 IterateBall();
                 IteratePowerUps();
             }

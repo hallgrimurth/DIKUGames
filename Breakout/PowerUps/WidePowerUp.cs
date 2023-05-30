@@ -18,11 +18,9 @@ public class WidePowerUp : PowerUp  {
     }
 
     public override void PowerUpEffect(){
-        // startTime = (int)StaticTimer.GetElapsedSeconds();
-        // endTime = startTime + 10;
 
         GameEvent WidePaddleEvent = (new GameEvent{
-                        EventType = GameEventType.MovementEvent, 
+                        EventType = GameEventType.PlayerEvent, 
                         Message = "Widen" });
         BreakoutBus.GetBus().RegisterEvent(WidePaddleEvent);
         // Console.WriteLine("Starttime", startTime);

@@ -19,27 +19,12 @@ public class Points : IGameEventProcessor {
         display.SetFontSize(30);
         // BreakoutBus.GetBus().InitializeEventBus
         //     (GameEventType.ScoreEvent);
-        BreakoutBus.GetBus().Subscribe(GameEventType.ScoreEvent, this);
+        BreakoutBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
     }
 
     private void AddPoints(int point) {
-        Console.WriteLine("hi");
-        // In the future we should use the Block classes and the BlockFactory class 
-        // switch (blockType) {
-        //     case "Breakout.NormalBlock":
-        //     pointsValue += 2; 
-        //     break;
-        //     case "Breakout.IndestructibleBlock":
-        //     pointsValue += 100000;
-        //     break;
-        //     case "Breakout.HardenedBlock":
-        //     pointsValue += 5;
-        //     break;
-        //     case "Breakout.PowerUpBlock":
-        //     pointsValue += 10;
-        //     break;
-        // }
         // Value must always be positive
+
         pointsValue += point;
         if (pointsValue >= 0){
             display.SetText("Score: " + pointsValue.ToString());
@@ -58,7 +43,8 @@ public class Points : IGameEventProcessor {
     }
 
      public void ProcessEvent(GameEvent gameEvent) {
-        if (gameEvent.EventType == GameEventType.StatusEvent) {
+
+        if (gameEvent.EventType == GameEventType.PlayerEvent) {
             switch (gameEvent.Message) {
                 case "ADD_POINTS":
                     Console.WriteLine("Points: " + gameEvent.IntArg1);

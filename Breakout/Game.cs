@@ -16,12 +16,10 @@ namespace Breakout{
         //state machine
         private StateMachine stateMachine;
         //Entities
-        private GameEventBus eventBus;
         private List<GameEventType> eventQueue;
       
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             //define event bus
-            // eventBus = BreakoutBus.GetBus();
             stateMachine = new StateMachine();
             eventQueue = new List<GameEventType> {
                 GameEventType.InputEvent,
@@ -32,21 +30,29 @@ namespace Breakout{
                 GameEventType.ControlEvent,
                 GameEventType.PlayerEvent,
                 GameEventType.ScoreEvent
-            };
+            };    
+            //initialize event bus
+            InitializeEventBus(eventQueue);
+
+            window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+
+        } 
+
+        //Initialize Event Bus
+        public void InitializeEventBus(List<GameEventType> eventQueue) {
+            
             BreakoutBus.GetBus().InitializeEventBus(eventQueue);
-            //subscribe to event bus
+
             for (int i = 0; i < eventQueue.Count-1; i++) {
                 BreakoutBus.GetBus().Subscribe(eventQueue[i], this);
             }
-
-            //set key event handler     
-            window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
-        } 
+        }
+        
         //process event types
         public void ProcessEvent(GameEvent gameEvent) {  
              switch (gameEvent.EventType) {
-                case GameEventType.ScoreEvent:
-                    Console.WriteLine(gameEvent.Message);
+                case GameEventType.PlayerEvent:
+                    // Console.WriteLine(gameEvent.Message);
                     break;
                 case GameEventType.WindowEvent:
                 //send message to state machine
