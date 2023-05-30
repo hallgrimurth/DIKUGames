@@ -5,10 +5,11 @@ namespace Breakout {
     public static class BreakoutBus {
         private static GameEventBus eventBus;
         public static GameEventBus GetBus() {
-            if (BreakoutBus.eventBus == null) {
-                BreakoutBus.eventBus = new GameEventBus();
+            if (eventBus == null) {
+                
+                eventBus = new GameEventBus();
 
-                BreakoutBus.eventBus.InitializeEventBus(new List<GameEventType>() {
+                eventBus.InitializeEventBus(new List<GameEventType>() {
                     GameEventType.InputEvent,
                     GameEventType.WindowEvent,
                     GameEventType.MovementEvent,
@@ -20,7 +21,7 @@ namespace Breakout {
                 });
 
             }
-            return BreakoutBus.eventBus;
+            return eventBus;
             // return BreakoutBus.eventBus ?? (BreakoutBus.eventBus = new GameEventBus());
         }
 

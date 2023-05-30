@@ -19,6 +19,7 @@ public class Points : IGameEventProcessor {
         display.SetFontSize(30);
         // BreakoutBus.GetBus().InitializeEventBus
         //     (GameEventType.ScoreEvent);
+        // BreakoutBus.GetBus();
         BreakoutBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
     }
 
@@ -46,7 +47,7 @@ public class Points : IGameEventProcessor {
         if (gameEvent.EventType == GameEventType.PlayerEvent) {
             switch (gameEvent.Message) {
                 case "ADD_POINTS":
-                    Console.WriteLine("Points: " + gameEvent.IntArg1);
+                    Console.WriteLine(gameEvent.IntArg1);
                     AddPoints(gameEvent.IntArg1);
                     break;
                 case "GAME_OVER":
