@@ -10,14 +10,16 @@ using DIKUArcade.Events;
 namespace Breakout;
 public class BigPowerUp : PowerUp  {
 
-    private int startTime;
+    private double startTime;
+    private double endTime;
     public BigPowerUp(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
     }
     
 
     public override void PowerUpEffect(){
-        startTime = ((int)StaticTimer.GetElapsedSeconds());
+        startTime = (int)StaticTimer.GetElapsedSeconds();
+        endTime = startTime + 10;
         GameEvent BigBallEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "DOUBLE_SIZE" });
@@ -25,7 +27,7 @@ public class BigPowerUp : PowerUp  {
     } 
 
     public override void PowerDownEffect(){
-        if ((int)StaticTimer.GetElapsedSeconds() > startTime + 10){
+        if ((int)StaticTimer.GetElapsedSeconds() > endTime){
             GameEvent SmallBallEvent = (new GameEvent{
                         EventType = GameEventType.MovementEvent, 
                         Message = "NORMAL_SIZE" });
