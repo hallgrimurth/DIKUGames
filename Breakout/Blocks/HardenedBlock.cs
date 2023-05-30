@@ -41,7 +41,6 @@ public class HardenedBlock : Block {
                 StringArg1 = this.ToString()
             };
             BreakoutBus.GetBus().RegisterEvent(AddScore);
-            Console.WriteLine("Hardened block destroyed {0}", this.ToString());
             DeleteEntity();
         }
     

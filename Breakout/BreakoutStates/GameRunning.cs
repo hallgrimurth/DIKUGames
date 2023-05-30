@@ -14,7 +14,7 @@ using DIKUArcade.Timers;
 
 
 namespace Breakout.BreakoutStates {
-        public class GameRunning : IGameState {
+    public class GameRunning : IGameState {
         private static GameRunning instance = null;
         //Entities
         private Player player;
@@ -28,8 +28,8 @@ namespace Breakout.BreakoutStates {
         private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
         private double elapsedTime;
 
-        private WidePowerUp widen;
-        private BigPowerUp bigball;
+        // private WidePowerUp widen;
+        // private BigPowerUp bigball;
         private LifePickUpPowerUp life;
 
         public static GameRunning GetInstance() {
@@ -47,7 +47,7 @@ namespace Breakout.BreakoutStates {
             SetTimers();
         }
         public void SetActors(){
-            player = new Player(5);
+            player = new Player(3);
             SetBall();
         }
 
@@ -72,7 +72,7 @@ namespace Breakout.BreakoutStates {
         private void SetPoints() {
             //define points
             points = new Points(
-                new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
+                new Vec2F(0.65f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
         }
 
         // Initializes one or more balls 
@@ -171,13 +171,13 @@ namespace Breakout.BreakoutStates {
                     ball.ChangeDirection(VectorOperations.Reflection(ball.Shape.AsDynamicShape().Direction, normal));
                     // Handle the block's health and deletion
                     block.DecreaseHealth();
-                    GameEvent AddScore = new GameEvent
-                    {
-                        EventType = GameEventType.ScoreEvent, To = points,
-                        Message = "ADD_POINTS",
-                        StringArg1 = block.ToString()
-                    };
-                    BreakoutBus.GetBus().RegisterEvent(AddScore);
+                    // GameEvent AddScore = new GameEvent
+                    // {
+                    //     EventType = GameEventType.ScoreEvent,// To = points,
+                    //     Message = "ADD_POINTS",
+                    //     IntArg1 = block.Value
+                    // };
+                    // BreakoutBus.GetBus().RegisterEvent(AddScore);
                     GameEvent AddPowerup = new GameEvent
                     {
                         EventType = GameEventType.StatusEvent, To = level,

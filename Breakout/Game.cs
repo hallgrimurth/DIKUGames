@@ -21,7 +21,7 @@ namespace Breakout{
       
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             //define event bus
-            eventBus = BreakoutBus.GetBus();
+            // eventBus = BreakoutBus.GetBus();
             stateMachine = new StateMachine();
             eventQueue = new List<GameEventType> {
                 GameEventType.InputEvent,
@@ -33,10 +33,10 @@ namespace Breakout{
                 GameEventType.PlayerEvent,
                 GameEventType.ScoreEvent
             };
-            eventBus.InitializeEventBus(eventQueue);
+            BreakoutBus.GetBus().InitializeEventBus(eventQueue);
             //subscribe to event bus
-            for (int i = 0; i < eventQueue.Count; i++) {
-                eventBus.Subscribe(eventQueue[i], this);
+            for (int i = 0; i < eventQueue.Count-1; i++) {
+                BreakoutBus.GetBus().Subscribe(eventQueue[i], this);
             }
 
             //set key event handler     
@@ -45,6 +45,9 @@ namespace Breakout{
         //process event types
         public void ProcessEvent(GameEvent gameEvent) {  
              switch (gameEvent.EventType) {
+                case GameEventType.ScoreEvent:
+                    Console.WriteLine(gameEvent.Message);
+                    break;
                 case GameEventType.WindowEvent:
                 //send message to state machine
                     window.CloseWindow();

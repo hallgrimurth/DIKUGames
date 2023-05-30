@@ -42,6 +42,7 @@ namespace Breakout{
         public LevelManager(){
             blocks = new EntityContainer<Block>();
             powerups = new EntityContainer<PowerUp>();
+            BreakoutBus.GetBus().Subscribe(GameEventType.StatusEvent, this);
             levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
             LoadMap(levelPaths[levelCounter]);
         }
@@ -148,6 +149,7 @@ namespace Breakout{
 
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
+                Console.WriteLine(gameEvent.Message);
                 switch (gameEvent.Message) {
                     case "PREV_LEVEL":
                         PrevLvl();

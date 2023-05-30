@@ -2,7 +2,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
-
+using System;
 
 namespace Galaga {
     public class Player : IGameEventProcessor{
@@ -87,6 +87,7 @@ namespace Galaga {
 
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.MovementEvent) {
+                Console.WriteLine("Player got event");
                 switch (gameEvent.Message) {
                     case "MOVE_LEFT":
                         SetMoveLeft(true);
