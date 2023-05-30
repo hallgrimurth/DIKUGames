@@ -45,8 +45,8 @@ public class Ball : Entity, IGameEventProcessor {
             if (gameEvent.EventType == GameEventType.MovementEvent) {
                 switch (gameEvent.Message) {
                     case "DOUBLE_SIZE":
-                        Shape.Extent.X = 0.1f;
-                        Shape.Extent.Y = 0.1f;
+                        Shape.Extent.X = 0.06f;
+                        Shape.Extent.Y = 0.06f;
                         break;
                     case "NORMAL_SIZE":
                         Shape.Extent.X = 0.03f;

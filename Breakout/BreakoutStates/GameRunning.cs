@@ -26,7 +26,7 @@ namespace Breakout.BreakoutStates {
         private IBaseImage ballImage;
         private Points points;
         private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
-        private double elapsedTime;
+        private int elapsedTime;
 
 
         public static GameRunning GetInstance() {
@@ -49,15 +49,24 @@ namespace Breakout.BreakoutStates {
         }
 
          private void SetTimers() {
+            display.SetColor(new Vec3I(255, 255, 255));
+            display.SetFontSize(30);
             StaticTimer.RestartTimer();
+            StaticTimer.PauseTimer();
         }
         private void UpdateTimers(){
-            if (levelManager.CurrentLevel.MetaDict.ContainsKey('T')) {
-                int timer = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
+            if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start == false) {
+                // Display the given time if the level has a time limit
+                int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
+                display.SetText("Time:" + (givenTime).ToString());
+            } else if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start) {
+                // Update the time
+                int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
                 elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
-                display = new Text("Time:" + (timer - elapsedTime).ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
-                display.SetColor(new Vec3I(255, 255, 255));
-                display.SetFontSize(30);
+                display.SetText("Time:" + (givenTime - elapsedTime).ToString());
+            } else {
+                // display nothing
+                display.SetText("");
             }
         }
 
@@ -136,17 +145,17 @@ namespace Breakout.BreakoutStates {
             var normal = new Vec2F(0.0f, 0.0f); 
             Vec2F dir = ball.GetDirection();
 
-            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 0.99f) {
+            if (ball.Shape.Position.Y + ball.Shape.Extent.Y >= 0.98f) {
                 normal = new Vec2F(0.0f, -1.0f);
                 
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
                 
-            } else if (ball.Shape.Position.X <= 0.01f) {
+            } else if (ball.Shape.Position.X <= 0.02f) {
                 normal = new Vec2F(1.0f, 0.0f);
                
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
 
-            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 0.99f) {
+            } else if (ball.Shape.Position.X + ball.Shape.Extent.X >= 0.98f) {
                 normal = new Vec2F(-1.0f, 0.0f);
                 
                 ball.ChangeDirection(VectorOperations.Reflection(dir, normal));
@@ -200,7 +209,7 @@ namespace Breakout.BreakoutStates {
             var Coll = CollData.Collision;
             var CollPos = CollData.DirectionFactor;
 
-            if (Coll) {
+            if (Coll && CollData.CollisionDir == CollisionDirection.CollisionDirUp) {
                 
                 var normal = new Vec2F(0.0f, 1.0f);
                 var x_bounce_directions = get_x_bounce_directions(ball);
@@ -268,6 +277,7 @@ namespace Breakout.BreakoutStates {
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     SetActors();
+                    SetTimers();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
@@ -275,12 +285,14 @@ namespace Breakout.BreakoutStates {
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     SetActors();
+                    SetTimers();
                     break;
                 case KeyboardKey.Space:
-                    GameEvent Shoot = (new GameEvent{
+                    GameEvent StartGame = (new GameEvent{
                         EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "START_GAME" });
-                    BreakoutBus.GetBus().RegisterEvent(Shoot);
+                    BreakoutBus.GetBus().RegisterEvent(StartGame);
+                    StaticTimer.ResumeTimer();
                     break;
             }
 

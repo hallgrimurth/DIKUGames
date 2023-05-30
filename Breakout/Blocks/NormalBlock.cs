@@ -29,7 +29,7 @@ public class NormalBlock : Block {
             Console.WriteLine("normal block destroyed");
             GameEvent AddScore = new GameEvent
             {
-                EventType = GameEventType.StatusEvent,  
+                EventType = GameEventType.PlayerEvent,  
                 Message = "ADD_SCORE",
                 StringArg1 = this.ToString()
             };

@@ -13,7 +13,7 @@ using Breakout.BreakoutStates;
 
 namespace Breakout{ 
     public class LevelManager : IGameEventProcessor {
-        private int levelCounter = 1;
+        private int levelCounter = 0;
         private String[] levelPaths;
         private Level currentLevel;
         public Level CurrentLevel {
@@ -73,7 +73,7 @@ namespace Breakout{
                             float.Parse(gameEvent.StringArg2));
                         PowerUp newPowerUp = PowerUpFactory.CreatePowerUp(pos);
                         newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.005f));
-                        CurrentLevel.powerups.AddEntity(newPowerUp);
+                        currentLevel.powerups.AddEntity(newPowerUp);
                         break;
                     
                 }
