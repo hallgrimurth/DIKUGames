@@ -126,10 +126,16 @@ namespace Breakout{
                         IncreaseLives();
                         break;
                     case "Widen":
-                        shape.Extent.X = 0.4f;
+                        if (shape.Extent.X < 0.9f) {
+                            shape.Extent.X += 0.1f;
+                            shape.Position.X -= 0.05f;
+                        }
                         break;
                     case "Narrow":
-                        shape.Extent.X = 0.2f;
+                        if (shape.Extent.X > 0.1f) {
+                            shape.Extent.X -= 0.1f;
+                            shape.Position.X += 0.05f;
+                        }
                         break;
                 }
             }

@@ -84,14 +84,23 @@ namespace Breakout.BreakoutStates {
         // Initializes one or more balls 
         private void SetBall() {
             ballCon =  new EntityContainer<Ball>();
-            Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
-            Vec2F extent = new Vec2F(0.03f, 0.03f);
-            Vec2F dir = new Vec2F(0.01f, 0.01f);
-            DynamicShape ballShape = new DynamicShape(pos, extent);
+            Vec2F ballExtent = new Vec2F(0.03f, 0.03f);
+            Vec2F ballPos = new Vec2F(
+                (player.Shape.Position.X + (player.Shape.Extent.X / 2) - (ballExtent.X / 2)), 
+                 player.Shape.Position.Y + (3 * ballExtent.Y));
+            Vec2F ballDir = new Vec2F(0.1f * 10e-6f, 0.01f);
+            DynamicShape ballShape = new DynamicShape(ballPos, ballExtent);
             ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
             ball = new Ball(ballShape, ballImage);
-            ball.ChangeDirection(dir);
+            ball.ChangeDirection(ballDir);
             ballCon.AddEntity(ball);
+        }
+
+        private void AimBall(Ball ball) {
+            if (levelManager.Start == false) {
+                ball.Shape.Position.X = player.Shape.Position.X + (player.Shape.Extent.X / 2) - (ball.Shape.Extent.X / 2);
+                ball.Shape.Position.Y = player.Shape.Position.Y + (3 * ball.Shape.Extent.Y);
+            }
         }
 
 
@@ -362,6 +371,9 @@ namespace Breakout.BreakoutStates {
             }
             player.Move();
             UpdateTimers();
+            ballCon.Iterate(ball => {
+                AimBall(ball);
+            });
         }
     }
 }
