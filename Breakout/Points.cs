@@ -24,22 +24,7 @@ public class Points : IGameEventProcessor {
     }
 
     private void AddPoints(int point) {
-        // In the future we should use the Block classes and the BlockFactory class 
-        // switch (blockType) {
-        //     case "Breakout.NormalBlock":
-        //     pointsValue += 2; 
-        //     break;
-        //     case "Breakout.IndestructibleBlock":
-        //     pointsValue += 100000;
-        //     break;
-        //     case "Breakout.HardenedBlock":
-        //     pointsValue += 5;
-        //     break;
-        //     case "Breakout.PowerUpBlock":
-        //     pointsValue += 10;
-        //     break;
-        // }
-        // Value must always be positive
+
         pointsValue += point;
         if (pointsValue >= 0){
             display.SetText("Score:" + pointsValue.ToString());

@@ -20,7 +20,7 @@ namespace Breakout.BreakoutStates {
         private Player player;
         private Ball ball;
         private EntityContainer<Ball> ballCon;
-        private LevelManager level;
+        private LevelManager levelManager;
 
         // Strides and animations
         private IBaseImage ballImage;
@@ -28,9 +28,6 @@ namespace Breakout.BreakoutStates {
         private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
         private double elapsedTime;
 
-        // private WidePowerUp widen;
-        // private BigPowerUp bigball;
-        private LifePickUpPowerUp life;
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -55,8 +52,8 @@ namespace Breakout.BreakoutStates {
             StaticTimer.RestartTimer();
         }
         private void UpdateTimers(){
-            if (level.MetaDict.ContainsKey('T')) {
-                int timer = Int32.Parse(level.MetaDict['T']);
+            if (levelManager.CurrentLevel.MetaDict.ContainsKey('T')) {
+                int timer = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
                 elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
                 display = new Text("Time:" + (timer - elapsedTime).ToString(), new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
                 display.SetColor(new Vec3I(255, 255, 255));
@@ -65,7 +62,7 @@ namespace Breakout.BreakoutStates {
         }
 
         private void GetLevels() {
-            level = new LevelManager();
+            levelManager = new LevelManager();
             var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
         }
 
@@ -90,9 +87,8 @@ namespace Breakout.BreakoutStates {
 
 
         private void IteratePowerUps() {
-            level.powerups.Iterate(powerup => {
+            levelManager.CurrentLevel.powerups.Iterate(powerup => {
                 powerup.Move();
-                // powerup.PowerDownEffect();
                 if (CollisionDetection.Aabb(player.Shape.AsDynamicShape(), powerup.Shape).Collision) {
                     powerup.PowerUpEffect();
                     powerup.DeleteEntity();
@@ -156,7 +152,7 @@ namespace Breakout.BreakoutStates {
         // Detects whether the ball collides with a block
         private void BallBlockCollision(Ball ball)
         {
-            level.blocks.Iterate(block =>
+            levelManager.CurrentLevel.blocks.Iterate(block =>
             {
                 var CollData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
                 // calculate the collision data of the right and top side of the block
@@ -180,7 +176,7 @@ namespace Breakout.BreakoutStates {
                     // BreakoutBus.GetBus().RegisterEvent(AddScore);
                     GameEvent AddPowerup = new GameEvent
                     {
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "SPAWN_POWERUP",
                         StringArg1 = block.Shape.Position.X.ToString(),
                         StringArg2 = block.Shape.Position.Y.ToString()
@@ -264,21 +260,21 @@ namespace Breakout.BreakoutStates {
                     break;                     
                 case KeyboardKey.Left:
                     GameEvent NextLevel = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     SetActors();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     SetActors();
                     break;
                 case KeyboardKey.Space:
                     GameEvent Shoot = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = level,
+                        EventType = GameEventType.StatusEvent, To = levelManager,
                         Message = "START_GAME" });
                     BreakoutBus.GetBus().RegisterEvent(Shoot);
                     break;
@@ -331,8 +327,8 @@ namespace Breakout.BreakoutStates {
 
 
         public void RenderState() {
-            level.blocks.RenderEntities();
-            level.powerups.RenderEntities();
+            levelManager.RenderLevel();
+
             ballCon.RenderEntities();
             points.Render();
             player.Render();
@@ -344,7 +340,7 @@ namespace Breakout.BreakoutStates {
         }
 
         public void UpdateState(){
-            if (level.Start) {
+            if (levelManager.Start) {
                 IterateBall();
                 IteratePowerUps();
             }
