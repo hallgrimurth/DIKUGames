@@ -117,6 +117,8 @@ namespace Breakout.BreakoutStates {
                             EventType = GameEventType.PlayerEvent, To = player, 
                             Message = "DECREASE_HEALTH"});
                     BreakoutBus.GetBus().RegisterEvent(decreaseLives);
+                    levelManager.Start = false;
+                    SetBall();
                 }
                 if (points.PointsValue >= 3) {
     
@@ -180,7 +182,7 @@ namespace Breakout.BreakoutStates {
                     block.DecreaseHealth();
                     GameEvent AddScore = new GameEvent
                     {
-                        EventType = GameEventType.StatusEvent, To = points,
+                        EventType = GameEventType.PlayerEvent, To = points,
                         Message = "ADD_POINTS" ,
                         IntArg1 = block.Value
                     };

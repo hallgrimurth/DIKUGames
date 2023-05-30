@@ -23,7 +23,7 @@ namespace Breakout {
             DynamicShape PowerUpShape = new DynamicShape(powerupPos, powerupExtent);
             
             
-            //Case for each block type. Normal block, indestructible block, powerup block, hardened block
+            //Case for each powerup type
             int random = rand.Next(0, 3);
             switch(random){
                 case 0:
