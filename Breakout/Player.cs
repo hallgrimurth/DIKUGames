@@ -37,6 +37,7 @@ namespace Breakout{
             this.shape = new DynamicShape(playerPos, playerExtent);
             player = new Entity(this.shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
+            BreakoutBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
 
             SetLives(livesCount);
         }
@@ -118,17 +119,17 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
-                    case "Widen":
-                        shape.Extent.X = 0.4f;
-                        break;
-                    case "Narrow":
-                        shape.Extent.X = 0.2f;
-                        break;
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "INCREASE_HEALTH":
                         IncreaseLives();
+                        break;
+                    case "Widen":
+                        shape.Extent.X = 0.4f;
+                        break;
+                    case "Narrow":
+                        shape.Extent.X = 0.2f;
                         break;
                 }
             }

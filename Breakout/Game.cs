@@ -51,8 +51,8 @@ namespace Breakout{
         //process event types
         public void ProcessEvent(GameEvent gameEvent) {  
              switch (gameEvent.EventType) {
-                case GameEventType.ScoreEvent:
-                    Console.WriteLine(gameEvent.Message);
+                case GameEventType.PlayerEvent:
+                    // Console.WriteLine(gameEvent.Message);
                     break;
                 case GameEventType.WindowEvent:
                 //send message to state machine
