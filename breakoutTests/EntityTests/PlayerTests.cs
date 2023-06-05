@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.IO;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Entities;
 
 namespace Breakout.Tests {
     [TestFixture]
@@ -18,22 +19,22 @@ namespace Breakout.Tests {
         public void SetMoveLeft() {
             player.SetMoveLeft(true);
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(-0.02f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(-0.02f));
             
             player.SetMoveLeft(false);
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(0.0f));
         }
         
         [Test]
         public void SetMoveRight() {
             player.SetMoveRight(true);
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.02f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(0.02f));
             
             player.SetMoveRight(false);
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(0.0f));
         }
       
         [Test]
@@ -42,7 +43,7 @@ namespace Breakout.Tests {
             player.SetMoveRight(true);
             player.UpdateDirection();
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(0.0f));
         }
 
         [Test]
@@ -51,7 +52,7 @@ namespace Breakout.Tests {
             player.SetMoveRight(false);
             player.UpdateDirection();
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(-0.02f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(-0.02f));
         }
         [Test]
         public void UpdateDirectionNotLeftRight() {
@@ -59,7 +60,7 @@ namespace Breakout.Tests {
             player.SetMoveRight(true);
             player.UpdateDirection();
             
-            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.02f));
+            Assert.That(player.Shape.AsDynamicShape().Direction.X, Is.EqualTo(0.02f));
         }
     }
 }

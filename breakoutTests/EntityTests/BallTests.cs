@@ -26,8 +26,7 @@ namespace Breakout.Tests
             Window.CreateOpenGLContext();
 
             var shape = new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.030f, 0.030f), new Vec2F(0.01f, 0.005f));
-            var image = new Image("Assets/Images/ball.png");
-            ball = new Ball(shape, image);
+            ball = new Ball(shape);
         }
 
 
