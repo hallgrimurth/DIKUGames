@@ -12,11 +12,8 @@ namespace Breakout;
 public abstract class Block : Entity, ICollidable {
 
     private int health;
-    private int value;    
-    public int Value {
-        get { return value; }
-        set { value = value; }
-    }
+    int value ;
+
     public int Health {
         get { return health; }
         set { health = value; }
@@ -44,6 +41,12 @@ public abstract class Block : Entity, ICollidable {
                 StringArg1 = "BALL",
                 Message = "UNSUBSCRIBE_COLLISION_EVENT",
                 From = this
+            });
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.PlayerEvent,  
+                Message = "ADD_POINTS",
+                IntArg1 = this.value
             });
         }
     }

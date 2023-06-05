@@ -21,17 +21,7 @@ namespace Breakout{
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             //define event bus
             stateMachine = new StateMachine();
-            // eventQueue = new List<GameEventType> {
-            //     GameEventType.InputEvent,
-            //     GameEventType.WindowEvent,
-            //     GameEventType.MovementEvent,
-            //     GameEventType.GameStateEvent,
-            //     GameEventType.StatusEvent,
-            //     GameEventType.ControlEvent,
-            //     GameEventType.PlayerEvent,
-            //     GameEventType.ScoreEvent
-            // };    
-            //initialize event bus
+            
             InitializeEventBus(eventQueue);
 
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);

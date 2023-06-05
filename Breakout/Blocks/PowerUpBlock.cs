@@ -9,11 +9,9 @@ using DIKUArcade.Events;
 
 namespace Breakout;
 public class PowerUpBlock : Block {
+
     private int value;
-    
-    public int Value {
-        get { return value; }
-    }
+
     //constructor for block
     public PowerUpBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
@@ -22,19 +20,5 @@ public class PowerUpBlock : Block {
     public override void DecreaseHealth() {
         this.Health--;
         TryDeleteEntity();
-        if (Health == 0) {
-            // Register score event
-            GameEvent AddScore = new GameEvent
-            {
-                EventType = GameEventType.PlayerEvent,  
-                Message = "ADD_POINTS",
-                IntArg1 = this.Value
-            };
-            BreakoutBus.GetBus().RegisterEvent(AddScore);
-        }
-    
     }
-
-     
-    
 }

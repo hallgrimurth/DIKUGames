@@ -14,14 +14,11 @@ namespace Breakout{
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
         const float MOVEMENT_SPEED = 0.02f;
-        private Image playerStride;
         private Text display;
         private double startTime;
         private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
         private int livesCount = 3;
-        private double endTime;
-
         public int LivesCount {
             get { return livesCount; }
             // set { livesCount = value; }
