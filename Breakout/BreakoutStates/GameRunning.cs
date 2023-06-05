@@ -95,18 +95,18 @@ namespace Breakout.BreakoutStates {
         // }
 
 
-        private void IteratePowerUps() {
-            levelManager.CurrentLevel.powerups.Iterate(powerup => {
-                powerup.Move();
-                // Console.WriteLine("Powerup direction: " + powerup.GetDirection());
-                // powerup.PowerDownEffect();
-                CollisionData powerupCollision = CollisionDetection.Aabb(powerup.Shape.AsDynamicShape(), player.Shape);
-                if (powerupCollision.Collision) {
-                    powerup.PowerUpEffect();
-                    powerup.DeleteEntity();
-                }
-            });
-        }
+        // private void IteratePowerUps() {
+        //     levelManager.CurrentLevel.powerups.Iterate(powerup => {
+        //         powerup.Move();
+        //         // Console.WriteLine("Powerup direction: " + powerup.GetDirection());
+        //         // powerup.PowerDownEffect();
+        //         CollisionData powerupCollision = CollisionDetection.Aabb(powerup.Shape.AsDynamicShape(), player.Shape);
+        //         if (powerupCollision.Collision) {
+        //             powerup.PowerUpEffect();
+        //             powerup.DeleteEntity();
+        //         }
+        //     });
+        // }
         // private void IterateBall() {
         //     ballCon.Iterate(ball => {
         //         ball.Move();

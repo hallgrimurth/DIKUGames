@@ -136,6 +136,11 @@ namespace Breakout{
                     case "STOP_RIGHT":
                         SetMoveRight(false);
                         break;
+                    case "SLOW_MOVEMENT":
+                        break;
+                    case "NORMAL_MOVEMENT":
+                        break;
+
                     case "Widen":
                         Console.WriteLine("Widen message received");
                         Shape.Extent.X = 0.4f;
@@ -145,7 +150,6 @@ namespace Breakout{
                         break;
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
-                // Console.WriteLine("hi");
                 switch (gameEvent.Message) {
                     case "INCREASE_HEALTH":
                         IncreaseLives();
