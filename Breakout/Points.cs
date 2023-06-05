@@ -7,7 +7,7 @@ using System;
 namespace Breakout;
 public class Points : IGameEventProcessor {
     private Text display;
-    private int pointsValue;
+    private int pointsValue = 0;
     public int PointsValue{
         get {return pointsValue;}
         set {pointsValue = value;}

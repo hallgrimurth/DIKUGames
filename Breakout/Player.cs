@@ -175,7 +175,6 @@ namespace Breakout{
 
         public void Render() {
             this.RenderEntity();
-
         }
     }
 }

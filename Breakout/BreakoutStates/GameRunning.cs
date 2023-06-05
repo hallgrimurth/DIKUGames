@@ -41,6 +41,7 @@ namespace Breakout.BreakoutStates {
             GetLevels();
             SetPoints();
             SetTimers();
+            // player.SetLives();
         }
 
          private void SetTimers() {
