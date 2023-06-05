@@ -1,65 +1,65 @@
-// using NUnit.Framework;
-// using System.IO;
-// using DIKUArcade.Graphics;
-// using DIKUArcade.Math;
+using NUnit.Framework;
+using System.IO;
+using DIKUArcade.Graphics;
+using DIKUArcade.Math;
 
-// namespace Breakout.Tests {
-//     [TestFixture]
-//     public class PlayerTests {
+namespace Breakout.Tests {
+    [TestFixture]
+    public class PlayerTests {
         
-//         private Player player;
+        private Player player;
         
-//         [SetUp]
-//         public void Setup() {
-//             player = new Player(3);
-//         }
+        [SetUp]
+        public void Setup() {
+            player = new Player(3);
+        }
         
-//         [Test]
-//         public void SetMoveLeft() {
-//             player.SetMoveLeft(true);
+        [Test]
+        public void SetMoveLeft() {
+            player.SetMoveLeft(true);
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(-0.02f));
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(-0.02f));
             
-//             player.SetMoveLeft(false);
+            player.SetMoveLeft(false);
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
-//         }
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
+        }
         
-//         [Test]
-//         public void SetMoveRight() {
-//             player.SetMoveRight(true);
+        [Test]
+        public void SetMoveRight() {
+            player.SetMoveRight(true);
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(0.02f));
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.02f));
             
-//             player.SetMoveRight(false);
+            player.SetMoveRight(false);
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
-//         }
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
+        }
       
-//         [Test]
-//         public void UpdateDirectionLeftRight() {
-//             player.SetMoveLeft(true);
-//             player.SetMoveRight(true);
-//             player.UpdateDirection();
+        [Test]
+        public void UpdateDirectionLeftRight() {
+            player.SetMoveLeft(true);
+            player.SetMoveRight(true);
+            player.UpdateDirection();
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
-//         }
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.0f));
+        }
 
-//         [Test]
-//         public void UpdateDirectionLeftNotRight() {
-//             player.SetMoveLeft(true);
-//             player.SetMoveRight(false);
-//             player.UpdateDirection();
+        [Test]
+        public void UpdateDirectionLeftNotRight() {
+            player.SetMoveLeft(true);
+            player.SetMoveRight(false);
+            player.UpdateDirection();
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(-0.02f));
-//         }
-//         [Test]
-//         public void UpdateDirectionNotLeftRight() {
-//             player.SetMoveLeft(false);
-//             player.SetMoveRight(true);
-//             player.UpdateDirection();
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(-0.02f));
+        }
+        [Test]
+        public void UpdateDirectionNotLeftRight() {
+            player.SetMoveLeft(false);
+            player.SetMoveRight(true);
+            player.UpdateDirection();
             
-//             Assert.That(player.Shape.Direction.X, Is.EqualTo(0.02f));
-//         }
-//     }
-// }
+            Assert.That(player.Shape.Direction.X, Is.EqualTo(0.02f));
+        }
+    }
+}
