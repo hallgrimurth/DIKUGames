@@ -29,14 +29,40 @@ namespace Breakout{
         
         public EntityContainer<Block> blocks {get;}
         public EntityContainer<PowerUp> powerups {get;}
+        private Ball ball;
+        private CollisionManager collisionManager;        
         public List<string> MetaData{
             get{ return metaData; }
         }
+        private Player player {get; set;}
 
         public Level(string filePath){
             blocks = new EntityContainer<Block>();
             powerups = new EntityContainer<PowerUp>();
+            collisionManager = new CollisionManager();
+
             LoadData(filePath);
+            SetActors();
+            SetBall();
+            
+        }
+
+        public void SetActors(){
+            player = new Player();
+            // AddCollisionEvent(player, "SUBSCRIBE_COLLISION_EVENT", "PLAYER");
+            SetBall();
+        }
+
+        
+        private void SetBall() {
+            Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
+            Vec2F extent = new Vec2F(0.03f, 0.03f);
+            Vec2F dir = new Vec2F(0.01f, 0.01f);
+            DynamicShape ballShape = new DynamicShape(pos, extent);
+            // ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
+            ball = new Ball(ballShape);
+            ball.ChangeDirection(dir);
+            // AddCollisionEvent(ball, "SUBSCRIBE_COLLISION_EVENT", "BALL");
         }
 
         public void LoadData(String filePath) {
@@ -85,9 +111,11 @@ namespace Breakout{
                             // Calls the block-factory to create and add a block entity
                             string blockImage = legendDict[mapLines[i][j]];
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
+                            //send event to collision manager
+                            // AddCollisionEvent(block, "SUBSCRIBE_COLLISION_EVENT", "BLOCK");
                             blocks.AddEntity(block);
                             if (type == 'P'){
-                                // powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
+                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
                             }
                         }
                     // // These catches are needed to avoid crashing if the file is empty or data is missing
@@ -100,6 +128,19 @@ namespace Breakout{
                 }
             }
         }
+
+        // Add collision events to the collision manager
+        // private void AddCollisionEvent(ICollidable obj1, String message, String key ) {
+        //     // Console.WriteLine("Adding collision event");
+        //     BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+        //         EventType = GameEventType.StatusEvent,
+        //         Message = message,
+        //         StringArg1 = key,
+        //         From = obj1
+        //     });
+            
+                
+        // }
 
         
 
@@ -120,6 +161,25 @@ namespace Breakout{
         public void ClearLevel() {
             blocks.ClearContainer();
             powerups.ClearContainer();
+        }
+
+        public void Update() {
+            blocks.Iterate(block => 
+                block.Update()
+            );
+            powerups.Iterate(powerup =>
+                powerup.Update()
+            );
+
+            ball.Update();
+            player.Update();
+        }
+
+        public void Render() {
+            blocks.RenderEntities();
+            powerups.RenderEntities();
+            ball.Render();
+            player.Render();
         }
     }
 }
