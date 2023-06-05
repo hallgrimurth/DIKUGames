@@ -17,9 +17,11 @@ namespace Breakout{
         private StateMachine stateMachine;
         //Entities
         private List<GameEventType> eventQueue;
+        private TimeManager timer;
       
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             //define event bus
+            timer = new TimeManager();
             stateMachine = new StateMachine();
             
             InitializeEventBus(eventQueue);
