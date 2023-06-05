@@ -41,6 +41,7 @@ namespace Breakout{
             powerups = new EntityContainer<PowerUp>();
             collisionManager = new CollisionManager();
 
+            ClearLevel();
             LoadData(filePath);
             SetActors();
             SetBall();
@@ -49,7 +50,6 @@ namespace Breakout{
 
         public void SetActors(){
             player = new Player();
-            // AddCollisionEvent(player, "SUBSCRIBE_COLLISION_EVENT", "PLAYER");
             SetBall();
         }
 
@@ -59,10 +59,8 @@ namespace Breakout{
             Vec2F extent = new Vec2F(0.03f, 0.03f);
             Vec2F dir = new Vec2F(0.01f, 0.01f);
             DynamicShape ballShape = new DynamicShape(pos, extent);
-            // ballImage = new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "ball.png"));
             ball = new Ball(ballShape);
             ball.ChangeDirection(dir);
-            // AddCollisionEvent(ball, "SUBSCRIBE_COLLISION_EVENT", "BALL");
         }
 
         public void LoadData(String filePath) {
@@ -112,7 +110,6 @@ namespace Breakout{
                             string blockImage = legendDict[mapLines[i][j]];
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
                             //send event to collision manager
-                            // AddCollisionEvent(block, "SUBSCRIBE_COLLISION_EVENT", "BLOCK");
                             blocks.AddEntity(block);
                             if (type == 'P'){
                                 powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
@@ -129,18 +126,6 @@ namespace Breakout{
             }
         }
 
-        // Add collision events to the collision manager
-        // private void AddCollisionEvent(ICollidable obj1, String message, String key ) {
-        //     // Console.WriteLine("Adding collision event");
-        //     BreakoutBus.GetBus().RegisterEvent(new GameEvent {
-        //         EventType = GameEventType.StatusEvent,
-        //         Message = message,
-        //         StringArg1 = key,
-        //         From = obj1
-        //     });
-            
-                
-        // }
 
         
 
@@ -161,6 +146,11 @@ namespace Breakout{
         public void ClearLevel() {
             blocks.ClearContainer();
             powerups.ClearContainer();
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
+                EventType = GameEventType.StatusEvent, 
+                Message = "RESTART_LEVEL",
+                From = this
+                });
         }
 
         public void Update() {

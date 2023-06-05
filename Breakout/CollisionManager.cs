@@ -20,7 +20,7 @@ namespace Breakout {
         public void ProcessEvent(GameEvent gameEvent) {
 
             switch (gameEvent.Message) {
-                case var value when value == "TRY_COLLIDE"
+                case var value when value == "CHECK_COLLISION_EVENT"
                     && CheckGameEvent(gameEvent):
                     TryCollide(gameEvent.StringArg1, (ICollidable) gameEvent.From);
                     break;
@@ -32,7 +32,12 @@ namespace Breakout {
 
                 case var value when value == "UNSUBSCRIBE_COLLISION_EVENT"
                     && CheckGameEvent(gameEvent):
+                    Console.WriteLine("CollisionManager: Unsubscribing from collision event");
                     UnSubscribe(gameEvent.StringArg1,(ICollidable) gameEvent.From);
+                    break;
+                case "RESTART_LEVEL":
+                    Console.WriteLine("CollisionManager: Restarting level" + collisionEvents.Count);
+                    collisionEvents.Clear();
                     break;
             }
         }

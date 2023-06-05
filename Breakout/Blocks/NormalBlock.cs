@@ -22,6 +22,7 @@ public class NormalBlock : Block {
     }
 
     public override void DecreaseHealth() {
+        TryDeleteEntity();
         this.Health--; 
         if (Health == 0) {
             DeleteEntity();

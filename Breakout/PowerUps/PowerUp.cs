@@ -42,10 +42,9 @@ public abstract class PowerUp : Entity, ICollidable {
         if (this.IsDeleted()) {
             return;
         }
-        // Console.WriteLine("Try collide");
         BreakoutBus.GetBus().RegisterEvent(new GameEvent {
             EventType = GameEventType.StatusEvent,
-            Message = "TRY_COLLIDE",
+            Message = "CHECK_COLLISION_EVENT",
             From = this,
             StringArg1 = "POWERUP"
         });

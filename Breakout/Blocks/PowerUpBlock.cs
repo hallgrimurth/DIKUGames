@@ -20,6 +20,7 @@ public class PowerUpBlock : Block {
         this.value = 20;
     }
     public override void DecreaseHealth() {
+        TryDeleteEntity();
         this.Health--; 
         if (Health == 0) {
             DeleteEntity();

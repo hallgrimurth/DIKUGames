@@ -36,6 +36,18 @@ public abstract class Block : Entity, ICollidable {
         
     public abstract void DecreaseHealth() ;
 
+    public void TryDeleteEntity() {
+        if (health <= 0) {
+            DeleteEntity();
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                StringArg1 = "BALL",
+                Message = "UNSUBSCRIBE_COLLISION_EVENT",
+                From = this
+            });
+        }
+    }
+
     public void Collision(CollisionData collisionData, ICollidable other) {
         if (collisionData.Collision) {
             DecreaseHealth();
