@@ -32,22 +32,14 @@ namespace Breakout{
         }
 
         public void LoadLevel(string filePath) {
-            start = false;
             currentLevel = new Level(filePath);
-            currentLevel.LevelManager = this;
+
         }
         private void NextLvl() {
             levelCounter++;
             if (levelCounter >= levelPaths.Count()) {
                 levelCounter = 0;
             }
-            currentLevel.ClearLevel();
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
-                EventType = GameEventType.StatusEvent, 
-                Message = "RESTART_LEVEL",
-                From = this
-                });
-
             LoadLevel(levelPaths[levelCounter]);
 
         }
@@ -57,7 +49,6 @@ namespace Breakout{
             if (levelCounter < 0) {
                 levelCounter = levelPaths.Count() - 1;
             }
-            currentLevel.ClearLevel();
             LoadLevel(levelPaths[levelCounter]);
         }
 
@@ -72,7 +63,7 @@ namespace Breakout{
                         NextLvl();
                         break;
                     case "START_GAME":
-                        start = true;
+                        currentLevel.StartGame();
                         break;
                     case "SPAWN_POWERUP":
                         Vec2F pos = new Vec2F(

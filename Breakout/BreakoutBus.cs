@@ -17,7 +17,8 @@ namespace Breakout {
                     GameEventType.StatusEvent,
                     GameEventType.ControlEvent,
                     GameEventType.PlayerEvent,
-                    GameEventType.ScoreEvent
+                    GameEventType.GraphicsEvent
+
                 });
 
             }

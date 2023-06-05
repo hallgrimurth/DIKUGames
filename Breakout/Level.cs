@@ -40,14 +40,19 @@ namespace Breakout{
             get{ return metaData; }
         }
         private Player player {get; set;}
+        private bool start;
+        private TimeManager timeManager;
 
         public Level(string filePath){
             blocks = new EntityContainer<Block>();
             powerups = new EntityContainer<PowerUp>();
             collisionManager = new CollisionManager();
+            timeManager = new TimeManager();
+            start = false;
 
             ClearLevel();
             LoadData(filePath);
+            SendTimer();
             SetActors();
             SetBall();
             
@@ -56,6 +61,27 @@ namespace Breakout{
         public void SetActors(){
             player = new Player();
             SetBall();
+        }
+
+        public void SendTimer(){
+            if (MetaDict.ContainsKey('T') ) {
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                    EventType = GameEventType.GraphicsEvent,
+                    Message = "DISPLAY_TIME",
+                    StringArg1 = MetaDict['T']
+                });
+            } else if (MetaDict.ContainsKey('T') ) {
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                    EventType = GameEventType.GraphicsEvent,
+                    Message = "UPDATE_TIME" 
+                });
+            } else {
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                    EventType = GameEventType.GraphicsEvent,
+                    Message = "NO_TIME" 
+                });
+            }
+                    
         }
 
         
@@ -72,10 +98,14 @@ namespace Breakout{
 
         // Allows the player to aim the ball before the game starts
         private void AimBall(Ball ball) {
-            if (levelManager.Start == false) {
+            if (start == false) {
                 ball.Shape.Position.X = player.Shape.Position.X + (player.Shape.Extent.X / 2) - (ball.Shape.Extent.X / 2);
                 ball.Shape.Position.Y = player.Shape.Position.Y + (3 * ball.Shape.Extent.Y);
             }
+        }
+
+        public void StartGame() {
+            start = true;
         }
 
         public void LoadData(String filePath) {

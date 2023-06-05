@@ -3,27 +3,49 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using DIKUArcade.Entities;
+using DIKUArcade.Events;
 
 namespace Breakout {
+    public class TimeManager: IGameEventProcessor  {
+        private Text display;
+        private int givenTime;
+        private int elapsedTime;
+        private bool hasTime;
+        public TimeManager() {
+            StaticTimer.RestartTimer();
+            display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
+            display.SetColor(new Vec3I(255, 255, 255));
+            display.SetFontSize(30);
+            BreakoutBus.GetBus().Subscribe(GameEventType.GraphicsEvent, this);
+        }
+        public void ProcessEvent(GameEvent gameEvent) {
 
+            switch (gameEvent.Message) {
+                case "DISPLAY_TIME":
+                    hasTime = true;
+                    givenTime = Int32.Parse(gameEvent.StringArg1);
+                    display.SetText("Time:" + (givenTime));
+                    break;
+                case "NO_TIME":
+                    hasTime = false;
+                    display.SetText("Time: ");
+                    break;
+                
+                
+            }
+        }
 
-    public class TimeManager  {
+        public void Update(){
+            if (hasTime){
+                elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
+                display.SetText("Time:" + (givenTime - elapsedTime).ToString());
+            }
+        }
 
-        // public TimeManager(int LevelTime) {
-        //     levelTime = LevelTime;
-        //     if (levelTime > 0) {
-        //         usesTime = true;
-        //     } else {
-        //         usesTime = false;
-        //     }
-        //     initialTime = (int) Math.Ceiling(StaticTimer.GetElapsedSeconds());
-        //     timeText = new Text(
-        //         ("Time: " + currentTime.ToString()),
-        //         new Vec2F(0.445f, 0.786f),
-        //         new Vec2F(0.2f, 0.2f)
-        //     );
-        //     timeText.SetColor(new Vec3I(0, 255, 0));
-        // }
-
+        public void Render(){
+            display.RenderText();   
+        }
     }
 }
+
+

@@ -64,7 +64,7 @@ namespace Breakout.BreakoutStates {
                                             //StringArg2 = "NEW_GAME"
                                         }
                                     );
-                                    BreakoutBus.GetBus().ProcessEventsSequentially();
+                                    // BreakoutBus.GetBus().ProcessEventsSequentially();
 
                                     break;
                                 case 1:

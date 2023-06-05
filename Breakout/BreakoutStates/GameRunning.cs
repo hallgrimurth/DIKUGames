@@ -21,11 +21,11 @@ namespace Breakout.BreakoutStates {
         private Ball ball;
         private EntityContainer<Ball> ballCon;
         private LevelManager levelManager;
+        private TimeManager timeManager;
 
         // Strides and animations
         private IBaseImage ballImage;
         private Points points;
-        private Text display = new Text("Time: ", new Vec2F(0.33f, -0.3f), new Vec2F(0.4f, 0.4f));
         private int elapsedTime;
 
 
@@ -38,38 +38,28 @@ namespace Breakout.BreakoutStates {
         }
         
         public void InitializeGameState(){
-            GetLevels();
-            SetPoints();
-            SetTimers();
-            // player.SetLives();
-        }
-
-         private void SetTimers() {
-            display.SetColor(new Vec3I(255, 255, 255));
-            display.SetFontSize(30);
-            StaticTimer.RestartTimer();
-            StaticTimer.PauseTimer();
-        }
-        private void UpdateTimers(){
-            if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start == false) {
-                // Display the given time if the level has a time limit
-                int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
-                display.SetText("Time:" + (givenTime).ToString());
-            } else if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start) {
-                // Update the time
-                int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
-                elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
-                display.SetText("Time:" + (givenTime - elapsedTime).ToString());
-            } else {
-                // display nothing
-                display.SetText("");
-            }
-        }
-
-        private void GetLevels() {
             levelManager = new LevelManager();
-            var levelPaths = Directory.GetFiles(Path.Combine(Constants.MAIN_PATH, "Assets/Levels/"));
+            timeManager = new TimeManager();
+            SetPoints();
+            // SetTimers();
         }
+
+
+        // private void UpdateTimers(){
+        //     if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start == false) {
+        //         // Display the given time if the level has a time limit
+        //         int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
+        //         display.SetText("Time:" + (givenTime).ToString());
+        //     } else if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start) {
+        //         // Update the time
+        //         int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
+        //         elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
+        //         display.SetText("Time:" + (givenTime - elapsedTime).ToString());
+        //     } else {
+        //         // display nothing
+        //         display.SetText("");
+        //     }
+        // }
 
         private void SetPoints() {
             //define points
@@ -81,14 +71,14 @@ namespace Breakout.BreakoutStates {
             switch(key) {
                 case KeyboardKey.A:
                     GameEvent MoveLeft = (new GameEvent{
-                        EventType = GameEventType.MovementEvent,  To = player, 
+                        EventType = GameEventType.MovementEvent, 
                         Message = "MOVE_LEFT" });
                     BreakoutBus.GetBus().RegisterEvent(MoveLeft);
                    
                     break;
                 case KeyboardKey.D:
                      GameEvent MoveRight = (new GameEvent{
-                        EventType = GameEventType.MovementEvent,  To = player, 
+                        EventType = GameEventType.MovementEvent,
                         Message = "MOVE_RIGHT" });
                     BreakoutBus.GetBus().RegisterEvent(MoveRight);
                         
@@ -105,7 +95,7 @@ namespace Breakout.BreakoutStates {
                         Message = "PREV_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(NextLevel);
                     // SetActors();
-                    SetTimers();
+                    // SetTimers();
                     break;
                 case KeyboardKey.Right:
                     GameEvent PreviousLevel = (new GameEvent{
@@ -113,7 +103,7 @@ namespace Breakout.BreakoutStates {
                         Message = "NEXT_LEVEL" });
                     BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
                     // SetActors();
-                    SetTimers();
+                    // SetTimers();
                     break;
                 case KeyboardKey.Space:
                     GameEvent StartGame = (new GameEvent{
@@ -148,7 +138,8 @@ namespace Breakout.BreakoutStates {
                         new GameEvent{
                             EventType = GameEventType.GameStateEvent,
                             Message = "CHANGE_STATE",
-                            StringArg1 = "GAME_PAUSED"
+                            StringArg1 = "GAME_PAUSED",
+                            StringArg2 = "PAUSE"
                         }
                     );
                     break;
@@ -173,7 +164,7 @@ namespace Breakout.BreakoutStates {
         public void RenderState() {
             levelManager.RenderLevel();
             points.Render();
-            display.RenderText();
+            timeManager.Render();
         }
 
         public void ResetState(){ 
@@ -182,8 +173,8 @@ namespace Breakout.BreakoutStates {
 
         public void UpdateState(){
 
+            timeManager.Update();   
             levelManager.UpdateLevel();
-            UpdateTimers();
         }
     
     }

@@ -63,10 +63,11 @@ namespace Breakout.BreakoutStates {
                                             EventType = GameEventType.GameStateEvent,
                                             Message = "CHANGE_STATE",
                                             StringArg1 = "GAME_RUNNING",
-                                            StringArg2 = "NEW_GAME"
+                                            StringArg2 = "RESUME",
+                                            
                                         }
                                     );
-                                    BreakoutBus.GetBus().ProcessEventsSequentially();
+                                    // BreakoutBus.GetBus().ProcessEventsSequentially();
 
                                     break;
                                 case 1:
