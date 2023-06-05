@@ -34,7 +34,7 @@ namespace Breakout{
         public void LoadLevel(string filePath) {
             start = false;
             currentLevel = new Level(filePath);
-
+            currentLevel.LevelManager = this;
         }
         private void NextLvl() {
             levelCounter++;
