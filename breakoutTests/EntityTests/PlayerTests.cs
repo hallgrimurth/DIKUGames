@@ -11,7 +11,7 @@ namespace Breakout.Tests {
         
         [SetUp]
         public void Setup() {
-            player = new Player(3);
+            player = new Player();
         }
         
         [Test]

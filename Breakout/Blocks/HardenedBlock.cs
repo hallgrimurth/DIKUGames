@@ -28,6 +28,9 @@ public class HardenedBlock : Block {
     }
     public override void DecreaseHealth() {
         this.Health--;
+
+        TryDeleteEntity();
+
         
         if (this.Health == 1) {
             this.Image = damageImage;
@@ -41,7 +44,6 @@ public class HardenedBlock : Block {
                 IntArg1 = this.Value
             };
             BreakoutBus.GetBus().RegisterEvent(AddScore);
-            DeleteEntity();
         }
     
         

@@ -42,7 +42,14 @@ namespace Breakout{
                 levelCounter = 0;
             }
             currentLevel.ClearLevel();
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
+                EventType = GameEventType.StatusEvent, 
+                Message = "RESTART_LEVEL",
+                From = this
+                });
+
             LoadLevel(levelPaths[levelCounter]);
+
         }
 
         private void PrevLvl() {
@@ -81,9 +88,12 @@ namespace Breakout{
         }
 
         public void RenderLevel() {
-            currentLevel.blocks.RenderEntities();
-            currentLevel.powerups.RenderEntities();
+            currentLevel.Render();
         }
-    }
+
+        public void UpdateLevel() {
+            currentLevel.Update();
+            }
+}   
 }
 

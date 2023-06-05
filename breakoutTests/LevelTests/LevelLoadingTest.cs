@@ -27,7 +27,7 @@ namespace BreakoutTests
             //Testing if txt level file alters when loading new level
             level = new LevelManager();
             string fileTextPre = File.ReadAllText(path+fileName);
-            level.LoadTextData(path+fileName); 
+            level.LoadLevel(path+fileName); 
             string fileTextPost = File.ReadAllText(path+fileName);
 
             Assert.That(fileTextPre, Is.EqualTo(fileTextPost));
@@ -39,7 +39,7 @@ namespace BreakoutTests
         public void TestEmptyFile()
         {
             level = new LevelManager();
-            Assert.DoesNotThrow(() => level.LoadTextData(path+"empty.txt"));
+            Assert.DoesNotThrow(() => level.LoadLevel(path+"empty.txt"));
         }
     
         

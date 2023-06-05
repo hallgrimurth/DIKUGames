@@ -20,9 +20,9 @@ public class PowerUpBlock : Block {
         this.value = 20;
     }
     public override void DecreaseHealth() {
-        this.Health--; 
+        this.Health--;
+        TryDeleteEntity();
         if (Health == 0) {
-            DeleteEntity();
             // Register score event
             GameEvent AddScore = new GameEvent
             {

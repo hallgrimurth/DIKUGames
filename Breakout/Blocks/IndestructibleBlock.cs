@@ -22,9 +22,9 @@ public class IndestructibleBlock : Block {
     }
 
     public override void DecreaseHealth() { 
+        TryDeleteEntity();
         //do nothing
         if (Health == 0) {
-            DeleteEntity();
             // Register score event
             GameEvent AddScore = new GameEvent
             {

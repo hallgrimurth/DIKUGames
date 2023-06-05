@@ -29,14 +29,38 @@ namespace Breakout{
         
         public EntityContainer<Block> blocks {get;}
         public EntityContainer<PowerUp> powerups {get;}
+        private Ball ball;
+        private CollisionManager collisionManager;        
         public List<string> MetaData{
             get{ return metaData; }
         }
+        private Player player {get; set;}
 
         public Level(string filePath){
             blocks = new EntityContainer<Block>();
             powerups = new EntityContainer<PowerUp>();
+            collisionManager = new CollisionManager();
+
+            ClearLevel();
             LoadData(filePath);
+            SetActors();
+            SetBall();
+            
+        }
+
+        public void SetActors(){
+            player = new Player();
+            SetBall();
+        }
+
+        
+        private void SetBall() {
+            Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
+            Vec2F extent = new Vec2F(0.03f, 0.03f);
+            Vec2F dir = new Vec2F(0.01f, 0.01f);
+            DynamicShape ballShape = new DynamicShape(pos, extent);
+            ball = new Ball(ballShape);
+            ball.ChangeDirection(dir);
         }
 
         public void LoadData(String filePath) {
@@ -85,9 +109,10 @@ namespace Breakout{
                             // Calls the block-factory to create and add a block entity
                             string blockImage = legendDict[mapLines[i][j]];
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
+                            //send event to collision manager
                             blocks.AddEntity(block);
                             if (type == 'P'){
-                                // powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
+                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
                             }
                         }
                     // // These catches are needed to avoid crashing if the file is empty or data is missing
@@ -100,6 +125,7 @@ namespace Breakout{
                 }
             }
         }
+
 
         
 
@@ -120,6 +146,30 @@ namespace Breakout{
         public void ClearLevel() {
             blocks.ClearContainer();
             powerups.ClearContainer();
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
+                EventType = GameEventType.StatusEvent, 
+                Message = "RESTART_LEVEL",
+                From = this
+                });
+        }
+
+        public void Update() {
+            blocks.Iterate(block => 
+                block.Update()
+            );
+            powerups.Iterate(powerup =>
+                powerup.Update()
+            );
+
+            ball.Update();
+            player.Update();
+        }
+
+        public void Render() {
+            blocks.RenderEntities();
+            powerups.RenderEntities();
+            ball.Render();
+            player.Render();
         }
     }
 }
