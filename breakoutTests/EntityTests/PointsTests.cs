@@ -22,8 +22,8 @@ namespace BreakoutTests
         [Test]
         public void TestPointValue()
         {
-            var points = new Points(new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f), 1);
-            Assert.That(points.PointsValue, Is.EqualTo(1));
+            var points = new Points(new Vec2F(0.69f, -0.3f), new Vec2F(0.4f, 0.4f));
+            Assert.That(points.PointsValue, Is.EqualTo(0));
         }
 
 
