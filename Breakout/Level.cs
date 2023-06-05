@@ -23,15 +23,20 @@ namespace Breakout{
         }
         private Dictionary<char, string> legendDict;
         private char type;
+        public List<string> MapData {
+            get{ return mapData;}
+        }
+
+        public List<string> MetaData {
+            get{ return metaData;}
+        }
+
         public char Type {
             get{ return type; }   
         }
         
         public EntityContainer<Block> blocks {get;}
         public EntityContainer<PowerUp> powerups {get;}
-        public List<string> MetaData{
-            get{ return metaData; }
-        }
 
         public Level(string filePath){
             blocks = new EntityContainer<Block>();
