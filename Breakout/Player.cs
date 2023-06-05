@@ -5,13 +5,12 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
 using DIKUArcade.Timers;
+using DIKUArcade.Physics;
 
 namespace Breakout{   
-    public class Player : IGameEventProcessor{
+    public class Player :Entity, IGameEventProcessor, ICollidable{
 
-        private Entity player;
-
-        private DynamicShape shape;
+        // private Entity player;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
         const float MOVEMENT_SPEED = 0.02f;
@@ -22,9 +21,7 @@ namespace Breakout{
         private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
         private int livesCount = 3;
         private double endTime;
-        public DynamicShape Shape {
-            get { return shape; }
-        }
+
         public int LivesCount {
             get { return livesCount; }
             // set { livesCount = value; }
@@ -32,13 +29,31 @@ namespace Breakout{
         private static Vec2F livesPos = new Vec2F(0.06f, -0.3f);
         private static Vec2F livesExtent = new Vec2F(0.4f, 0.4f);
 
-        public Player() { //int livesCount
+        public Player(): base(
+            new DynamicShape(playerPos, playerExtent),
+            new Image(Path.Combine(
+                Constants.MAIN_PATH, "Assets", "Images", "player.png"))
+        ) { //int livesCount
 
-            playerStride = new Image(Path.Combine(
-                Constants.MAIN_PATH, "Assets", "Images", "player.png"));
-            this.shape = new DynamicShape(playerPos, playerExtent);
-            player = new Entity(this.shape, playerStride);
+            // playerStride = new Image(Path.Combine(
+            //     Constants.MAIN_PATH, "Assets", "Images", "player.png"));
+            // this.Shape = new DynamicShape(playerPos, playerExtent);
+            // player = new Entity(this.Shape, playerStride);
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
+                EventType = GameEventType.StatusEvent, 
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "POWERUP",
+                From = this
+                });
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
+                EventType = GameEventType.StatusEvent, 
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "BALL",
+                From = this
+                });
         }
 
         public void SetLives() {
@@ -65,13 +80,18 @@ namespace Breakout{
             this.livesCount++;
         }
 
-        public void Move() {
-            shape.Move();
+        public void Collision(CollisionData collisionData, ICollidable other) {
+            if (collisionData.Collision) {
+            }
+        }
 
-            if(shape.Position.X  < 0.0f) {
-                shape.Position.X = 0.0f;
-            } else if(shape.Position.X > 1.0f - shape.Extent.X) {
-                shape.Position.X = 1.0f - shape.Extent.X;
+        public void Move() {
+            Shape.Move();
+
+            if(Shape.Position.X  < 0.0f) {
+                Shape.Position.X = 0.0f;
+            } else if(Shape.Position.X > 1.0f - Shape.Extent.X) {
+                Shape.Position.X = 1.0f - Shape.Extent.X;
             }
         }
 
@@ -94,10 +114,10 @@ namespace Breakout{
         }
 
         public void UpdateDirection() {
-            shape.Direction.X = moveLeft + moveRight;
+            this.Shape.AsDynamicShape().Direction.X = moveLeft + moveRight;
         }
         public Shape GetPosition() {
-            return shape;
+            return Shape;
         }
 
 
@@ -118,10 +138,10 @@ namespace Breakout{
                         break;
                     case "Widen":
                         Console.WriteLine("Widen message received");
-                        shape.Extent.X = 0.4f;
+                        Shape.Extent.X = 0.4f;
                         break;
                     case "Narrow":
-                        shape.Extent.X = 0.2f;
+                        Shape.Extent.X = 0.2f;
                         break;
                 }
             } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
@@ -134,20 +154,24 @@ namespace Breakout{
                         DecreaseLives();
                         break;
                     case "Widen":
-                        shape.Extent.X = 0.4f;
+                        Shape.Extent.X = 0.4f;
                         break;
                     case "Narrow":
-                        shape.Extent.X = 0.2f;
+                        Shape.Extent.X = 0.2f;
                         break;
                 }
             
             }
         }
 
+        public void Update(){
+            Move();
+            SetLives();
+        }
+
         public void Render() {
-            player.RenderEntity();
-            // Render the lives of the player
-            display.RenderText();
+            this.RenderEntity();
+
         }
     }
 }

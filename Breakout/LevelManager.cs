@@ -80,9 +80,12 @@ namespace Breakout{
         }
 
         public void RenderLevel() {
-            currentLevel.blocks.RenderEntities();
-            currentLevel.powerups.RenderEntities();
+            currentLevel.Render();
         }
-    }
+
+        public void UpdateLevel() {
+            currentLevel.Update();
+            }
+}
 }
 
