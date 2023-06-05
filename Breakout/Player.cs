@@ -151,7 +151,7 @@ namespace Breakout{
         public void Render() {
             player.RenderEntity();
             // Render the lives of the player
-            display.RenderText();
+            // display.RenderText();
         }
     }
 }
