@@ -27,6 +27,11 @@ namespace Breakout{
             get{ return type; }   
         }
         
+        private LevelManager levelManager;
+        public LevelManager LevelManager {
+            get{ return levelManager; }
+            set{ levelManager = value; }
+        }
         public EntityContainer<Block> blocks {get;}
         public EntityContainer<PowerUp> powerups {get;}
         private Ball ball;
@@ -55,12 +60,22 @@ namespace Breakout{
 
         
         private void SetBall() {
-            Vec2F pos = new Vec2F((player.Shape.Position.X + player.Shape.Extent.X / 2), 0.2f);
             Vec2F extent = new Vec2F(0.03f, 0.03f);
-            Vec2F dir = new Vec2F(0.01f, 0.01f);
+            Vec2F dir = new Vec2F(0.1f * 10e-6f, 0.01f);
+            Vec2F pos = new Vec2F(
+                (player.Shape.Position.X + (player.Shape.Extent.X / 2) - (extent.X / 2)), 
+                (player.Shape.Position.Y + (3 * extent.Y)));
             DynamicShape ballShape = new DynamicShape(pos, extent);
             ball = new Ball(ballShape);
             ball.ChangeDirection(dir);
+        }
+
+        // Allows the player to aim the ball before the game starts
+        private void AimBall(Ball ball) {
+            if (levelManager.Start == false) {
+                ball.Shape.Position.X = player.Shape.Position.X + (player.Shape.Extent.X / 2) - (ball.Shape.Extent.X / 2);
+                ball.Shape.Position.Y = player.Shape.Position.Y + (3 * ball.Shape.Extent.Y);
+            }
         }
 
         public void LoadData(String filePath) {
@@ -163,6 +178,7 @@ namespace Breakout{
 
             ball.Update();
             player.Update();
+            AimBall(ball);
         }
 
         public void Render() {
