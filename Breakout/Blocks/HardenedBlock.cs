@@ -27,9 +27,10 @@ public class HardenedBlock : Block {
         damageImage = DamageImage;
     }
     public override void DecreaseHealth() {
+        this.Health--;
+
         TryDeleteEntity();
 
-        this.Health--;
         
         if (this.Health == 1) {
             this.Image = damageImage;

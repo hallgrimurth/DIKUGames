@@ -25,7 +25,6 @@ public class IndestructibleBlock : Block {
         TryDeleteEntity();
         //do nothing
         if (Health == 0) {
-            DeleteEntity();
             // Register score event
             GameEvent AddScore = new GameEvent
             {

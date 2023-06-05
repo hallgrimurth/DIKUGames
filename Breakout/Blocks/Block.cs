@@ -37,7 +37,7 @@ public abstract class Block : Entity, ICollidable {
     public abstract void DecreaseHealth() ;
 
     public void TryDeleteEntity() {
-        if (health <= 0) {
+        if (health < 1) {
             DeleteEntity();
             BreakoutBus.GetBus().RegisterEvent(new GameEvent {
                 EventType = GameEventType.StatusEvent,
