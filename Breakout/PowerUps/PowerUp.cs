@@ -5,6 +5,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
+using DIKUArcade.Events;
 
 namespace Breakout;
 public abstract class PowerUp : Entity, ICollidable {
@@ -18,7 +19,7 @@ public abstract class PowerUp : Entity, ICollidable {
             ChangeDirection(direction);
     }
 
-    public void Move() {
+    private void Move() {
         base.Shape.AsDynamicShape().Move();
     }
 
@@ -33,7 +34,21 @@ public abstract class PowerUp : Entity, ICollidable {
     public void Collision(CollisionData collisionData, ICollidable other) {
         if (collisionData.Collision) {
             PowerUpEffect();
+            DeleteEntity();
         }
+    }
+
+    private void CheckCollision() {
+        if (this.IsDeleted()) {
+            return;
+        }
+        // Console.WriteLine("Try collide");
+        BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+            EventType = GameEventType.StatusEvent,
+            Message = "TRY_COLLIDE",
+            From = this,
+            StringArg1 = "POWERUP"
+        });
     }
 
     public abstract void PowerUpEffect() ;
@@ -44,6 +59,7 @@ public abstract class PowerUp : Entity, ICollidable {
         if (IsDeleted()) {
             return;
         }
+        CheckCollision();
         Move();
     }
 

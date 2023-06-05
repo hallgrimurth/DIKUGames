@@ -27,7 +27,6 @@ namespace Breakout {
 
                 case var value when value == "SUBSCRIBE_COLLISION_EVENT"
                     && CheckGameEvent(gameEvent):
-                    // Console.WriteLine("SUBSCRIBING TO");
                     Subscribe(gameEvent.StringArg1,(ICollidable) gameEvent.From);
                     break;
 
@@ -45,9 +44,6 @@ namespace Breakout {
             } else {
                 collisionEvents[collisionIdentifier] = new List<ICollidable> { subscriber };
             }
-            foreach (string key in collisionEvents.Keys) {
-                Console.WriteLine(key);
-            }
 
         }
 
@@ -60,7 +56,6 @@ namespace Breakout {
         }
 
         private bool CheckGameEvent(GameEvent gameEvent) {
-            // Console.WriteLine("CHECKING GAME EVENT");
             return !(
                 gameEvent.From is null
                 || gameEvent.From is not ICollidable
@@ -68,22 +63,13 @@ namespace Breakout {
         }
 
         private void TryCollide(string collisionIdentifier, ICollidable actor) {
-            // Console.WriteLine("TRYING TO COLLIDE with " + collisionIdentifier + );
-            // Console.WriteLine(collisionIdentifier);
-            // foreach (ICollidable key in collisionEvents[collisionIdentifier]) {
-            //     Console.WriteLine(key);
-            // }
+
 
             if (!collisionEvents.ContainsKey(collisionIdentifier)) {
-                // Console.WriteLine("NO COLLISION EVENT");
                 return;
             }
             foreach (ICollidable subscriber in collisionEvents[collisionIdentifier]) {
-                if (collisionIdentifier == "POWERUP") Console.WriteLine("POWERUP");
 
-                    // Console.WriteLine("COLLIDING with " + actor + " " + subscriber);
-                // Console.WriteLine("COLLIDING with " + collisionIdentifier + " " + subscriber);
-                // }
                 ComputeCollision(actor, subscriber);
             }
         }
