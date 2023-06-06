@@ -23,9 +23,9 @@ public class WidePowerUp : PowerUp  {
         //currTime = new GameTimer();
         GameEvent WidePaddleEvent = (new GameEvent{
                         EventType = GameEventType.PlayerEvent, 
-                        Message = "Widen" });
+                        Message = "WIDE_PADDLE" });
         BreakoutBus.GetBus().RegisterEvent(WidePaddleEvent);
-
+        Console.WriteLine("WidePaddleEvent sent");
     }
 
     public override void PowerDownEffect(){
@@ -33,8 +33,8 @@ public class WidePowerUp : PowerUp  {
 
         // if ((int)StaticTimer.GetElapsedSeconds() > endTime){
             GameEvent NarrowPaddleEvent = (new GameEvent{
-                        EventType = GameEventType.MovementEvent, 
-                        Message = "Narrow" });
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "NARROW_PADDLE" });
             BreakoutBus.GetBus().RegisterEvent(NarrowPaddleEvent);
         // }
 

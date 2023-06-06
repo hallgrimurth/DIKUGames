@@ -29,7 +29,7 @@ namespace Breakout {
         public override void HazardUpEffect() {
             GameEvent slimJimEvent = new GameEvent {
                 EventType = GameEventType.PlayerEvent,
-                Message = "Narrow"
+                Message = "NARROW_PADDLE"
             };
             BreakoutBus.GetBus().RegisterEvent(slimJimEvent);
         }
@@ -40,8 +40,8 @@ namespace Breakout {
         public override void HazardDownEffect() {
             if ((int)StaticTimer.GetElapsedSeconds() > endTime) {
                 GameEvent widenPaddleEvent = new GameEvent {
-                    EventType = GameEventType.MovementEvent,
-                    Message = "Widen"
+                    EventType = GameEventType.PlayerEvent,
+                    Message = "WIDE_PADDLE"
                 };
                 BreakoutBus.GetBus().RegisterEvent(widenPaddleEvent);
             }

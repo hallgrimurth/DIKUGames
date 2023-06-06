@@ -36,6 +36,10 @@ namespace Breakout
         private CollisionManager collisionManager;
         private Player player;
         private bool start;
+        public bool Start {
+            get{ return start; }
+            set{ start = value; }
+        }
         private TimeManager timeManager;
 
         /// <summary>
@@ -63,7 +67,6 @@ namespace Breakout
             LoadData(filePath);
             SendTimer();
             SetActors();
-            SetBall();
         }
 
         /// <summary>
@@ -110,7 +113,7 @@ namespace Breakout
         /// <summary>
         /// Sets the initial position and direction of the ball.
         /// </summary>
-        private void SetBall()
+        public void SetBall()
         {
             Vec2F extent = new Vec2F(0.03f, 0.03f);
             Vec2F dir = new Vec2F(0.1f * 10e-6f, 0.01f);
@@ -180,23 +183,17 @@ namespace Breakout
         /// Loads the map entities into the entity container.
         /// </summary>
         /// <param name="mapLines">The lines representing the map.</param>
-        public void LoadMapEntities(List<string> mapLines)
-        {
+        public void LoadMapEntities(List<string> mapLines) {
             float length = 12;
             float height = 24;
 
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < length; j++)
-                {
-                    try
-                    {
-                        if (legendDict.ContainsKey(mapLines[i][j]))
-                        {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < length; j++) {
+                    try {
+                        if (legendDict.ContainsKey(mapLines[i][j])) {
                             type = 'N';
 
-                            if (metaDict.ContainsValue(mapLines[i][j].ToString()))
-                            {
+                            if (metaDict.ContainsValue(mapLines[i][j].ToString())) {
                                 type = metaDict.Where(
                                     x => x.Value[0] == mapLines[i][j]).Select(
                                         x => x.Key).FirstOrDefault();
@@ -230,8 +227,7 @@ namespace Breakout
         /// <param name="lines">The lines of the text file.</param>
         /// <param name="segment">The segment to parse.</param>
         /// <returns>The parsed segment as a list of strings.</returns>
-        private List<string> ParseSegment(string[] lines, string segment)
-        {
+        private List<string> ParseSegment(string[] lines, string segment) {
             return lines.SkipWhile(
                 line => !line.StartsWith(segment)).Skip(1).TakeWhile(
                 line => !line.StartsWith(segment)).ToList();
@@ -242,8 +238,7 @@ namespace Breakout
         /// </summary>
         /// <param name="list">The list of strings.</param>
         /// <returns>The created dictionary.</returns>
-        private Dictionary<char, string> GetDict(List<String> list)
-        {
+        private Dictionary<char, string> GetDict(List<String> list) {
             return list.Select(
                 line => line.Split(' ')).ToDictionary(
                 line => line[0][0], line => line[1]);
@@ -252,13 +247,11 @@ namespace Breakout
         /// <summary>
         /// Clears the level by removing all blocks and power-ups.
         /// </summary>
-        public void ClearLevel()
-        {
+        public void ClearLevel() {
             blocks.ClearContainer();
             powerups.ClearContainer();
 
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent
-            {
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
                 EventType = GameEventType.StatusEvent,
                 Message = "RESTART_LEVEL",
                 From = this
@@ -268,8 +261,7 @@ namespace Breakout
         /// <summary>
         /// Updates the level by updating all entities and aiming the ball.
         /// </summary>
-        public void Update()
-        {
+        public void Update() {
             blocks.Iterate(block =>
                 block.Update()
             );
@@ -289,8 +281,7 @@ namespace Breakout
         /// <summary>
         /// Renders the level by rendering all entities.
         /// </summary>
-        public void Render()
-        {
+        public void Render() {
             blocks.RenderEntities();
             powerups.RenderEntities();
             hazards.RenderEntities();
