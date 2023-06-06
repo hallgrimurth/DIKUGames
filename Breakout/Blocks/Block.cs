@@ -12,7 +12,8 @@ namespace Breakout
     /// </summary>
     public abstract class Block : Entity, ICollidable
     {
-        public int health;
+        private int health;
+        public int Health { get { return health; } }
         private int value;
 
         /// <summary>
@@ -61,6 +62,14 @@ namespace Breakout
         /// Decreases the health of the block.
         /// </summary>
         public abstract void DecreaseHealth();
+
+        /// <summary>
+        /// Increases the health of the block.
+        /// </summary>
+        public void IncreaseHealth()
+        {
+            health++;
+        }
 
         /// <summary>
         /// Updates the block.
