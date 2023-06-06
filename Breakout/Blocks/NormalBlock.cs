@@ -30,8 +30,12 @@ namespace Breakout
         /// </summary>
         public override void DecreaseHealth()
         {
-            health--;
-            TryDeleteEntity();
+            this.health--;
+            if (health < 1)
+            {
+                TryDeleteEntity();
+            }
+            // TryDeleteEntity();
         }
 
         /// <summary>
