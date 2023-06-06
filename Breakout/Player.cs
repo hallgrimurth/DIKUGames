@@ -7,120 +7,168 @@ using DIKUArcade.Events;
 using DIKUArcade.Timers;
 using DIKUArcade.Physics;
 
-namespace Breakout{   
-    public class Player :Entity, IGameEventProcessor, ICollidable{
-
-        // private Entity player;
+namespace Breakout
+{
+    /// <summary>
+    /// Represents a player in the Breakout game.
+    /// </summary>
+    public class Player : Entity, IGameEventProcessor, ICollidable
+    {
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        const float MOVEMENT_SPEED = 0.02f;
+        private const float MOVEMENT_SPEED = 0.02f;
         private Text display;
-        private double startTime;
-        private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
-        private static Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
+        private static readonly Vec2F playerPos = new Vec2F(0.4f, 0.1f);
+        private static readonly Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
         private int livesCount = 3;
-        public int LivesCount {
-            get { return livesCount; }
-            // set { livesCount = value; }
-        }
-        private static Vec2F livesPos = new Vec2F(0.06f, -0.3f);
-        private static Vec2F livesExtent = new Vec2F(0.4f, 0.4f);
 
-        public Player(): base(
-            new DynamicShape(playerPos, playerExtent),
-            new Image(Path.Combine(
-                Constants.MAIN_PATH, "Assets", "Images", "player.png"))
-        ) { //int livesCount
+        /// <summary>
+        /// Gets the number of lives remaining for the player.
+        /// </summary>
+        public int LivesCount => livesCount;
 
-            // playerStride = new Image(Path.Combine(
-            //     Constants.MAIN_PATH, "Assets", "Images", "player.png"));
-            // this.Shape = new DynamicShape(playerPos, playerExtent);
-            // player = new Entity(this.Shape, playerStride);
+        private static readonly Vec2F livesPos = new Vec2F(0.06f, -0.3f);
+        private static readonly Vec2F livesExtent = new Vec2F(0.4f, 0.4f);
+
+        /// <summary>
+        /// Constructs a new Player instance.
+        /// </summary>
+        public Player() : base(new DynamicShape(playerPos, playerExtent),
+            new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png")))
+        {
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
 
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
-                EventType = GameEventType.StatusEvent, 
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent
+            {
+                EventType = GameEventType.StatusEvent,
                 Message = "SUBSCRIBE_COLLISION_EVENT",
                 StringArg1 = "POWERUP",
                 From = this
-                });
+            });
 
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent{
-                EventType = GameEventType.StatusEvent, 
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent
+            {
+                EventType = GameEventType.StatusEvent,
                 Message = "SUBSCRIBE_COLLISION_EVENT",
                 StringArg1 = "BALL",
                 From = this
-                });
+            });
         }
 
-        public void SetLives() {
-            // Setting the lives of the player
-            display = new Text("Lives:" + livesCount.ToString(), livesPos, livesExtent);
+        /// <summary>
+        /// Sets up the player's display for the number of lives remaining.
+        /// </summary>
+        public void SetLives()
+        {
+            display = new Text("Lives: " + livesCount.ToString(), livesPos, livesExtent);
             display.SetColor(new Vec3I(255, 255, 0));
             display.SetFontSize(30);
         }
 
-
-        public void DecreaseLives() {
-            this.livesCount--;
-            if (livesCount <= 0) {
-                GameEvent gameover = (new GameEvent{
-                        EventType = GameEventType.GameStateEvent, 
-                        Message = "CHANGE_STATE",
-                        StringArg1 = "GAME_OVER"});
+        /// <summary>
+        /// Decreases the player's lives count by one.
+        /// </summary>
+        public void DecreaseLives()
+        {
+            livesCount--;
+            if (livesCount <= 0)
+            {
+                GameEvent gameover = new GameEvent
+                {
+                    EventType = GameEventType.GameStateEvent,
+                    Message = "CHANGE_STATE",
+                    StringArg1 = "GAME_OVER"
+                };
                 BreakoutBus.GetBus().RegisterEvent(gameover);
                 Console.WriteLine("GAME OVER");
             }
         }
 
-        public void IncreaseLives() {
-            this.livesCount++;
+        /// <summary>
+        /// Increases the player's lives count by one.
+        /// </summary>
+        public void IncreaseLives()
+        {
+            livesCount++;
         }
 
-        public void Collision(CollisionData collisionData, ICollidable other) {
-            if (collisionData.Collision) {
+        /// <summary>
+        /// Handles the collision between the player and another collidable object.
+        /// </summary>
+        /// <param name="collisionData">Collision data.</param>
+        /// <param name="other">The other collidable object.</param>
+        public void Collision(CollisionData collisionData, ICollidable other)
+        {
+            if (collisionData.Collision)
+            {
+                // Handle collision logic
             }
         }
 
-        public void Move() {
+        /// <summary>
+        /// Moves the player based on the current input state.
+        /// </summary>
+        public void Move()
+        {
             Shape.Move();
 
-            if(Shape.Position.X  < 0.0f) {
+            if (Shape.Position.X < 0.0f)
+            {
                 Shape.Position.X = 0.0f;
-            } else if(Shape.Position.X > 1.0f - Shape.Extent.X) {
+            }
+            else if (Shape.Position.X > 1.0f - Shape.Extent.X)
+            {
                 Shape.Position.X = 1.0f - Shape.Extent.X;
             }
         }
 
-        public void SetMoveLeft(bool val) {
-            if(val) {
-                moveLeft = -MOVEMENT_SPEED;
-            } else {
-                moveLeft = 0.0f;
-            }
+        /// <summary>
+        /// Sets the flag to move the player left.
+        /// </summary>
+        /// <param name="val">The flag value.</param>
+        public void SetMoveLeft(bool val)
+        {
+            moveLeft = val ? -MOVEMENT_SPEED : 0.0f;
             UpdateDirection();
         }
 
-        public void SetMoveRight(bool val) {
-            if(val) {
-                moveRight = MOVEMENT_SPEED;
-            } else {
-                moveRight = 0.0f;
-            }
+        /// <summary>
+        /// Sets the flag to move the player right.
+        /// </summary>
+        /// <param name="val">The flag value.</param>
+        public void SetMoveRight(bool val)
+        {
+            moveRight = val ? MOVEMENT_SPEED : 0.0f;
             UpdateDirection();
         }
 
-        public void UpdateDirection() {
-            this.Shape.AsDynamicShape().Direction.X = moveLeft + moveRight;
+        /// <summary>
+        /// Updates the movement direction of the player.
+        /// </summary>
+        public void UpdateDirection()
+        {
+            Shape.AsDynamicShape().Direction.X = moveLeft + moveRight;
         }
-        public Shape GetPosition() {
+
+        /// <summary>
+        /// Gets the position of the player.
+        /// </summary>
+        /// <returns>The shape representing the position.</returns>
+        public Shape GetPosition()
+        {
             return Shape;
         }
 
-
-        public void ProcessEvent(GameEvent gameEvent) {
-            if (gameEvent.EventType == GameEventType.MovementEvent) {
-                switch (gameEvent.Message) {
+        /// <summary>
+        /// Processes game events relevant to the player.
+        /// </summary>
+        /// <param name="gameEvent">The game event to process.</param>
+        public void ProcessEvent(GameEvent gameEvent)
+        {
+            if (gameEvent.EventType == GameEventType.MovementEvent)
+            {
+                switch (gameEvent.Message)
+                {
                     case "MOVE_LEFT":
                         SetMoveLeft(true);
                         break;
@@ -134,10 +182,11 @@ namespace Breakout{
                         SetMoveRight(false);
                         break;
                     case "SLOW_MOVEMENT":
+                        // Handle slow movement logic
                         break;
                     case "NORMAL_MOVEMENT":
+                        // Handle normal movement logic
                         break;
-
                     case "Widen":
                         Console.WriteLine("Widen message received");
                         Shape.Extent.X = 0.4f;
@@ -146,8 +195,11 @@ namespace Breakout{
                         Shape.Extent.X = 0.2f;
                         break;
                 }
-            } else if (gameEvent.EventType == GameEventType.PlayerEvent) {
-                switch (gameEvent.Message) {
+            }
+            else if (gameEvent.EventType == GameEventType.PlayerEvent)
+            {
+                switch (gameEvent.Message)
+                {
                     case "INCREASE_HEALTH":
                         IncreaseLives();
                         break;
@@ -161,17 +213,24 @@ namespace Breakout{
                         Shape.Extent.X = 0.2f;
                         break;
                 }
-            
             }
         }
 
-        public void Update(){
+        /// <summary>
+        /// Updates the player's state.
+        /// </summary>
+        public void Update()
+        {
             Move();
             SetLives();
         }
 
-        public void Render() {
-            this.RenderEntity();
+        /// <summary>
+        /// Renders the player.
+        /// </summary>
+        public void Render()
+        {
+            RenderEntity();
         }
     }
 }

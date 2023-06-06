@@ -6,12 +6,21 @@ using DIKUArcade.Input;
 using DIKUArcade.Events;
 
 namespace Breakout.BreakoutStates {
+    /// <summary>
+    /// Represents the game state when the player wins the game.
+    /// </summary>
     public class GameWon : IGameState {
         private static GameWon instance = null;
         private Text gamewon;
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButtons;
+
+        /// <summary>
+        /// Returns the instance of the GameWon state.
+        /// If the instance is null, it initializes the state before returning.
+        /// </summary>
+        /// <returns>The instance of the GameWon state.</returns>
         public static GameWon GetInstance() {
             if (GameWon.instance == null) {
                 GameWon.instance = new GameWon();
@@ -20,6 +29,9 @@ namespace Breakout.BreakoutStates {
             return GameWon.instance;
         }
 
+        /// <summary>
+        /// Initializes the GameWon state by setting up the game won text and menu buttons.
+        /// </summary>
         private void InitializeGameState(){
             gamewon = new Text("You Win!", new Vec2F(0.1f, 0.3f), new Vec2F(0.5f, 0.5f));
             gamewon.SetColor(new Vec3I(255, 255, 0));
@@ -33,11 +45,14 @@ namespace Breakout.BreakoutStates {
             maxMenuButtons = menuButtons.Length;
         }
         
-
+        /// <summary>
+        /// Handles key events for navigating the menu buttons.
+        /// </summary>
+        /// <param name="action">The keyboard action.</param>
+        /// <param name="key">The keyboard key.</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
             switch(action){
                 case KeyboardAction.KeyRelease:
-                  
                     switch(key){
                         case KeyboardKey.Up:
                             if (activeMenuButton == 0){
@@ -54,20 +69,19 @@ namespace Breakout.BreakoutStates {
                             }
                             break;
                         case KeyboardKey.Enter:
-                           switch(activeMenuButton){
+                            switch(activeMenuButton){
                                 case 0:
+                                    // Change state to main menu
                                     BreakoutBus.GetBus().RegisterEvent(
                                         new GameEvent{
                                             EventType = GameEventType.GameStateEvent,
                                             Message = "CHANGE_STATE",
                                             StringArg1 = "MAIN_MENU",
-                                            //StringArg2 = "NEW_GAME"
                                         }
                                     );
-                                    // BreakoutBus.GetBus().ProcessEventsSequentially();
-
                                     break;
                                 case 1:
+                                    // Close the game window
                                     BreakoutBus.GetBus().RegisterEvent(
                                         new GameEvent{
                                             EventType = GameEventType.WindowEvent,
@@ -75,8 +89,7 @@ namespace Breakout.BreakoutStates {
                                             StringArg1 = "CLOSING_GAME"
                                         }
                                     );
-                            
-                                break;
+                                    break;
                             }
                             break;
                     }
@@ -84,7 +97,9 @@ namespace Breakout.BreakoutStates {
             }
         }
 
-         //Render the titile image and the menu buttons
+        /// <summary>
+        /// Renders the game won text and menu buttons.
+        /// </summary>
         public void RenderState() {
             gamewon.RenderText();
 
@@ -93,10 +108,16 @@ namespace Breakout.BreakoutStates {
             }
         }
 
+        /// <summary>
+        /// Resets the state (not implemented in this state).
+        /// </summary>
         public void ResetState(){
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Updates the active menu button's color based on the selected index.
+        /// </summary>
         public void UpdateState(){
             for (int i = 0; i < maxMenuButtons; i++){
                 if (i != activeMenuButton){

@@ -1,104 +1,139 @@
-using DIKUArcade.State;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Input;
 using DIKUArcade.Events;
+using DIKUArcade.State;
 
-namespace Breakout.BreakoutStates {
-    public class GameOver : IGameState {
+namespace Breakout.BreakoutStates
+{
+    /// <summary>
+    /// Represents the game over state in the Breakout game.
+    /// </summary>
+    public class GameOver : IGameState
+    {
         private static GameOver instance = null;
         private Text gameover;
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButtons;
-        public static GameOver GetInstance() {
-            if (GameOver.instance == null) {
-                GameOver.instance = new GameOver();
-                GameOver.instance.InitializeGameState();
-            }
-            return GameOver.instance;
+
+        private GameOver()
+        {
+            InitializeGameState();
         }
 
-        private void InitializeGameState(){
+        /// <summary>
+        /// Returns the instance of the GameOver state.
+        /// </summary>
+        /// <returns>The GameOver state instance.</returns>
+        public static GameOver GetInstance()
+        {
+            return instance ??= new GameOver();
+        }
+
+        private void InitializeGameState()
+        {
+            // Initialize the game over text
             gameover = new Text("Game Over!", new Vec2F(0.1f, 0.3f), new Vec2F(0.5f, 0.5f));
             gameover.SetColor(new Vec3I(255, 255, 0));
 
+            // Initialize the main menu button
             Text mainMenuButton = new Text("Main Menu", new Vec2F(0.1f, 0.15f), new Vec2F(0.5f, 0.5f));
             activeMenuButton = 0;
             mainMenuButton.SetColor(new Vec3I(255, 255, 255));
-            menuButtons = new Text[1] {mainMenuButton};
+            menuButtons = new Text[1] { mainMenuButton };
             maxMenuButtons = menuButtons.Length;
         }
-        
 
-        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
-            switch(action){
-                case KeyboardAction.KeyRelease:
-                  
-                    switch(key){
-                        case KeyboardKey.Up:
-                            if (activeMenuButton == 0){
-                                activeMenuButton = maxMenuButtons - 1;
-                            } else {
-                                activeMenuButton --;
-                            }
-                            break;
-                        case KeyboardKey.Down:
-                            if (activeMenuButton == maxMenuButtons - 1){
-                                activeMenuButton = 0;
-                            } else {
-                                activeMenuButton ++;
-                            }
-                            break;
-                        case KeyboardKey.Enter:
-                           switch(activeMenuButton){
-                                case 0:
-                                    BreakoutBus.GetBus().RegisterEvent(
-                                        new GameEvent{
-                                            EventType = GameEventType.GameStateEvent,
-                                            Message = "CHANGE_STATE",
-                                            StringArg1 = "MAIN_MENU",
-                                        }
-                                    );
-                                    // BreakoutBus.GetBus().ProcessEventsSequentially();
-
-                                    break;
-                                case 1:
-                                    BreakoutBus.GetBus().RegisterEvent(
-                                        new GameEvent{
-                                            EventType = GameEventType.WindowEvent,
-                                            Message = "CLOSE_WINDOW",
-                                            StringArg1 = "CLOSING_GAME"
-                                        }
-                                    );
-                            
+        /// <summary>
+        /// Handles keyboard events in the game over state.
+        /// </summary>
+        /// <param name="action">The keyboard action.</param>
+        /// <param name="key">The keyboard key.</param>
+        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key)
+        {
+            if (action == KeyboardAction.KeyRelease)
+            {
+                switch (key)
+                {
+                    case KeyboardKey.Up:
+                        if (activeMenuButton == 0)
+                        {
+                            activeMenuButton = maxMenuButtons - 1;
+                        }
+                        else
+                        {
+                            activeMenuButton--;
+                        }
+                        break;
+                    case KeyboardKey.Down:
+                        if (activeMenuButton == maxMenuButtons - 1)
+                        {
+                            activeMenuButton = 0;
+                        }
+                        else
+                        {
+                            activeMenuButton++;
+                        }
+                        break;
+                    case KeyboardKey.Enter:
+                        switch (activeMenuButton)
+                        {
+                            case 0:
+                                // Register a game state event to change to the main menu state
+                                BreakoutBus.GetBus().RegisterEvent(
+                                    new GameEvent
+                                    {
+                                        EventType = GameEventType.GameStateEvent,
+                                        Message = "CHANGE_STATE",
+                                        StringArg1 = "MAIN_MENU"
+                                    }
+                                );
                                 break;
-                            }
-                            break;
-                    }
-                    break;
+                        }
+                        break;
+                }
             }
         }
 
-         //Render the titile image and the menu buttons
-        public void RenderState() {
+        /// <summary>
+        /// Renders the game over state.
+        /// </summary>
+        public void RenderState()
+        {
+            // Render the game over text
             gameover.RenderText();
 
-            foreach (Text button in menuButtons) {
+            // Render the menu buttons
+            foreach (Text button in menuButtons)
+            {
                 button.RenderText();
             }
         }
 
-        public void ResetState(){
+        /// <summary>
+        /// Resets the game over state.
+        /// </summary>
+        public void ResetState()
+        {
             throw new System.NotImplementedException();
         }
 
-        public void UpdateState(){
-            for (int i = 0; i < maxMenuButtons; i++){
-                if (i != activeMenuButton){
+        /// <summary>
+        /// Updates the game over state.
+        /// </summary>
+        public void UpdateState()
+        {
+            // Update the color of the menu buttons based on the active button
+            for (int i = 0; i < maxMenuButtons; i++)
+            {
+                if (i != activeMenuButton)
+                {
                     menuButtons[i].SetColor(new Vec3I(255, 255, 255));
-                } else {
+                }
+                else
+                {
                     menuButtons[i].SetColor(new Vec3I(255, 0, 0));
                 }
             }

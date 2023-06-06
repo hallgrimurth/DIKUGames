@@ -7,32 +7,47 @@ using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using DIKUArcade.Events;
 
-namespace Breakout;
-public class SlownessHazard : Hazard  {
+namespace Breakout {
+    /// <summary>
+    /// Represents a hazard that slows down the movement of the player's paddle.
+    /// </summary>
+    public class SlownessHazard : Hazard {
+        private double startTime;
+        private double endTime;
 
-    private double startTime;
-    private double endTime;
-    public SlownessHazard(DynamicShape Shape, IBaseImage image)
-        : base(Shape, image) {
-    }
-    
+        /// <summary>
+        /// Constructs a SlownessHazard object.
+        /// </summary>
+        /// <param name="shape">The shape of the hazard.</param>
+        /// <param name="image">The image associated with the hazard.</param>
+        public SlownessHazard(DynamicShape shape, IBaseImage image) : base(shape, image) {
+        }
 
-    public override void HazardUpEffect(){
-        startTime = (int)StaticTimer.GetElapsedSeconds();
-        endTime = startTime + 10;
-        GameEvent SlownessEvent = (new GameEvent{
-                        EventType = GameEventType.MovementEvent, 
-                        Message = "SLOW_MOVEMENT" });
-        BreakoutBus.GetBus().RegisterEvent(SlownessEvent);
-    } 
+        /// <summary>
+        /// The effect of the hazard when it is activated.
+        /// </summary>
+        public override void HazardUpEffect() {
+            startTime = (int)StaticTimer.GetElapsedSeconds();
+            endTime = startTime + 10;
 
-    public override void HazardDownEffect(){
-        if ((int)StaticTimer.GetElapsedSeconds() > endTime){
-            GameEvent NormalSpeedEvent = (new GameEvent{
-                        EventType = GameEventType.MovementEvent, 
-                        Message = "NORMAL_MOVEMENT" });
-            BreakoutBus.GetBus().RegisterEvent(NormalSpeedEvent);
+            GameEvent slownessEvent = new GameEvent {
+                EventType = GameEventType.MovementEvent,
+                Message = "SLOW_MOVEMENT"
+            };
+            BreakoutBus.GetBus().RegisterEvent(slownessEvent);
+        }
+
+        /// <summary>
+        /// The effect of the hazard when it is deactivated.
+        /// </summary>
+        public override void HazardDownEffect() {
+            if ((int)StaticTimer.GetElapsedSeconds() > endTime) {
+                GameEvent normalSpeedEvent = new GameEvent {
+                    EventType = GameEventType.MovementEvent,
+                    Message = "NORMAL_MOVEMENT"
+                };
+                BreakoutBus.GetBus().RegisterEvent(normalSpeedEvent);
+            }
         }
     }
-    
 }

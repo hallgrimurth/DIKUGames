@@ -1,4 +1,3 @@
-using DIKUArcade.State;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
@@ -11,171 +10,215 @@ using System.Collections.Generic;
 using DIKUArcade.Physics;
 using System;
 using DIKUArcade.Timers;
+using DIKUArcade.State;
 
-
-namespace Breakout.BreakoutStates {
-    public class GameRunning : IGameState {
+namespace Breakout.BreakoutStates
+{
+    /// <summary>
+    /// Represents the game running state in the Breakout game.
+    /// </summary>
+    public class GameRunning : IGameState
+    {
         private static GameRunning instance = null;
-        //Entities
-        private Player player;
-        private Ball ball;
-        private EntityContainer<Ball> ballCon;
         private LevelManager levelManager;
         private TimeManager timeManager;
-
-        // Strides and animations
-        private IBaseImage ballImage;
         private Points points;
-        private int elapsedTime;
 
-
-        public static GameRunning GetInstance() {
-            if (GameRunning.instance == null) {
-                GameRunning.instance = new GameRunning();
-                GameRunning.instance.InitializeGameState();
-            }
-            return GameRunning.instance;
+        /// <summary>
+        /// Constructs a new instance of the GameRunning state.
+        /// </summary>
+        private GameRunning()
+        {
+            InitializeGameState();
         }
-        
-        public void InitializeGameState(){
+
+        /// <summary>
+        /// Returns the instance of the GameRunning state.
+        /// </summary>
+        /// <returns>The GameRunning state instance.</returns>
+        public static GameRunning GetInstance()
+        {
+            return instance ??= new GameRunning();
+        }
+
+        /// <summary>
+        /// Initializes the game state by creating the level manager, time manager, and points.
+        /// </summary>
+        public void InitializeGameState()
+        {
             levelManager = new LevelManager();
             timeManager = new TimeManager();
             SetPoints();
-            // SetTimers();
         }
 
-
-        // private void UpdateTimers(){
-        //     if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start == false) {
-        //         // Display the given time if the level has a time limit
-        //         int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
-        //         display.SetText("Time:" + (givenTime).ToString());
-        //     } else if (levelManager.CurrentLevel.MetaDict.ContainsKey('T') && levelManager.Start) {
-        //         // Update the time
-        //         int givenTime = Int32.Parse(levelManager.CurrentLevel.MetaDict['T']);
-        //         elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
-        //         display.SetText("Time:" + (givenTime - elapsedTime).ToString());
-        //     } else {
-        //         // display nothing
-        //         display.SetText("");
-        //     }
-        // }
-
-        private void SetPoints() {
-            //define points
-            points = new Points(
-                new Vec2F(0.65f, -0.3f), new Vec2F(0.4f, 0.4f));
+        /// <summary>
+        /// Sets up the points display.
+        /// </summary>
+        private void SetPoints()
+        {
+            points = new Points(new Vec2F(0.65f, -0.3f), new Vec2F(0.4f, 0.4f));
         }
 
-        public void KeyPress(KeyboardKey key){
-            switch(key) {
+        /// <summary>
+        /// Handles the key press events and triggers corresponding game events.
+        /// </summary>
+        /// <param name="key">The key that was pressed.</param>
+        public void KeyPress(KeyboardKey key)
+        {
+            switch (key)
+            {
                 case KeyboardKey.A:
-                    GameEvent MoveLeft = (new GameEvent{
-                        EventType = GameEventType.MovementEvent, 
-                        Message = "MOVE_LEFT" });
-                    BreakoutBus.GetBus().RegisterEvent(MoveLeft);
-                   
-                    break;
-                case KeyboardKey.D:
-                     GameEvent MoveRight = (new GameEvent{
+                    // Trigger MOVE_LEFT event
+                    GameEvent moveLeft = new GameEvent
+                    {
                         EventType = GameEventType.MovementEvent,
-                        Message = "MOVE_RIGHT" });
-                    BreakoutBus.GetBus().RegisterEvent(MoveRight);
-                        
-                    break;     
+                        Message = "MOVE_LEFT"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(moveLeft);
+                    break;
+
+                case KeyboardKey.D:
+                    // Trigger MOVE_RIGHT event
+                    GameEvent moveRight = new GameEvent
+                    {
+                        EventType = GameEventType.MovementEvent,
+                        Message = "MOVE_RIGHT"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(moveRight);
+                    break;
+
                 case KeyboardKey.C:
-                    GameEvent closeWindowEvent = new GameEvent{
+                    // Trigger CLOSE_WINDOW event
+                    GameEvent closeWindowEvent = new GameEvent
+                    {
                         EventType = GameEventType.WindowEvent,
-                        Message = "CLOSE_WINDOW"};
+                        Message = "CLOSE_WINDOW"
+                    };
                     BreakoutBus.GetBus().RegisterEvent(closeWindowEvent);
-                    break;                     
+                    break;
+
                 case KeyboardKey.Left:
-                    GameEvent NextLevel = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = levelManager,
-                        Message = "PREV_LEVEL" });
-                    BreakoutBus.GetBus().RegisterEvent(NextLevel);
-                    // SetActors();
-                    // SetTimers();
+                    // Trigger PREV_LEVEL event
+                    GameEvent prevLevel = new GameEvent
+                    {
+                        EventType = GameEventType.StatusEvent,
+                        To = levelManager,
+                        Message = "PREV_LEVEL"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(prevLevel);
                     break;
+
                 case KeyboardKey.Right:
-                    GameEvent PreviousLevel = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = levelManager,
-                        Message = "NEXT_LEVEL" });
-                    BreakoutBus.GetBus().RegisterEvent(PreviousLevel);
-                    // SetActors();
-                    // SetTimers();
+                    // Trigger NEXT_LEVEL event
+                    GameEvent nextLevel = new GameEvent
+                    {
+                        EventType = GameEventType.StatusEvent,
+                        To = levelManager,
+                        Message = "NEXT_LEVEL"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(nextLevel);
                     break;
+
                 case KeyboardKey.Space:
-                    GameEvent StartGame = (new GameEvent{
-                        EventType = GameEventType.StatusEvent, To = levelManager,
-                        Message = "START_GAME" });
-                    BreakoutBus.GetBus().RegisterEvent(StartGame);
+                    // Trigger START_GAME event and resume the timer
+                    GameEvent startGame = new GameEvent
+                    {
+                        EventType = GameEventType.StatusEvent,
+                        To = levelManager,
+                        Message = "START_GAME"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(startGame);
                     StaticTimer.ResumeTimer();
                     break;
             }
-
         }
 
-        //invokes proper game event when specified key is released
-        public void KeyRelease(KeyboardKey key){
-            switch(key){
+        /// <summary>
+        /// Handles the key release events and triggers corresponding game events.
+        /// </summary>
+        /// <param name="key">The key that was released.</param>
+        public void KeyRelease(KeyboardKey key)
+        {
+            switch (key)
+            {
                 case KeyboardKey.A:
-                    GameEvent StopLeft = (new GameEvent{
-                        EventType = GameEventType.MovementEvent,  To = player, 
-                        Message = "STOP_LEFT" });
-                    BreakoutBus.GetBus().RegisterEvent(StopLeft);
+                    // Trigger STOP_LEFT event
+                    GameEvent stopLeft = new GameEvent
+                    {
+                        EventType = GameEventType.MovementEvent,
+                        Message = "STOP_LEFT"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(stopLeft);
                     break;
 
                 case KeyboardKey.D:
-                    GameEvent StopRight = (new GameEvent{
-                        EventType = GameEventType.MovementEvent,  To = player, 
-                        Message = "STOP_RIGHT" });
-                    BreakoutBus.GetBus().RegisterEvent(StopRight);
+                    // Trigger STOP_RIGHT event
+                    GameEvent stopRight = new GameEvent
+                    {
+                        EventType = GameEventType.MovementEvent,
+                        Message = "STOP_RIGHT"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(stopRight);
                     break;
 
                 case KeyboardKey.Escape:
-                    BreakoutBus.GetBus().RegisterEvent(
-                        new GameEvent{
-                            EventType = GameEventType.GameStateEvent,
-                            Message = "CHANGE_STATE",
-                            StringArg1 = "GAME_PAUSED",
-                            StringArg2 = "PAUSE"
-                        }
-                    );
+                    // Trigger CHANGE_STATE event to switch to GamePaused state with "PAUSE" message
+                    GameEvent changeState = new GameEvent
+                    {
+                        EventType = GameEventType.GameStateEvent,
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_PAUSED",
+                        StringArg2 = "PAUSE"
+                    };
+                    BreakoutBus.GetBus().RegisterEvent(changeState);
                     break;
             }
         }
 
-        // handles key events
-        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
-        
-            switch(action){
+        /// <summary>
+        /// Handles the keyboard events.
+        /// </summary>
+        /// <param name="action">The keyboard action (KeyPress or KeyRelease).</param>
+        /// <param name="key">The key that was pressed or released.</param>
+        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key)
+        {
+            switch (action)
+            {
                 case KeyboardAction.KeyPress:
                     KeyPress(key);
                     break;
 
                 case KeyboardAction.KeyRelease:
                     KeyRelease(key);
-                    break;        
+                    break;
             }
         }
 
-
-        public void RenderState() {
+        /// <summary>
+        /// Renders the game state by rendering the level, points, and time.
+        /// </summary>
+        public void RenderState()
+        {
             levelManager.RenderLevel();
             points.Render();
             timeManager.Render();
         }
 
-        public void ResetState(){ 
+        /// <summary>
+        /// Resets the game state by re-initializing it.
+        /// </summary>
+        public void ResetState()
+        {
             InitializeGameState();
         }
 
-        public void UpdateState(){
-
-            timeManager.Update();   
+        /// <summary>
+        /// Updates the game state by updating the time and level.
+        /// </summary>
+        public void UpdateState()
+        {
+            timeManager.Update();
             levelManager.UpdateLevel();
         }
-    
     }
 }

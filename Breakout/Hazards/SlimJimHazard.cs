@@ -7,31 +7,44 @@ using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using DIKUArcade.Events;
 
-namespace Breakout;
-public class SlimJimHazard : Hazard {
+namespace Breakout {
+    /// <summary>
+    /// Represents a hazard that narrows the player's paddle.
+    /// </summary>
+    public class SlimJimHazard : Hazard {
+        private double startTime;
+        private double endTime;
 
-    private double startTime;
-    private double endTime;
- 
-    public SlimJimHazard(DynamicShape Shape, IBaseImage image)
-        : base(Shape, image) {
-    }
+        /// <summary>
+        /// Constructs a SlimJimHazard object.
+        /// </summary>
+        /// <param name="shape">The shape of the hazard.</param>
+        /// <param name="image">The image associated with the hazard.</param>
+        public SlimJimHazard(DynamicShape shape, IBaseImage image) : base(shape, image) {
+        }
 
-    public override void HazardUpEffect(){
+        /// <summary>
+        /// The effect of the hazard when it is activated.
+        /// </summary>
+        public override void HazardUpEffect() {
+            GameEvent slimJimEvent = new GameEvent {
+                EventType = GameEventType.PlayerEvent,
+                Message = "Narrow"
+            };
+            BreakoutBus.GetBus().RegisterEvent(slimJimEvent);
+        }
 
-        GameEvent SlimJimEvent = (new GameEvent{
-                        EventType = GameEventType.PlayerEvent, 
-                        Message = "Narrow" });
-        BreakoutBus.GetBus().RegisterEvent(SlimJimEvent);
-
-    }
-
-    public override void HazardDownEffect(){
-        if ((int)StaticTimer.GetElapsedSeconds() > endTime){
-            GameEvent WidenPaddleEvent = (new GameEvent{
-                        EventType = GameEventType.MovementEvent, 
-                        Message = "Widen" });
-            BreakoutBus.GetBus().RegisterEvent(WidenPaddleEvent);
+        /// <summary>
+        /// The effect of the hazard when it is deactivated.
+        /// </summary>
+        public override void HazardDownEffect() {
+            if ((int)StaticTimer.GetElapsedSeconds() > endTime) {
+                GameEvent widenPaddleEvent = new GameEvent {
+                    EventType = GameEventType.MovementEvent,
+                    Message = "Widen"
+                };
+                BreakoutBus.GetBus().RegisterEvent(widenPaddleEvent);
+            }
         }
     }
 }

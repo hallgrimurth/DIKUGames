@@ -1,74 +1,81 @@
 using System;
-using System.IO;
-using System.Collections.Generic;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
 using DIKUArcade;
+using DIKUArcade.Entities;
+using DIKUArcade.Events;
+using DIKUArcade.Graphics;
 using DIKUArcade.GUI;
 using DIKUArcade.Input;
-using DIKUArcade.Events;
+using DIKUArcade.Math;
 using DIKUArcade.State;
 using Breakout.BreakoutStates;
 
-namespace Breakout{
-    public class Game : DIKUGame, IGameEventProcessor {
-        //state machine
+namespace Breakout
+{
+    /// <summary>
+    /// Represents the main game class for the Breakout game.
+    /// </summary>
+    public class Game : DIKUGame, IGameEventProcessor
+    {
         private StateMachine stateMachine;
-        //Entities
-        private List<GameEventType> eventQueue;
         private Timer timer;
-      
-        public Game(WindowArgs windowArgs) : base(windowArgs) {
-            //define event bus
+
+        /// <summary>
+        /// Constructs a new instance of the Game class.
+        /// </summary>
+        /// <param name="windowArgs">The window arguments for the game.</param>
+        public Game(WindowArgs windowArgs) : base(windowArgs)
+        {
             stateMachine = new StateMachine();
             timer = new Timer();
 
-            
-            InitializeEventBus(eventQueue);
-
+            InitializeEventBus();
             window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
+        }
 
-        } 
-
-        //Initialize Event Bus
-        public void InitializeEventBus(List<GameEventType> eventQueue) {
-            
-            // BreakoutBus.GetBus().InitializeEventBus(eventQueue);
-            //subscribe to events
+        /// <summary>
+        /// Initializes the event bus by subscribing to necessary events.
+        /// </summary>
+        public void InitializeEventBus()
+        {
+            // Subscribe to window event and game state event
             BreakoutBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
-
-            // for (int i = 0; i < eventQueue.Count-1; i++) {
-            //     BreakoutBus.GetBus().Subscribe(eventQueue[i], this);
-            
         }
-        
-        //process event types
-        public void ProcessEvent(GameEvent gameEvent) {  
-             switch (gameEvent.EventType) {
-                case GameEventType.PlayerEvent:
-                    // Console.WriteLine(gameEvent.Message);
-                    break;
+
+        /// <summary>
+        /// Processes the incoming game event.
+        /// </summary>
+        /// <param name="gameEvent">The game event to process.</param>
+        public void ProcessEvent(GameEvent gameEvent)
+        {
+            switch (gameEvent.EventType)
+            {
                 case GameEventType.WindowEvent:
-                //send message to state machine
+                    // Close the game window
                     window.CloseWindow();
                     break;
                 case GameEventType.GameStateEvent:
+                    // Process the game state event and update the key event handler
                     stateMachine.ProcessEvent(gameEvent);
                     window.SetKeyEventHandler(stateMachine.ActiveState.HandleKeyEvent);
                     break;
-                
-            }    
+            }
         }
 
-        public override void Render() {
+        /// <summary>
+        /// Renders the active game state.
+        /// </summary>
+        public override void Render()
+        {
             window.Clear();
             stateMachine.ActiveState.RenderState();
         }
-        
-        public override void Update() {
-            //make new window and display game over text
+
+        /// <summary>
+        /// Updates the active game state and processes events.
+        /// </summary>
+        public override void Update()
+        {
             stateMachine.ActiveState.UpdateState();
             window.PollEvents();
             BreakoutBus.GetBus().ProcessEventsSequentially();

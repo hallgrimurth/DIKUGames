@@ -39,6 +39,17 @@ namespace Breakout {
             if (hasTime){
                 elapsedTime = (int)(StaticTimer.GetElapsedSeconds());
                 display.SetText("Time:" + (givenTime - elapsedTime).ToString());
+                if (givenTime - elapsedTime <= 0){
+                    BreakoutBus.GetBus().RegisterEvent(
+                        new GameEvent { 
+                            EventType = GameEventType.GameStateEvent, 
+                            Message = "CHANGE_STATE",
+                            StringArg1 = "GAME_OVER", 
+                            ObjectArg1 = this 
+                        }   
+                    );
+                        
+                }
             }
         }
 
