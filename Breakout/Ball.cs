@@ -172,6 +172,14 @@ namespace Breakout {
             } else if (this.Shape.Position.X + this.Shape.Extent.X >= 0.98f) {
                 normal = new Vec2F(-1.0f, 0.0f);
                 this.ChangeDirection(VectorOperations.Reflection(dir, normal));
+            } else if (this.Shape.Position.Y + this.Shape.Extent.Y <= 0.1f) {
+                this.Shape.Position = new Vec2F(0.5f, 0.2f);
+                ChangeDirection(new Vec2F(0.1f * 10e-6f, 0.01f));
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                    EventType = GameEventType.PlayerEvent,
+                    Message = "DECREASE_HEALTH",
+                    From = this
+                });
             }
         }
 

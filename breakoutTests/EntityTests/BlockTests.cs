@@ -52,8 +52,8 @@ namespace Breakout.Tests {
         [Test]
         public void TestDecreaseHealth() {
             // Decrease the block's health and check if it is updated correctly
-            block.health = 2;
-        block.DecreaseHealth();
+            // block.health = 2;
+            block.DecreaseHealth();
             int expectedHealth = 1;
             int actualHealth = block.health;
             Assert.AreEqual(expectedHealth, actualHealth);
@@ -108,6 +108,8 @@ namespace Breakout.Tests {
         [Test]
         public void TestDecreaseHealth() {
             // Decrease the power-up block's health and check if it is updated correctly
+            powerUpBlock = BlockFactory.CreateBlock(1, 1, "red-block.png", 'P');
+
             powerUpBlock.health = 2;
             Console.WriteLine(powerUpBlock.health);
             powerUpBlock.DecreaseHealth();

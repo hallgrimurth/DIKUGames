@@ -67,7 +67,10 @@ namespace Galaga.GalagaStates {
                                             StringArg2 = "NEW_GAME"
 
                                         }
+
+                                        
                                     );
+                                    GameRunning.GetInstance();
                                     GalagaBus.GetBus().ProcessEventsSequentially();
 
                                     break;

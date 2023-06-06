@@ -37,6 +37,7 @@ namespace Breakout
             new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png")))
         {
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
+            BreakoutBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
 
             BreakoutBus.GetBus().RegisterEvent(new GameEvent
             {
@@ -53,13 +54,15 @@ namespace Breakout
                 StringArg1 = "BALL",
                 From = this
             });
+
+            SetLives();
         }
 
         /// <summary>
         /// Sets up the player's display for the number of lives remaining.
         /// </summary>
         public void SetLives()
-        {
+        {   livesCount = 3;
             display = new Text("Lives: " + livesCount.ToString(), livesPos, livesExtent);
             display.SetColor(new Vec3I(255, 255, 0));
             display.SetFontSize(30);
@@ -71,6 +74,7 @@ namespace Breakout
         public void DecreaseLives()
         {
             livesCount--;
+            display.SetText("Lives: " + livesCount.ToString());
             if (livesCount <= 0)
             {
                 GameEvent gameover = new GameEvent
@@ -88,8 +92,11 @@ namespace Breakout
         /// Increases the player's lives count by one.
         /// </summary>
         public void IncreaseLives()
-        {
+        {   
             livesCount++;
+            display.SetText("Lives: " + livesCount.ToString());
+
+
         }
 
         /// <summary>
@@ -216,7 +223,6 @@ namespace Breakout
         public void Update()
         {
             Move();
-            SetLives();
         }
 
         /// <summary>
@@ -225,6 +231,7 @@ namespace Breakout
         public void Render()
         {
             RenderEntity();
+            display.RenderText();
         }
     }
 }

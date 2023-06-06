@@ -38,7 +38,8 @@ namespace Breakout.BreakoutStates
         /// <returns>The GameRunning state instance.</returns>
         public static GameRunning GetInstance()
         {
-            return instance ??= new GameRunning();
+            return new GameRunning();
+            // return instance ??= new GameRunning();
         }
 
         /// <summary>

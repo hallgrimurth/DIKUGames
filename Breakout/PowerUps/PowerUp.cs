@@ -6,6 +6,8 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Events;
+using DIKUArcade.Timers;
+
 
 namespace Breakout {
     /// <summary>
@@ -13,6 +15,9 @@ namespace Breakout {
     /// </summary>
     public abstract class PowerUp : Entity, ICollidable {
         private static Vec2F direction = new Vec2F(0.0f, -0.01f);
+        private float startTime;
+        private bool activated = false;
+
 
         /// <summary>
         /// Constructs a PowerUp object.
@@ -54,7 +59,10 @@ namespace Breakout {
         public void Collision(CollisionData collisionData, ICollidable other) {
             if (collisionData.Collision) {
                 PowerUpEffect();
-                DeleteEntity();
+                Image = new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"));
+                startTime = (int)StaticTimer.GetElapsedSeconds();
+
+                PowerDownEffect();  
             }
         }
 
@@ -87,7 +95,12 @@ namespace Breakout {
         /// Updates the power-up.
         /// </summary>
         public void Update() {
-            if (IsDeleted()) {
+            if (activated) {
+                Console.WriteLine("Activated");
+                if (StaticTimer.GetElapsedSeconds() - startTime > 3.0f) {
+                    PowerDownEffect();
+                    DeleteEntity();
+                }
                 return;
             }
             CheckCollision();

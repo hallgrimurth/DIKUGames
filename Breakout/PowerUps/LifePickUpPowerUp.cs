@@ -7,6 +7,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using DIKUArcade.Events;
 
+
 namespace Breakout {
     /// <summary>
     /// Represents a power-up that increases the player's health.
@@ -29,7 +30,6 @@ namespace Breakout {
         public override void PowerUpEffect() {
             startTime = (int)StaticTimer.GetElapsedSeconds();
             endTime = startTime + 10;
-
             GameEvent lifePickUpEvent = new GameEvent {
                 EventType = GameEventType.PlayerEvent,
                 Message = "INCREASE_HEALTH"

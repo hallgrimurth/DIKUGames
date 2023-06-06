@@ -38,6 +38,7 @@ namespace Breakout
         private bool start;
         private TimeManager timeManager;
 
+
         /// <summary>
         /// Gets the metadata associated with the level.
         /// </summary>
