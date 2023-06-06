@@ -32,6 +32,8 @@ namespace Breakout {
                     return new IndestructibleBlock(blockShape, image);
                 case 'P':
                     return new PowerUpBlock(blockShape, image);
+                case 'D':
+                    return new HazardBlock(blockShape, image); // D for danger
                 default:
                     return new NormalBlock(blockShape, image);
             }
