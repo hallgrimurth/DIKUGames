@@ -48,7 +48,7 @@ namespace Breakout
                 case 'P':
                     return new PowerUpBlock(blockShape, image);
                 case 'D':
-                    return new HazardBlock(blockShape, image); // D for danger
+                    return new HazardBlock(blockShape, image); // D for danger as H is already used
                 default:
                     return new NormalBlock(blockShape, image);
             }

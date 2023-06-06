@@ -38,16 +38,9 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// The effect of the power-up when it is deactivated.
+        /// This powerup has no effect when it is deactivated.
         /// </summary>
         public override void PowerDownEffect() {
-            if ((int)StaticTimer.GetElapsedSeconds() > endTime) {
-                GameEvent narrowPaddleEvent = new GameEvent {
-                    EventType = GameEventType.MovementEvent,
-                    Message = "Narrow"
-                };
-                BreakoutBus.GetBus().RegisterEvent(narrowPaddleEvent);
-            }
         }
     }
 }

@@ -37,12 +37,19 @@ namespace Breakout
             new Image(Path.Combine(Constants.MAIN_PATH, "Assets", "Images", "player.png")))
         {
             BreakoutBus.GetBus().Subscribe(GameEventType.MovementEvent, this);
+            BreakoutBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
 
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent
-            {
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
                 EventType = GameEventType.StatusEvent,
                 Message = "SUBSCRIBE_COLLISION_EVENT",
                 StringArg1 = "POWERUP",
+                From = this
+            });
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "HAZARD",
                 From = this
             });
 
@@ -163,12 +170,9 @@ namespace Breakout
         /// Processes game events relevant to the player.
         /// </summary>
         /// <param name="gameEvent">The game event to process.</param>
-        public void ProcessEvent(GameEvent gameEvent)
-        {
-            if (gameEvent.EventType == GameEventType.MovementEvent)
-            {
-                switch (gameEvent.Message)
-                {
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.MovementEvent) {
+                switch (gameEvent.Message) {
                     case "MOVE_LEFT":
                         SetMoveLeft(true);
                         break;
@@ -187,24 +191,29 @@ namespace Breakout
                     case "NORMAL_MOVEMENT":
                         MOVEMENT_SPEED = 0.02f;
                         break;
-                    case "Widen":
-                        // Console.WriteLine("Widen message received");
-                        Shape.Extent.X = 0.4f;
-                        break;
-                    case "Narrow":
-                        Shape.Extent.X = 0.2f;
-                        break;
                 }
             }
-            else if (gameEvent.EventType == GameEventType.PlayerEvent)
-            {
-                switch (gameEvent.Message)
-                {
+            else if (gameEvent.EventType == GameEventType.PlayerEvent) {
+                switch (gameEvent.Message) {
                     case "INCREASE_HEALTH":
                         IncreaseLives();
                         break;
                     case "DECREASE_HEALTH":
                         DecreaseLives();
+                        break;
+                    case "WIDE_PADDLE":
+                        // Console.WriteLine("Widen message received");
+                        if (Shape.AsDynamicShape().Extent.X <= 0.8f) {
+                            Shape.AsDynamicShape().Extent.X += 0.1f;
+                            Shape.AsDynamicShape().Position.X -= 0.05f;
+                        }
+                        break;
+                    case "NARROW_PADDLE":
+                        // Console.WriteLine("Narrow message received");
+                        if (Shape.AsDynamicShape().Extent.X >= 0.2f) {
+                            Shape.AsDynamicShape().Extent.X -= 0.1f;
+                            Shape.AsDynamicShape().Position.X += 0.05f;
+                        }
                         break;
                 }
             }
