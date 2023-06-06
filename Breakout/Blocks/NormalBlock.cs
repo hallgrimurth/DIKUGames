@@ -21,7 +21,8 @@ namespace Breakout
         public NormalBlock(DynamicShape shape, IBaseImage image)
             : base(shape, image)
         {
-            // No additional logic required in the constructor.
+            health = 1;
+            value = 10;
         }
 
         /// <summary>

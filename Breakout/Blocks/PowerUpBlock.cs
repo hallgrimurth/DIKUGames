@@ -12,7 +12,8 @@ namespace Breakout {
     /// </summary>
     public class PowerUpBlock : Block {
         private int value;
-        private int health;
+        private int health; 
+
 
         /// <summary>
         /// Constructs a new instance of the PowerUpBlock class.
@@ -22,6 +23,7 @@ namespace Breakout {
         public PowerUpBlock(DynamicShape shape, IBaseImage image)
             : base(shape, image) {
             value = 20;
+            health = 1;
         }
 
         /// <summary>

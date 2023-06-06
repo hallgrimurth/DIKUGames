@@ -12,7 +12,7 @@ namespace Breakout
     /// </summary>
     public abstract class Block : Entity, ICollidable
     {
-        private int health;
+        public int health;
         private int value;
 
         /// <summary>
