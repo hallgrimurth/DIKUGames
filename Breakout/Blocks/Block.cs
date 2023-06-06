@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -14,17 +12,13 @@ namespace Breakout
     /// </summary>
     public abstract class Block : Entity, ICollidable
     {
-        private int value;
         private int health;
+        private int value;
 
         /// <summary>
-        /// Gets or sets the health of the block.
+        /// Gets the value of the block.
         /// </summary>
-        public int Health
-        {
-            get { return health; }
-            set { health = value; }
-        }
+        public int Value { get { return value; } }
 
         /// <summary>
         /// Constructs a new instance of the Block class.
@@ -46,37 +40,9 @@ namespace Breakout
         }
 
         /// <summary>
-        /// Decreases the health of the block.
+        /// Tries to delete the block entity.
         /// </summary>
-        public abstract void DecreaseHealth();
-
-        /// <summary>
-        /// Tries to delete the entity if the health is less than 1.
-        /// </summary>
-        public void TryDeleteEntity()
-        {
-            if (health < 1)
-            {
-                DeleteEntity();
-
-                // Unsubscribe from collision event
-                BreakoutBus.GetBus().RegisterEvent(new GameEvent
-                {
-                    EventType = GameEventType.StatusEvent,
-                    StringArg1 = "BALL",
-                    Message = "UNSUBSCRIBE_COLLISION_EVENT",
-                    From = this
-                });
-
-                // Add points to the player
-                BreakoutBus.GetBus().RegisterEvent(new GameEvent
-                {
-                    EventType = GameEventType.PlayerEvent,
-                    Message = "ADD_POINTS",
-                    IntArg1 = value
-                });
-            }
-        }
+        public abstract void TryDeleteEntity();
 
         /// <summary>
         /// Handles the collision with other entities.
@@ -90,6 +56,11 @@ namespace Breakout
                 DecreaseHealth();
             }
         }
+
+        /// <summary>
+        /// Decreases the health of the block.
+        /// </summary>
+        public abstract void DecreaseHealth();
 
         /// <summary>
         /// Updates the block.

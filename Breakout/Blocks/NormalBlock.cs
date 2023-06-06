@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -13,6 +10,9 @@ namespace Breakout
     /// </summary>
     public class NormalBlock : Block
     {
+        private int health;
+        private int value;
+
         /// <summary>
         /// Constructs a new instance of the NormalBlock class.
         /// </summary>
@@ -29,8 +29,34 @@ namespace Breakout
         /// </summary>
         public override void DecreaseHealth()
         {
-            Health--;
+            health--;
             TryDeleteEntity();
+        }
+
+        /// <summary>
+        /// Tries to delete the normal block entity.
+        /// </summary>
+        public override void TryDeleteEntity()
+        {
+            if (health < 1)
+            {
+                DeleteEntity();
+
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent
+                {
+                    EventType = GameEventType.StatusEvent,
+                    StringArg1 = "BALL",
+                    Message = "UNSUBSCRIBE_COLLISION_EVENT",
+                    From = this
+                });
+
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent
+                {
+                    EventType = GameEventType.PlayerEvent,
+                    Message = "ADD_POINTS",
+                    IntArg1 = value
+                });
+            }
         }
     }
 }

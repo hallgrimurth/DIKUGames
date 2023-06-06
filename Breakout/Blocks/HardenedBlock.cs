@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -14,26 +11,52 @@ namespace Breakout
     public class HardenedBlock : Block
     {
         private IBaseImage damageImage;
-
+        private int value;
+        private int health;
+        
         /// <summary>
         /// Gets the damage image of the hardened block.
         /// </summary>
         public IBaseImage DamageImage { get { return damageImage; } }
-
-        private int value;
 
         /// <summary>
         /// Constructs a new instance of the HardenedBlock class.
         /// </summary>
         /// <param name="shape">The dynamic shape of the block.</param>
         /// <param name="image">The image of the block.</param>
-        /// <param name="damageImage">The damage image of the block.</param>
+        /// <param name="damageImage">The image of the block when damaged.</param>
         public HardenedBlock(DynamicShape shape, IBaseImage image, IBaseImage damageImage)
             : base(shape, image)
         {
-            this.value = 20;
-            Health = 2;
+            value = 20;
+            health = 2;
             this.damageImage = damageImage;
+        }
+
+        /// <summary>
+        /// Tries to delete the hardened block entity.
+        /// </summary>
+        public override void TryDeleteEntity()
+        {
+            if (health < 1)
+            {
+                DeleteEntity();
+
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent
+                {
+                    EventType = GameEventType.StatusEvent,
+                    StringArg1 = "BALL",
+                    Message = "UNSUBSCRIBE_COLLISION_EVENT",
+                    From = this
+                });
+
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent
+                {
+                    EventType = GameEventType.PlayerEvent,
+                    Message = "ADD_POINTS",
+                    IntArg1 = value
+                });
+            }
         }
 
         /// <summary>
@@ -41,13 +64,7 @@ namespace Breakout
         /// </summary>
         public override void DecreaseHealth()
         {
-            Health--;
-
-            if (Health == 1)
-            {
-                Image = damageImage;
-            }
-
+            health--;
             TryDeleteEntity();
         }
     }

@@ -16,7 +16,7 @@ namespace Breakout
     {
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        private const float MOVEMENT_SPEED = 0.02f;
+        private float MOVEMENT_SPEED = 0.02f;
         private Text display;
         private static readonly Vec2F playerPos = new Vec2F(0.4f, 0.1f);
         private static readonly Vec2F playerExtent = new Vec2F(0.2f, 0.03f);
@@ -182,13 +182,13 @@ namespace Breakout
                         SetMoveRight(false);
                         break;
                     case "SLOW_MOVEMENT":
-                        // Handle slow movement logic
+                        MOVEMENT_SPEED = 0.01f;
                         break;
                     case "NORMAL_MOVEMENT":
-                        // Handle normal movement logic
+                        MOVEMENT_SPEED = 0.02f;
                         break;
                     case "Widen":
-                        Console.WriteLine("Widen message received");
+                        // Console.WriteLine("Widen message received");
                         Shape.Extent.X = 0.4f;
                         break;
                     case "Narrow":
@@ -205,12 +205,6 @@ namespace Breakout
                         break;
                     case "DECREASE_HEALTH":
                         DecreaseLives();
-                        break;
-                    case "Widen":
-                        Shape.Extent.X = 0.4f;
-                        break;
-                    case "Narrow":
-                        Shape.Extent.X = 0.2f;
                         break;
                 }
             }

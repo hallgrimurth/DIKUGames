@@ -109,8 +109,16 @@ namespace Breakout
                             float.Parse(gameEvent.StringArg1),
                             float.Parse(gameEvent.StringArg2));
                         PowerUp newPowerUp = PowerUpFactory.CreatePowerUp(pos);
-                        newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.005f));
+                        newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.0035f));
                         currentLevel.powerups.AddEntity(newPowerUp);
+                        break;
+                    case "SPAWN_HAZARD":
+                        Vec2F pos2 = new Vec2F(
+                            float.Parse(gameEvent.StringArg1), 
+                            float.Parse(gameEvent.StringArg2));
+                        Hazard newHazard = HazardFactory.CreateHazard(pos2);
+                        newHazard.ChangeDirection(new Vec2F(0.0f, -0.0035f));
+                        currentLevel.hazards.AddEntity(newHazard);
                         break;
                 }
             }

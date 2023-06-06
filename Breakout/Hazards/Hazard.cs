@@ -4,34 +4,31 @@ using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Physics;
+using DIKUArcade.Events;
 
 namespace Breakout {
     /// <summary>
-    /// Represents a hazard in the game.
+    /// Represents an abstract hazard in the Breakout game.
     /// </summary>
-    public abstract class Hazard : Entity {
-        private static Vec2F direction = new Vec2F(0.0f, 0.0f);
+    public abstract class Hazard : Entity, ICollidable {
+        private static Vec2F direction = new Vec2F(0.0f, -0.01f);
 
         /// <summary>
-        /// The direction of the hazard.
+        /// Constructs a new instance of the Hazard class.
         /// </summary>
-        public static Vec2F Direction {
-            get { return direction; }
-        }
-
-        /// <summary>
-        /// Constructs a Hazard object.
-        /// </summary>
-        /// <param name="shape">The shape of the hazard.</param>
-        /// <param name="image">The image associated with the hazard.</param>
-        public Hazard(DynamicShape shape, IBaseImage image) : base(shape, image) {
+        /// <param name="shape">The dynamic shape of the hazard.</param>
+        /// <param name="image">The image of the hazard.</param>
+        public Hazard(DynamicShape shape, IBaseImage image)
+            : base(shape, image) {
+            ChangeDirection(direction);
         }
 
         /// <summary>
         /// Moves the hazard.
         /// </summary>
-        public void Move() {
-            base.Shape.Move();
+        private void Move() {
+            base.Shape.AsDynamicShape().Move();
         }
 
         /// <summary>
@@ -51,13 +48,51 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// The effect of the hazard when it is activated.
+        /// Handles collision with other entities.
+        /// </summary>
+        /// <param name="collisionData">The collision data.</param>
+        /// <param name="other">The colliding entity.</param>
+        public void Collision(CollisionData collisionData, ICollidable other) {
+            if (collisionData.Collision) {
+                HazardUpEffect();
+                DeleteEntity();
+            }
+        }
+
+        /// <summary>
+        /// Checks for collision with other entities.
+        /// </summary>
+        private void CheckCollision() {
+            if (IsDeleted()) {
+                return;
+            }
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "CHECK_COLLISION_EVENT",
+                From = this,
+                StringArg1 = "HAZARD"
+            });
+        }
+
+        /// <summary>
+        /// Applies the effect of the hazard.
         /// </summary>
         public abstract void HazardUpEffect();
 
         /// <summary>
-        /// The effect of the hazard when it is deactivated.
+        /// Reverts the effect of the hazard.
         /// </summary>
         public abstract void HazardDownEffect();
+
+        /// <summary>
+        /// Updates the hazard.
+        /// </summary>
+        public void Update() {
+            if (IsDeleted()) {
+                return;
+            }
+            CheckCollision();
+            Move();
+        }
     }
 }

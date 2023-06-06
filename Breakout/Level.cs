@@ -25,8 +25,13 @@ namespace Breakout
         private Dictionary<char, string> legendDict;
         private char type;
         private LevelManager levelManager;
-        public EntityContainer<Block> blocks { get; }
-        public EntityContainer<PowerUp> powerups { get; }
+        public LevelManager LevelManager {
+            get{ return levelManager; }
+            set{ levelManager = value; }
+        }
+        public EntityContainer<Block> blocks {get;}
+        public EntityContainer<PowerUp> powerups {get;}
+        public EntityContainer<Hazard> hazards {get;}
         private Ball ball;
         private CollisionManager collisionManager;
         private Player player;
@@ -49,6 +54,7 @@ namespace Breakout
         {
             blocks = new EntityContainer<Block>();
             powerups = new EntityContainer<PowerUp>();
+            hazards = new EntityContainer<Hazard>();
             collisionManager = new CollisionManager();
             timeManager = new TimeManager();
             start = false;
@@ -199,11 +205,11 @@ namespace Breakout
                             string blockImage = legendDict[mapLines[i][j]];
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
                             blocks.AddEntity(block);
-
-                            if (type == 'P')
-                            {
-                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
-                            }
+                            // if (type == 'P'){
+                            //     powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
+                            // } else if (type == 'D'){
+                            //     hazards.AddEntity(HazardFactory.CreateHazard(block.Shape.Position));
+                            // }
                         }
                     }
                     catch (ArgumentOutOfRangeException)
@@ -271,6 +277,9 @@ namespace Breakout
             powerups.Iterate(powerup =>
                 powerup.Update()
             );
+            hazards.Iterate(hazard =>
+                hazard.Update()
+            );
 
             ball.Update();
             player.Update();
@@ -284,6 +293,7 @@ namespace Breakout
         {
             blocks.RenderEntities();
             powerups.RenderEntities();
+            hazards.RenderEntities();
             ball.Render();
             player.Render();
         }
