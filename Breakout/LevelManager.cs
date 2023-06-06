@@ -91,36 +91,39 @@ namespace Breakout
         /// <param name="gameEvent">The game event to process.</param>
         public void ProcessEvent(GameEvent gameEvent)
         {
-            if (gameEvent.EventType == GameEventType.StatusEvent)
+            switch (gameEvent.Message)
             {
-                switch (gameEvent.Message)
-                {
-                    case "PREV_LEVEL":
-                        PrevLvl();
-                        break;
-                    case "NEXT_LEVEL":
-                        NextLvl();
-                        break;
-                    case "START_GAME":
-                        currentLevel.StartGame();
-                        break;
-                    case "SPAWN_POWERUP":
-                        Vec2F pos = new Vec2F(
-                            float.Parse(gameEvent.StringArg1),
-                            float.Parse(gameEvent.StringArg2));
-                        PowerUp newPowerUp = PowerUpFactory.CreatePowerUp(pos);
-                        newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.0035f));
-                        currentLevel.powerups.AddEntity(newPowerUp);
-                        break;
-                    case "SPAWN_HAZARD":
-                        Vec2F pos2 = new Vec2F(
-                            float.Parse(gameEvent.StringArg1), 
-                            float.Parse(gameEvent.StringArg2));
-                        Hazard newHazard = HazardFactory.CreateHazard(pos2);
-                        newHazard.ChangeDirection(new Vec2F(0.0f, -0.0035f));
-                        currentLevel.hazards.AddEntity(newHazard);
-                        break;
-                }
+                case "PREV_LEVEL":
+                    PrevLvl();
+                    break;
+                case "NEXT_LEVEL":
+                    NextLvl();
+                    break;
+                case "START_GAME":
+                    currentLevel.StartGame();
+                    break;
+                case "SPAWN_POWERUP":
+                    Vec2F pos = new Vec2F(
+                        float.Parse(gameEvent.StringArg1),
+                        float.Parse(gameEvent.StringArg2));
+                    PowerUp newPowerUp = PowerUpFactory.CreatePowerUp(pos);
+                    newPowerUp.ChangeDirection(new Vec2F(0.0f, -0.0035f));
+                    currentLevel.powerups.AddEntity(newPowerUp);
+                    break;
+                case "SPAWN_HAZARD":
+                    Vec2F pos2 = new Vec2F(
+                        float.Parse(gameEvent.StringArg1), 
+                        float.Parse(gameEvent.StringArg2));
+                    Hazard newHazard = HazardFactory.CreateHazard(pos2);
+                    newHazard.ChangeDirection(new Vec2F(0.0f, -0.0035f));
+                    currentLevel.hazards.AddEntity(newHazard);
+                    break;
+                case "RESET_BALL":
+                    Console.WriteLine("RESET_BALL");
+                    this.start = false;
+                    currentLevel.Start = false;
+                    currentLevel.SetBall();
+                    break;
             }
         }
 

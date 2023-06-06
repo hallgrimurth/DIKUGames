@@ -40,9 +40,27 @@ namespace Breakout {
         /// Moves the ball.
         /// </summary>
         public void Move() {
-            if (Shape.Position.X > 0.0f && Shape.Position.X + Shape.Extent.X < 1.0f
-                && Shape.Position.Y > 0.0f && Shape.Position.Y + Shape.Extent.Y < 1.0f) {
-                base.Shape.Move();
+            // if (Shape.Position.X > 0.0f && Shape.Position.X + Shape.Extent.X < 1.0f
+            //     && Shape.Position.Y > 0.0f && Shape.Position.Y + Shape.Extent.Y < 1.0f) {
+            //     base.Shape.Move();
+            // }
+            base.Shape.AsDynamicShape().Move();
+        }
+
+        public void CheckPosition() {
+            if (base.Shape.Position.Y < 0.0f) {
+                // DeleteEntity();
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                    EventType = GameEventType.PlayerEvent,
+                    Message = "DECREASE_HEALTH",
+                    From = this
+                });
+                base.DeleteEntity();
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                    EventType = GameEventType.StatusEvent,
+                    Message = "RESET_BALL",
+                    From = this
+                });
             }
         }
 
@@ -150,6 +168,9 @@ namespace Breakout {
         /// <returns>The X bounce direction.</returns>
         private float GetXBounceDirections(float playerPosX, float playerExtentX) {
             var relativeIntersectX = (this.Shape.Position.X - playerPosX);
+            if (relativeIntersectX < 0.0f) {
+                relativeIntersectX += this.Shape.Extent.X;
+            }
             var normalizedRelativeIntersectionX = relativeIntersectX / (playerExtentX);
             var norm = (normalizedRelativeIntersectionX - 0.5f) * 2.0f; // range -1 to 1
 
