@@ -34,6 +34,7 @@ namespace Breakout{
         }
         public EntityContainer<Block> blocks {get;}
         public EntityContainer<PowerUp> powerups {get;}
+        public EntityContainer<Hazard> hazards {get;}
         private Ball ball;
         private CollisionManager collisionManager;        
         public List<string> MetaData{
@@ -44,6 +45,7 @@ namespace Breakout{
         public Level(string filePath){
             blocks = new EntityContainer<Block>();
             powerups = new EntityContainer<PowerUp>();
+            hazards = new EntityContainer<Hazard>();
             collisionManager = new CollisionManager();
 
             ClearLevel();
@@ -126,9 +128,11 @@ namespace Breakout{
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
                             //send event to collision manager
                             blocks.AddEntity(block);
-                            if (type == 'P'){
-                                powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
-                            }
+                            // if (type == 'P'){
+                            //     powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
+                            // } else if (type == 'D'){
+                            //     hazards.AddEntity(HazardFactory.CreateHazard(block.Shape.Position));
+                            // }
                         }
                     // // These catches are needed to avoid crashing if the file is empty or data is missing
                     // // The program will continue without placing a block
@@ -175,6 +179,9 @@ namespace Breakout{
             powerups.Iterate(powerup =>
                 powerup.Update()
             );
+            hazards.Iterate(hazard =>
+                hazard.Update()
+            );
 
             ball.Update();
             player.Update();
@@ -184,6 +191,7 @@ namespace Breakout{
         public void Render() {
             blocks.RenderEntities();
             powerups.RenderEntities();
+            hazards.RenderEntities();
             ball.Render();
             player.Render();
         }

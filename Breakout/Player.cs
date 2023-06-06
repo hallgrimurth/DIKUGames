@@ -13,7 +13,7 @@ namespace Breakout{
         // private Entity player;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        const float MOVEMENT_SPEED = 0.02f;
+        private float MOVEMENT_SPEED = 0.02f;
         private Text display;
         private double startTime;
         private static Vec2F playerPos = new Vec2F(0.4f, 0.1f);
@@ -134,12 +134,14 @@ namespace Breakout{
                         SetMoveRight(false);
                         break;
                     case "SLOW_MOVEMENT":
+                        MOVEMENT_SPEED = 0.01f;
                         break;
                     case "NORMAL_MOVEMENT":
+                        MOVEMENT_SPEED = 0.02f;
                         break;
 
                     case "Widen":
-                        Console.WriteLine("Widen message received");
+                        // Console.WriteLine("Widen message received");
                         Shape.Extent.X = 0.4f;
                         break;
                     case "Narrow":
@@ -153,12 +155,6 @@ namespace Breakout{
                         break;
                     case "DECREASE_HEALTH":
                         DecreaseLives();
-                        break;
-                    case "Widen":
-                        Shape.Extent.X = 0.4f;
-                        break;
-                    case "Narrow":
-                        Shape.Extent.X = 0.2f;
                         break;
                 }
             

@@ -8,14 +8,14 @@ using DIKUArcade.Events;
 
 
 namespace Breakout;
-public class IndestructibleBlock : Block {
+public class HazardBlock : Block {
 
     private int value;
 
     //constructor for block
-    public IndestructibleBlock(DynamicShape Shape, IBaseImage image)
+    public HazardBlock(DynamicShape Shape, IBaseImage image)
         : base(Shape, image) {
-        this.value = 5;
+        this.value = 20;
     }
     public override void TryDeleteEntity() {
         if (Health < 1) {
@@ -32,10 +32,18 @@ public class IndestructibleBlock : Block {
                 Message = "ADD_POINTS",
                 IntArg1 = this.value
             });
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "SPAWN_HAZARD",
+                StringArg1 = Shape.Position.X.ToString(),
+                StringArg2 = Shape.Position.Y.ToString(),
+                From = this
+            });
         }
     }
-    public override void DecreaseHealth() { 
+    public override void DecreaseHealth() {
+        this.Health--;
         TryDeleteEntity();
     }
-        
 }

@@ -16,6 +16,24 @@ public class NormalBlock : Block {
         
     }
 
+    public override void TryDeleteEntity() {
+        if (Health < 1) {
+            DeleteEntity();
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                StringArg1 = "BALL",
+                Message = "UNSUBSCRIBE_COLLISION_EVENT",
+                From = this
+            });
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.PlayerEvent,  
+                Message = "ADD_POINTS",
+                IntArg1 = this.Value
+            });
+        }
+    }
+
     public override void DecreaseHealth() {
         this.Health--;
         TryDeleteEntity();

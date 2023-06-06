@@ -13,6 +13,9 @@ public abstract class Block : Entity, ICollidable {
 
     private int health;
     int value ;
+    public int Value {
+        get { return value; }
+    }
 
     public int Health {
         get { return health; }
@@ -33,23 +36,7 @@ public abstract class Block : Entity, ICollidable {
         
     public abstract void DecreaseHealth() ;
 
-    public void TryDeleteEntity() {
-        if (health < 1) {
-            DeleteEntity();
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
-                EventType = GameEventType.StatusEvent,
-                StringArg1 = "BALL",
-                Message = "UNSUBSCRIBE_COLLISION_EVENT",
-                From = this
-            });
-
-            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
-                EventType = GameEventType.PlayerEvent,  
-                Message = "ADD_POINTS",
-                IntArg1 = this.value
-            });
-        }
-    }
+    public abstract void TryDeleteEntity() ;
 
     public void Collision(CollisionData collisionData, ICollidable other) {
         if (collisionData.Collision) {

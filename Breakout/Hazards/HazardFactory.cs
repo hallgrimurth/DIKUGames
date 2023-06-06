@@ -24,10 +24,10 @@ namespace Breakout {
             
             
             //Case for each hazard type
-            int random = rand.Next(0, 3);
+            int random = rand.Next(0, 4);
             switch(random){
                 case 0:
-                    var ClockDownImage = new Image(Path.Combine("newAssets", "Images", "ClockDownHazard.png"));
+                    var ClockDownImage = new Image(Path.Combine("newAssets", "Images", "clock-down.png"));
                     return new ClockDownHazard(HazardShape, ClockDownImage);
                 case 1:
                     var SlimJimImage = new Image(Path.Combine("newAssets", "Images", "SlimJim.png"));
