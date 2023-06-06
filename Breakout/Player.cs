@@ -118,6 +118,18 @@ namespace Breakout
             }
         }
 
+        private void SendCollisionData() {
+            if (this.IsDeleted()) {
+                return;
+            }
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "CHECK_COLLISION_EVENT",
+                From = this,
+                StringArg1 = ""
+            });
+        }
+
         /// <summary>
         /// Moves the player based on the current input state.
         /// </summary>
@@ -208,7 +220,7 @@ namespace Breakout
                         DecreaseLives();
                         break;
                     case "WIDE_PADDLE":
-                        // Console.WriteLine("Widen message received");
+                        Console.WriteLine("Widen message received");
                         if (Shape.AsDynamicShape().Extent.X <= 0.8f) {
                             Shape.AsDynamicShape().Extent.X += 0.1f;
                             Shape.AsDynamicShape().Position.X -= 0.05f;
@@ -231,6 +243,7 @@ namespace Breakout
         public void Update()
         {
             Move();
+            SendCollisionData();
         }
 
         /// <summary>

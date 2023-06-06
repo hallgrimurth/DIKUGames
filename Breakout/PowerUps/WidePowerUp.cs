@@ -25,7 +25,6 @@ public class WidePowerUp : PowerUp  {
                         EventType = GameEventType.PlayerEvent, 
                         Message = "WIDE_PADDLE" });
         BreakoutBus.GetBus().RegisterEvent(WidePaddleEvent);
-        Console.WriteLine("WidePaddleEvent sent");
     }
 
     public override void PowerDownEffect(){

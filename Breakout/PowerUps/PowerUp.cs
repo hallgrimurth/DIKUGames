@@ -26,6 +26,15 @@ namespace Breakout {
         /// <param name="image">The image associated with the power-up.</param>
         public PowerUp(DynamicShape shape, IBaseImage image) : base(shape, image) {
             ChangeDirection(direction);
+            // Register collision event subscription for the powerup
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent
+            {
+                EventType = GameEventType.StatusEvent,
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "PLAYER",
+                From = this
+            });
+        
         }
 
         /// <summary>
@@ -61,8 +70,8 @@ namespace Breakout {
                 PowerUpEffect();
                 Image = new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"));
                 startTime = (int)StaticTimer.GetElapsedSeconds();
+                activated = true;
 
-                PowerDownEffect();  
             }
         }
 
@@ -96,8 +105,7 @@ namespace Breakout {
         /// </summary>
         public void Update() {
             if (activated) {
-                Console.WriteLine("Activated");
-                if (StaticTimer.GetElapsedSeconds() - startTime > 3.0f) {
+                if (StaticTimer.GetElapsedSeconds() - startTime > 5.0f) {
                     PowerDownEffect();
                     DeleteEntity();
                 }

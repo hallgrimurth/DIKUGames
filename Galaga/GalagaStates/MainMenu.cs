@@ -59,6 +59,7 @@ namespace Galaga.GalagaStates {
 
                             switch(activeMenuButton){
                                 case 0:
+                                    GameRunning.GetInstance().ResetState();
                                     GalagaBus.GetBus().RegisterEvent(
                                         new GameEvent{
                                             EventType = GameEventType.GameStateEvent,
