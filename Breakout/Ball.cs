@@ -45,19 +45,19 @@ namespace Breakout {
         }
 
         public void CheckPosition() {
-            if (base.Shape.Position.Y < 0.0f) {
+            if ((base.Shape.Position.Y + base.Shape.Extent.Y) < 0.0f) {
                 // DeleteEntity();
                 BreakoutBus.GetBus().RegisterEvent(new GameEvent {
                     EventType = GameEventType.PlayerEvent,
                     Message = "DECREASE_HEALTH",
                     From = this
                 });
-                base.DeleteEntity();
                 BreakoutBus.GetBus().RegisterEvent(new GameEvent {
                     EventType = GameEventType.StatusEvent,
                     Message = "RESET_BALL",
                     From = this
                 });
+                base.DeleteEntity();
             }
         }
 
@@ -190,14 +190,6 @@ namespace Breakout {
             } else if (this.Shape.Position.X + this.Shape.Extent.X >= 0.98f) {
                 normal = new Vec2F(-1.0f, 0.0f);
                 this.ChangeDirection(VectorOperations.Reflection(dir, normal));
-            // } else if (this.Shape.Position.Y + this.Shape.Extent.Y <= 0.1f) {
-            //     this.Shape.Position = new Vec2F(0.5f, 0.2f);
-            //     ChangeDirection(new Vec2F(0.1f * 10e-6f, 0.01f));
-            //     BreakoutBus.GetBus().RegisterEvent(new GameEvent {
-            //         EventType = GameEventType.PlayerEvent,
-            //         Message = "DECREASE_HEALTH",
-            //         From = this
-            //     });
             }
         }
 
@@ -221,6 +213,7 @@ namespace Breakout {
         /// </summary>
         public void Update() {
             Move();
+            CheckPosition();
             WallCollision();
             SendCollisionData();
         }

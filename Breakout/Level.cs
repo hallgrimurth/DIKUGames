@@ -203,11 +203,6 @@ namespace Breakout
                             string blockImage = legendDict[mapLines[i][j]];
                             Block block = BlockFactory.CreateBlock(i, j, blockImage, type);
                             blocks.AddEntity(block);
-                            // if (type == 'P'){
-                            //     powerups.AddEntity(PowerUpFactory.CreatePowerUp(block.Shape.Position));
-                            // } else if (type == 'D'){
-                            //     hazards.AddEntity(HazardFactory.CreateHazard(block.Shape.Position));
-                            // }
                         }
                     }
                     catch (ArgumentOutOfRangeException)

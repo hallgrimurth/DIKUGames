@@ -31,7 +31,7 @@ namespace Breakout {
 
                 case var value when value == "SUBSCRIBE_COLLISION_EVENT"
                     && CheckGameEvent(gameEvent):
-                    if (gameEvent.StringArg1 == "PLAYER") Console.WriteLine("Subscribing");
+                    // if (gameEvent.StringArg1 == "PLAYER") Console.WriteLine("Subscribing");
                     Subscribe(gameEvent.StringArg1, (ICollidable)gameEvent.From);
                     break;
 
@@ -108,16 +108,14 @@ namespace Breakout {
         /// <param name="other">The second ICollidable object.</param>
         private void ComputeCollision(ICollidable actor, ICollidable other) {
             if (actor is PowerUp && other is Player) {
-                // Console.WriteLine("PowerUp");
                 CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
                 if (data.Collision && !((PowerUp)actor).Activated && data.CollisionDir == CollisionDirection.CollisionDirDown) {
                     other.Collision(data, actor);
                     actor.Collision(data, other);
                 }
             } else if (actor is Hazard && other is Player) {
-                // Console.WriteLine("Player");
                 CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
-                if (data.Collision && !((PowerUp)other).Activated && data.CollisionDir == CollisionDirection.CollisionDirDown) {
+                if (data.Collision && !((Hazard)actor).Activated && data.CollisionDir == CollisionDirection.CollisionDirDown) {
                     other.Collision(data, actor);
                     actor.Collision(data, other);
                 }
