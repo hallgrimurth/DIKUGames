@@ -40,10 +40,7 @@ namespace Breakout {
         /// Moves the ball.
         /// </summary>
         public void Move() {
-            // if (Shape.Position.X > 0.0f && Shape.Position.X + Shape.Extent.X < 1.0f
-            //     && Shape.Position.Y > 0.0f && Shape.Position.Y + Shape.Extent.Y < 1.0f) {
-            //     base.Shape.Move();
-            // }
+
             base.Shape.AsDynamicShape().Move();
         }
 
