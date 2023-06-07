@@ -68,6 +68,10 @@ namespace Breakout
         public override void DecreaseHealth()
         {
             health--;
+            if (health == 1)
+            {
+                Image = damageImage;
+            }
             TryDeleteEntity();
         }
 

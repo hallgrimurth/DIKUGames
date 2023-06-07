@@ -194,7 +194,9 @@ namespace Breakout.Tests {
         [Test]
         public void TestDecreaseHealth() {
             // Decrease the power-up block's health and check if it is updated correctly
+
             powerUpBlock.IncreaseHealth();
+            Console.WriteLine(powerUpBlock.Health);
             powerUpBlock.DecreaseHealth();
             int expectedHealth = 1;
             int actualHealth = powerUpBlock.Health;

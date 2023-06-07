@@ -60,13 +60,15 @@ namespace Breakout
                 StringArg1 = "BALL",
                 From = this
             });
+
+            SetLives();
         }
 
         /// <summary>
         /// Sets up the player's display for the number of lives remaining.
         /// </summary>
         public void SetLives()
-        {
+        {   livesCount = 3;
             display = new Text("Lives: " + livesCount.ToString(), livesPos, livesExtent);
             display.SetColor(new Vec3I(255, 255, 0));
             display.SetFontSize(30);
@@ -78,6 +80,7 @@ namespace Breakout
         public void DecreaseLives()
         {
             livesCount--;
+            display.SetText("Lives: " + livesCount.ToString());
             if (livesCount <= 0)
             {
                 GameEvent gameover = new GameEvent
@@ -95,8 +98,11 @@ namespace Breakout
         /// Increases the player's lives count by one.
         /// </summary>
         public void IncreaseLives()
-        {
+        {   
             livesCount++;
+            display.SetText("Lives: " + livesCount.ToString());
+
+
         }
 
         /// <summary>
@@ -110,6 +116,18 @@ namespace Breakout
             {
                 // Handle collision logic
             }
+        }
+
+        private void SendCollisionData() {
+            if (this.IsDeleted()) {
+                return;
+            }
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "CHECK_COLLISION_EVENT",
+                From = this,
+                StringArg1 = ""
+            });
         }
 
         /// <summary>
@@ -202,7 +220,7 @@ namespace Breakout
                         DecreaseLives();
                         break;
                     case "WIDE_PADDLE":
-                        // Console.WriteLine("Widen message received");
+                        Console.WriteLine("Widen message received");
                         if (Shape.AsDynamicShape().Extent.X <= 0.8f) {
                             Shape.AsDynamicShape().Extent.X += 0.1f;
                             Shape.AsDynamicShape().Position.X -= 0.05f;
@@ -225,7 +243,7 @@ namespace Breakout
         public void Update()
         {
             Move();
-            SetLives();
+            SendCollisionData();
         }
 
         /// <summary>
@@ -234,6 +252,7 @@ namespace Breakout
         public void Render()
         {
             RenderEntity();
+            display.RenderText();
         }
     }
 }

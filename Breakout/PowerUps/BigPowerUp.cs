@@ -27,8 +27,7 @@ namespace Breakout {
         /// The effect of the power-up when it is activated.
         /// </summary>
         public override void PowerUpEffect() {
-            startTime = (int)StaticTimer.GetElapsedSeconds();
-            endTime = startTime + 10;
+
 
             GameEvent bigBallEvent = new GameEvent {
                 EventType = GameEventType.MovementEvent,
@@ -41,13 +40,12 @@ namespace Breakout {
         /// The effect of the power-up when it is deactivated.
         /// </summary>
         public override void PowerDownEffect() {
-            if ((int)StaticTimer.GetElapsedSeconds() > endTime) {
                 GameEvent normalBallEvent = new GameEvent {
                     EventType = GameEventType.MovementEvent,
                     Message = "NORMAL_SIZE"
                 };
                 BreakoutBus.GetBus().RegisterEvent(normalBallEvent);
             }
-        }
+        
     }
 }

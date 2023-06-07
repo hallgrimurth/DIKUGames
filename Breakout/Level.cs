@@ -42,6 +42,7 @@ namespace Breakout
         }
         private TimeManager timeManager;
 
+
         /// <summary>
         /// Gets the metadata associated with the level.
         /// </summary>

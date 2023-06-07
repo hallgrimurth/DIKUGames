@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DIKUArcade.Events;
 using DIKUArcade.Physics;
+using System;
 
 namespace Breakout {
     /// <summary>
@@ -30,6 +31,7 @@ namespace Breakout {
 
                 case var value when value == "SUBSCRIBE_COLLISION_EVENT"
                     && CheckGameEvent(gameEvent):
+                    if (gameEvent.StringArg1 == "PLAYER") Console.WriteLine("Subscribing");
                     Subscribe(gameEvent.StringArg1, (ICollidable)gameEvent.From);
                     break;
 
@@ -89,6 +91,7 @@ namespace Breakout {
         /// <param name="collisionIdentifier">The collision identifier.</param>
         /// <param name="actor">The ICollidable object to collide.</param>
         private void TryCollide(string collisionIdentifier, ICollidable actor) {
+
             if (!collisionEvents.ContainsKey(collisionIdentifier)) {
                 return;
             }
@@ -104,6 +107,7 @@ namespace Breakout {
         /// <param name="actor">The first ICollidable object.</param>
         /// <param name="other">The second ICollidable object.</param>
         private void ComputeCollision(ICollidable actor, ICollidable other) {
+            if (actor is PowerUp) Console.WriteLine("PowerUp");
             CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
             if (data.Collision) {
                 other.Collision(data, actor);

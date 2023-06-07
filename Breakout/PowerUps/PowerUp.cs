@@ -6,6 +6,8 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Events;
+using DIKUArcade.Timers;
+
 
 namespace Breakout {
     /// <summary>
@@ -13,6 +15,9 @@ namespace Breakout {
     /// </summary>
     public abstract class PowerUp : Entity, ICollidable {
         private static Vec2F direction = new Vec2F(0.0f, -0.01f);
+        private float startTime;
+        private bool activated = false;
+
 
         /// <summary>
         /// Constructs a PowerUp object.
@@ -21,6 +26,15 @@ namespace Breakout {
         /// <param name="image">The image associated with the power-up.</param>
         public PowerUp(DynamicShape shape, IBaseImage image) : base(shape, image) {
             ChangeDirection(direction);
+            // Register collision event subscription for the powerup
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent
+            {
+                EventType = GameEventType.StatusEvent,
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "PLAYER",
+                From = this
+            });
+        
         }
 
         /// <summary>
@@ -54,7 +68,10 @@ namespace Breakout {
         public void Collision(CollisionData collisionData, ICollidable other) {
             if (collisionData.Collision) {
                 PowerUpEffect();
-                DeleteEntity();
+                Image = new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"));
+                startTime = (int)StaticTimer.GetElapsedSeconds();
+                activated = true;
+
             }
         }
 
@@ -87,7 +104,11 @@ namespace Breakout {
         /// Updates the power-up.
         /// </summary>
         public void Update() {
-            if (IsDeleted()) {
+            if (activated) {
+                if (StaticTimer.GetElapsedSeconds() - startTime > 5.0f) {
+                    PowerDownEffect();
+                    DeleteEntity();
+                }
                 return;
             }
             CheckCollision();

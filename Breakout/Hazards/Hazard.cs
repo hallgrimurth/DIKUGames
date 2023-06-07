@@ -6,6 +6,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Events;
+using DIKUArcade.Timers;
 
 namespace Breakout {
     /// <summary>
@@ -13,6 +14,8 @@ namespace Breakout {
     /// </summary>
     public abstract class Hazard : Entity, ICollidable {
         private static Vec2F direction = new Vec2F(0.0f, -0.01f);
+        private float startTime;
+        private bool activated = false;
 
         /// <summary>
         /// Constructs a new instance of the Hazard class.
@@ -55,7 +58,9 @@ namespace Breakout {
         public void Collision(CollisionData collisionData, ICollidable other) {
             if (collisionData.Collision) {
                 HazardUpEffect();
-                DeleteEntity();
+                Image = new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"));
+                startTime = (int)StaticTimer.GetElapsedSeconds();
+                activated = true;
             }
         }
 
@@ -89,6 +94,10 @@ namespace Breakout {
         /// </summary>
         public void Update() {
             if (IsDeleted()) {
+                if (StaticTimer.GetElapsedSeconds() - startTime > 5.0f) {
+                    HazardDownEffect();
+                    DeleteEntity();
+                }
                 return;
             }
             CheckCollision();

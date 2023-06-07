@@ -31,7 +31,7 @@ namespace Breakout
         public Points(Vec2F position, Vec2F extent)
         {
             display = new Text("Score:" + pointsValue.ToString(), position, extent);
-            display.SetColor(new Vec3I(0, 255, 255));
+            display.SetColor(new Vec3I(255, 255, 255));
 
             BreakoutBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
         }
@@ -61,7 +61,7 @@ namespace Breakout
         {
             display = new Text("GameOver \n you reached \n   level: " + pointsValue.ToString(),
                 new Vec2F(0.25f, 0.25f), new Vec2F(0.5f, 0.5f));
-            display.SetColor(new Vec3I(0, 255, 255));
+            display.SetColor(new Vec3I(255, 255, 255));
         }
 
         /// <summary>
