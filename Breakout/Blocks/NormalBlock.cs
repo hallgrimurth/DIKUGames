@@ -11,7 +11,9 @@ namespace Breakout
     public class NormalBlock : Block
     {
         private int health;
+        public override int Health { get { return this.health; } }
         private int value;
+        public override int Value { get { return this.value; } }
 
         /// <summary>
         /// Constructs a new instance of the NormalBlock class.
@@ -21,8 +23,8 @@ namespace Breakout
         public NormalBlock(DynamicShape shape, IBaseImage image)
             : base(shape, image)
         {
-            health = 1;
-            value = 10;
+            this.health = 1;
+            this.value = 10;
         }
 
         /// <summary>
@@ -62,6 +64,14 @@ namespace Breakout
                     IntArg1 = value
                 });
             }
+        }
+
+        /// <summary>
+        /// Increases the health of the normal block.
+        /// </summary>
+        public override void IncreaseHealth()
+        {
+            this.health++;
         }
     }
 }

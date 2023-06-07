@@ -12,7 +12,15 @@ namespace Breakout {
     /// </summary>
     public class PowerUpBlock : Block {
         private int value;
+        public override int Value {
+            get{ return value; }
+            // set{ this.value = value; }
+        }
         private int health; 
+        public override int Health {
+            get{ return health; }
+            // set{ this.health = value; }
+        }
 
 
         /// <summary>
@@ -62,6 +70,14 @@ namespace Breakout {
         public override void DecreaseHealth() {
             health--;
             TryDeleteEntity();
+        }
+
+        /// <summary>
+        /// Increases the health of the powerup block.
+        /// </summary>
+        public override void IncreaseHealth()
+        {
+            this.health++;
         }
     }
 }

@@ -12,7 +12,10 @@ namespace Breakout
     {
         private IBaseImage damageImage;
         private int value;
+        public override int Value { get { return this.value; } }
         private int health;
+        public override int Health { get { return this.health; } }
+
         
         /// <summary>
         /// Gets the damage image of the hardened block.
@@ -28,8 +31,8 @@ namespace Breakout
         public HardenedBlock(DynamicShape shape, IBaseImage image, IBaseImage damageImage)
             : base(shape, image)
         {
-            value = 20;
-            health = 2;
+            this.value = 20;
+            this.health = 2;
             this.damageImage = damageImage;
         }
 
@@ -66,6 +69,14 @@ namespace Breakout
         {
             health--;
             TryDeleteEntity();
+        }
+
+        /// <summary>
+        /// Increases the health of the hardened block.
+        /// </summary>
+        public override void IncreaseHealth()
+        {
+            this.health++;
         }
     }
 }

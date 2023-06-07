@@ -13,13 +13,13 @@ namespace Breakout
     public abstract class Block : Entity, ICollidable
     {
         private int health;
-        public int Health { get { return health; } }
+        public abstract int Health { get;}
         private int value;
 
         /// <summary>
         /// Gets the value of the block.
         /// </summary>
-        public int Value { get { return value; } }
+        public abstract int Value { get;}
 
         /// <summary>
         /// Constructs a new instance of the Block class.
@@ -29,6 +29,7 @@ namespace Breakout
         public Block(DynamicShape shape, IBaseImage image) : base(shape, image)
         {
             health = 1;
+            value = 1;
 
             // Register collision event subscription for the block
             BreakoutBus.GetBus().RegisterEvent(new GameEvent
@@ -66,10 +67,7 @@ namespace Breakout
         /// <summary>
         /// Increases the health of the block.
         /// </summary>
-        public void IncreaseHealth()
-        {
-            health++;
-        }
+        public abstract void IncreaseHealth();
 
         /// <summary>
         /// Updates the block.

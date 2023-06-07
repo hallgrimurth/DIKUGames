@@ -11,7 +11,9 @@ namespace Breakout
     public class IndestructibleBlock : Block
     {
         private int value;
+        public override int Value { get { return this.value; } }
         private int health;
+        public override int Health { get { return this.health; } }
 
         /// <summary>
         /// Constructs a new instance of the IndestructibleBlock class.
@@ -21,7 +23,8 @@ namespace Breakout
         public IndestructibleBlock(DynamicShape shape, IBaseImage image)
             : base(shape, image)
         {
-            value = 5;
+            this.value = 5;
+            this.health = 1;
         }
 
         /// <summary>
@@ -57,6 +60,14 @@ namespace Breakout
         {
             // No health decrease for indestructible block
             TryDeleteEntity();
+        }
+
+        /// <summary>
+        /// Increases the health of the indestructable block.
+        /// </summary>
+        public override void IncreaseHealth()
+        {
+            this.health++;
         }
     }
 }
