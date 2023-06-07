@@ -72,6 +72,7 @@ namespace Breakout.BreakoutStates {
                             switch(activeMenuButton){
                                 case 0:
                                     // Change state to game running
+                                    GameRunning.GetInstance().ResetState();
                                     BreakoutBus.GetBus().RegisterEvent(
                                         new GameEvent{
                                             EventType = GameEventType.GameStateEvent,

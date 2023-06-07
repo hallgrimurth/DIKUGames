@@ -90,7 +90,6 @@ namespace Breakout
                     StringArg1 = "GAME_OVER"
                 };
                 BreakoutBus.GetBus().RegisterEvent(gameover);
-                Console.WriteLine("GAME OVER");
             }
         }
 

@@ -20,7 +20,6 @@ namespace Galaga.GalagaStates {
                     break;
                 case GameStateType.MainMenu:
                     ActiveState = MainMenu.GetInstance();
-                    GameRunning.GetInstance().ResetState();
                     break;
                 case GameStateType.GamePaused:
                     ActiveState = GamePaused.GetInstance();

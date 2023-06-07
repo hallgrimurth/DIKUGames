@@ -31,10 +31,6 @@ namespace Breakout {
 
                 case var value when value == "SUBSCRIBE_COLLISION_EVENT"
                     && CheckGameEvent(gameEvent):
-<<<<<<< HEAD
-=======
-                    // if (gameEvent.StringArg1 == "PLAYER") Console.WriteLine("Subscribing");
->>>>>>> 50656fbb46898ef0846edac81428ffcd18aa365d
                     Subscribe(gameEvent.StringArg1, (ICollidable)gameEvent.From);
                     break;
 

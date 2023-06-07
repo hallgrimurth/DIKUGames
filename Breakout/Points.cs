@@ -71,6 +71,19 @@ namespace Breakout
         {
             display.RenderText();
         }
+        public void Update()
+        {
+            if (pointsValue >= 25)
+            {
+                BreakoutBus.GetBus().RegisterEvent(
+                    new GameEvent{
+                        EventType = GameEventType.GameStateEvent,
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_WON"
+                    }
+                );
+        }
+        }
 
         /// <summary>
         /// Processes game events.

@@ -4,6 +4,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Input;
 using DIKUArcade.Events;
+using System;
 
 
 
@@ -59,7 +60,9 @@ namespace Galaga.GalagaStates {
 
                             switch(activeMenuButton){
                                 case 0:
-                                    GameRunning.GetInstance().ResetState();
+                                    Console.WriteLine("New Game");
+                                    // GameRunning.GetInstance().ResetState();
+                                    Console.WriteLine("New Game");
                                     GalagaBus.GetBus().RegisterEvent(
                                         new GameEvent{
                                             EventType = GameEventType.GameStateEvent,
@@ -71,7 +74,7 @@ namespace Galaga.GalagaStates {
 
                                         
                                     );
-                                    GameRunning.GetInstance();
+                                    // GameRunning.GetInstance();
                                     GalagaBus.GetBus().ProcessEventsSequentially();
 
                                     break;

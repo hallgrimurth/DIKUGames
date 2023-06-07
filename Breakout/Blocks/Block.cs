@@ -14,7 +14,7 @@ namespace Breakout
     {
         // private int health;
         public abstract int Health { get;}
-        private int value;
+        // private int value;
 
         /// <summary>
         /// Gets the value of the block.
@@ -28,8 +28,7 @@ namespace Breakout
         /// <param name="image">The image of the block.</param>
         public Block(DynamicShape shape, IBaseImage image) : base(shape, image)
         {
-            // health = 1;
-            value = 1;
+
 
             // Register collision event subscription for the block
             BreakoutBus.GetBus().RegisterEvent(new GameEvent

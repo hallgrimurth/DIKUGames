@@ -29,7 +29,8 @@ namespace Breakout.BreakoutStates
                 { GameStateType.GameRunning, GameRunning.GetInstance() },
                 { GameStateType.MainMenu, MainMenu.GetInstance() },
                 { GameStateType.GamePaused, GamePaused.GetInstance() },
-                { GameStateType.GameOver, GameOver.GetInstance() }
+                { GameStateType.GameOver, GameOver.GetInstance() },
+                { GameStateType.GameWon, GameWon.GetInstance()}
             };
             ActiveState = StateMap[GameStateType.MainMenu];
         }
