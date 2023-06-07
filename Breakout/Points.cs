@@ -71,6 +71,9 @@ namespace Breakout
         {
             display.RenderText();
         }
+        /// <summary>
+        /// updades the score display.
+        /// </summary>
         public void Update()
         {
             if (pointsValue >= 25)
