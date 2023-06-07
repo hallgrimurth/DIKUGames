@@ -16,6 +16,7 @@ namespace Breakout {
         private static Vec2F direction = new Vec2F(0.0f, -0.01f);
         private float startTime;
         private bool activated = false;
+        public bool Activated { get => activated; }
 
         /// <summary>
         /// Constructs a new instance of the Hazard class.
@@ -25,6 +26,14 @@ namespace Breakout {
         public Hazard(DynamicShape shape, IBaseImage image)
             : base(shape, image) {
             ChangeDirection(direction);
+            // Register collision event subscription for the hazard
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent
+            {
+                EventType = GameEventType.StatusEvent,
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "PLAYER",
+                From = this
+            });
         }
 
         /// <summary>
@@ -56,7 +65,7 @@ namespace Breakout {
         /// <param name="collisionData">The collision data.</param>
         /// <param name="other">The colliding entity.</param>
         public void Collision(CollisionData collisionData, ICollidable other) {
-            if (collisionData.Collision) {
+            if (collisionData.Collision && other is Player) {
                 HazardUpEffect();
                 Image = new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"));
                 startTime = (int)StaticTimer.GetElapsedSeconds();
@@ -68,7 +77,7 @@ namespace Breakout {
         /// Checks for collision with other entities.
         /// </summary>
         private void CheckCollision() {
-            if (IsDeleted()) {
+            if (this.IsDeleted()) {
                 return;
             }
             BreakoutBus.GetBus().RegisterEvent(new GameEvent {
