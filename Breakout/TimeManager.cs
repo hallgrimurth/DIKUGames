@@ -17,6 +17,13 @@ namespace Breakout {
             display.SetColor(new Vec3I(255, 255, 255));
             display.SetFontSize(30);
             BreakoutBus.GetBus().Subscribe(GameEventType.GraphicsEvent, this);
+
+            BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "SUBSCRIBE_COLLISION_EVENT",
+                StringArg1 = "HAZARD",
+                From = this
+            });
         }
         public void ProcessEvent(GameEvent gameEvent) {
 
@@ -30,7 +37,9 @@ namespace Breakout {
                     hasTime = false;
                     display.SetText("Time: ");
                     break;
-                
+                case "CLOCK_DOWN":
+                    givenTime -= 5;
+                    break;
                 
             }
         }
