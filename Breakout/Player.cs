@@ -220,17 +220,17 @@ namespace Breakout
                         DecreaseLives();
                         break;
                     case "WIDE_PADDLE":
-                        Console.WriteLine("Widen message received");
+                        // Console.WriteLine("Widen message received");
                         if (Shape.AsDynamicShape().Extent.X <= 0.8f) {
-                            Shape.AsDynamicShape().Extent.X += 0.1f;
-                            Shape.AsDynamicShape().Position.X -= 0.05f;
+                            Shape.AsDynamicShape().Extent.X += 0.032f;
+                            Shape.AsDynamicShape().Position.X -= 0.016f;
                         }
                         break;
                     case "NARROW_PADDLE":
                         // Console.WriteLine("Narrow message received");
                         if (Shape.AsDynamicShape().Extent.X >= 0.2f) {
-                            Shape.AsDynamicShape().Extent.X -= 0.1f;
-                            Shape.AsDynamicShape().Position.X += 0.05f;
+                            Shape.AsDynamicShape().Extent.X -= 0.032f;
+                            Shape.AsDynamicShape().Position.X += 0.016f;
                         }
                         break;
                 }

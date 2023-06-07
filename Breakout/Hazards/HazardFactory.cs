@@ -38,8 +38,8 @@ namespace Breakout {
                     var slownessImage = new Image(Path.Combine("newAssets", "Images", "Slowness.png"));
                     return new SlownessHazard(hazardShape, slownessImage);
                 default:
-                    var toughenUpImage = new Image(Path.Combine("newAssets", "Images", "ToughenUp.png"));
-                    return new ToughenUpHazard(hazardShape, toughenUpImage);
+                    var defaultImage = new Image(Path.Combine("newAssets", "Images", "SlimJim.png"));
+                    return new SlimJimHazard(hazardShape, defaultImage);
             }
         }
     }

@@ -18,11 +18,7 @@ namespace Breakout.Tests {
         [SetUp]
         public void Setup() {
             // Create a new Block instance for each test case
-            // var image = new Image("block.png");
             block = BlockFactory.CreateBlock(1, 1, "red-block.png", 'N');
-            // blocks = new List<Block>();
-            // blocks.Add(block);
-            // Console.WriteLine(block.GetType());
         }
 
         [Test]
@@ -79,23 +75,26 @@ namespace Breakout.Tests {
 
         [Test]
         public void TestTryDeleteEntity_HealthNonZero() {
-            // Set the block's health to a non-zero value and check if the entity is not deleted
-            // block.health = 2;
-            block.IncreaseHealth();
+            // The block's health is a non-zero value. check if the entity is not deleted
             block.TryDeleteEntity();
             bool isDeleted = block.IsDeleted();
             Assert.IsFalse(isDeleted);
         }
 
         [Test]
-        public void TestDecreaseHealth() {
-            // Decrease the block's health and check if it is updated correctly
-            // block.health = 2;
-            Console.WriteLine(block.Health);
+        public void TestIncreaseHealth() {
+            // Increase the block's health and check if it is updated correctly
             block.IncreaseHealth();
-            Console.WriteLine(block.Health);
+            int expectedHealth = 2;
+            int actualHealth = block.Health;
+            Assert.AreEqual(expectedHealth, actualHealth);
+        }
+
+        [Test]
+        public void TestDecreaseHealth() {
+            // Increase and then decrease the block's health and check if it is updated correctly
+            block.IncreaseHealth();
             block.DecreaseHealth();
-            Console.WriteLine(block.Health);
             int expectedHealth = 1;
             int actualHealth = block.Health;
             Assert.AreEqual(expectedHealth, actualHealth);
@@ -104,7 +103,6 @@ namespace Breakout.Tests {
         [Test]
         public void TestDecreaseHealth_Delete() {
             // Decrease the block's health when it is already one and check if it is deleted
-            // block.health = 1;
             block.DecreaseHealth();
             bool isDeleted = block.IsDeleted();
             Assert.IsTrue(isDeleted);
@@ -120,11 +118,7 @@ namespace Breakout.Tests {
         [SetUp]
         public void Setup() {
             // Create a new PowerUpBlock instance for each test case
-            // var image = new Image("powerupblock.png");
             powerUpBlock = BlockFactory.CreateBlock(1, 1, "red-block.png", 'P');
-            // blocks = new List<Block>();
-            // blocks.Add(powerUpBlock);
-            // Console.WriteLine(powerUpBlock.GetType());
         }
 
         [Test]
@@ -181,26 +175,37 @@ namespace Breakout.Tests {
         [Test]
         public void TestTryDeleteEntity_HealthNonZero() {
             // Set the power-up block's health to a non-zero value and check if the entity is not deleted
-            // powerUpBlock.health = 2;
-            Console.WriteLine(powerUpBlock.Health);
-            powerUpBlock.IncreaseHealth();
-            Console.WriteLine(powerUpBlock.Health);
-            powerUpBlock.DecreaseHealth();
-            Console.WriteLine(powerUpBlock.Health);
+            powerUpBlock.TryDeleteEntity();
             bool isDeleted = powerUpBlock.IsDeleted();
             Assert.IsFalse(isDeleted);
         }
 
         [Test]
-        public void TestDecreaseHealth() {
-            // Decrease the power-up block's health and check if it is updated correctly
-
+        public void TestIncreaseHealth() {
+            // Increase the power-up block's health and check if it is updated correctly
             powerUpBlock.IncreaseHealth();
-            Console.WriteLine(powerUpBlock.Health);
+            int expectedHealth = 2;
+            int actualHealth = powerUpBlock.Health;
+            Assert.AreEqual(expectedHealth, actualHealth);
+        }
+
+        [Test]
+        public void TestDecreaseHealth() {
+            // Incrase and then decrease the power-up block's health
+            // check if it is updated correctly
+            powerUpBlock.IncreaseHealth();
             powerUpBlock.DecreaseHealth();
             int expectedHealth = 1;
             int actualHealth = powerUpBlock.Health;
             Assert.AreEqual(expectedHealth, actualHealth);
+        }
+
+        [Test]
+        public void TestDecreaseHealth_Delete() {
+            // Decrease the power-up block's health when it is already one and check if it is deleted
+            powerUpBlock.DecreaseHealth();
+            bool isDeleted = powerUpBlock.IsDeleted();
+            Assert.IsTrue(isDeleted);
         }
     }
 
@@ -259,12 +264,20 @@ namespace Breakout.Tests {
         }
 
         [Test]
+        public void TestDecreaseHealth() {
+            // Decrease the hardened block's health and check if it is updated correctly
+            hardenedBlock.DecreaseHealth();
+            int expectedHealth = 1;
+            int actualHealth = hardenedBlock.Health;
+            Assert.AreEqual(expectedHealth, actualHealth);
+        }
+
+        [Test]
         public void TestTryDeleteEntity_HealthZero() {
             // The hardened block has two health points
             // Decrease the hardened block's health to zero and check if the entity is deleted
             hardenedBlock.DecreaseHealth();
             hardenedBlock.DecreaseHealth();
-            // hardenedBlock.TryDeleteEntity();
             bool isDeleted = hardenedBlock.IsDeleted();
             Assert.IsTrue(isDeleted);
         }
@@ -277,15 +290,6 @@ namespace Breakout.Tests {
             bool isDeleted = hardenedBlock.IsDeleted();
             Assert.IsFalse(isDeleted);
         }
-
-        [Test]
-        public void TestDecreaseHealth() {
-            // Decrease the hardened block's health and check if it is updated correctly
-            hardenedBlock.DecreaseHealth();
-            int expectedHealth = 1;
-            int actualHealth = hardenedBlock.Health;
-            Assert.AreEqual(expectedHealth, actualHealth);
-        }
     }
 
     [TestFixture]
@@ -296,7 +300,6 @@ namespace Breakout.Tests {
         [SetUp]
         public void Setup() {
             // Create a new HazardBlock instance for each test case
-            // var image = new Image("hazardblock.png");
             hazardBlock = BlockFactory.CreateBlock(1, 1, "red-block.png", 'D');
         }
 
@@ -343,22 +346,12 @@ namespace Breakout.Tests {
         }
 
         [Test]
-        public void TestTryDeleteEntity_HealthZero() {
-            // Set the hazard block's health to zero and check if the entity is deleted
-            hazardBlock.DecreaseHealth();
-            // hazardBlock.TryDeleteEntity();
-            bool isDeleted = hazardBlock.IsDeleted();
-            Assert.IsTrue(isDeleted);
-        }
-
-        [Test]
-        public void TestTryDeleteEntity_HealthNonZero() {
-            // Set the hazard block's health to a non-zero value and check if the entity is not deleted
-            // hazardBlock.health = 2;
+        public void TestIncreaseHealth() {
+            // Increase the hazard block's health and check if it is updated correctly
             hazardBlock.IncreaseHealth();
-            hazardBlock.DecreaseHealth();
-            bool isDeleted = hazardBlock.IsDeleted();
-            Assert.IsFalse(isDeleted);
+            int expectedHealth = 2;
+            int actualHealth = hazardBlock.Health;
+            Assert.AreEqual(expectedHealth, actualHealth);
         }
 
         [Test]
@@ -372,12 +365,20 @@ namespace Breakout.Tests {
         }
 
         [Test]
-        public void TestIncreaseHealth() {
-            // Increase the hazard block's health and check if it is updated correctly
-            hazardBlock.IncreaseHealth();
-            int expectedHealth = 2;
-            int actualHealth = hazardBlock.Health;
-            Assert.AreEqual(expectedHealth, actualHealth);
+        public void TestTryDeleteEntity_HealthZero() {
+            // Decrease the hazard block's health to zero and check if the entity is deleted
+            hazardBlock.DecreaseHealth();
+            bool isDeleted = hazardBlock.IsDeleted();
+            Assert.IsTrue(isDeleted);
+        }
+
+        [Test]
+        public void TestTryDeleteEntity_HealthNonZero() {
+            // The hazard block's health is a non-zero value
+            // Check if the entity is not deleted
+            hazardBlock.TryDeleteEntity();
+            bool isDeleted = hazardBlock.IsDeleted();
+            Assert.IsFalse(isDeleted);
         }
     }
 
@@ -389,7 +390,6 @@ namespace Breakout.Tests {
         [SetUp]
         public void Setup() {
             // Create a new IndestructibleBlock instance for each test case
-            // var image = new Image("indestructibleblock.png");
             indestructibleBlock = BlockFactory.CreateBlock(1, 1, "red-block.png", 'I');
         }
 
@@ -422,7 +422,7 @@ namespace Breakout.Tests {
         [Test]
         public void TestTryDeleteEntity() {
             // Try to delete the indestructible block and check if the entity is not deleted
-            // indestructibleBlock.TryDeleteEntity();
+            indestructibleBlock.TryDeleteEntity();
             bool isDeleted = indestructibleBlock.IsDeleted();
             Assert.IsFalse(isDeleted);
         }
@@ -436,7 +436,5 @@ namespace Breakout.Tests {
             int actualHealth = indestructibleBlock.Health;
             Assert.AreEqual(expectedHealth, actualHealth);
         }
-
-
     }
 }

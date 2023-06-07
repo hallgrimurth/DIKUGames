@@ -107,11 +107,26 @@ namespace Breakout {
         /// <param name="actor">The first ICollidable object.</param>
         /// <param name="other">The second ICollidable object.</param>
         private void ComputeCollision(ICollidable actor, ICollidable other) {
-            if (actor is PowerUp) Console.WriteLine("PowerUp");
-            CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
-            if (data.Collision) {
-                other.Collision(data, actor);
-                actor.Collision(data, other);
+            if (actor is PowerUp && other is Player) {
+                // Console.WriteLine("PowerUp");
+                CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
+                if (data.Collision && !((PowerUp)actor).Activated && data.CollisionDir == CollisionDirection.CollisionDirDown) {
+                    other.Collision(data, actor);
+                    actor.Collision(data, other);
+                }
+            } else if (actor is Hazard && other is Player) {
+                // Console.WriteLine("Player");
+                CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
+                if (data.Collision && !((PowerUp)other).Activated && data.CollisionDir == CollisionDirection.CollisionDirDown) {
+                    other.Collision(data, actor);
+                    actor.Collision(data, other);
+                }
+            } else {
+                CollisionData data = CollisionDetection.Aabb(actor.Shape.AsDynamicShape(), other.Shape);
+                if (data.Collision) {
+                    other.Collision(data, actor);
+                    actor.Collision(data, other);
+                }
             }
         }
     }

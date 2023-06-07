@@ -16,7 +16,7 @@ namespace Breakout {
     /// </summary>
     public class Ball : Entity, IGameEventProcessor, ICollidable {
         private static Vec2F extent = new Vec2F(0.030f, 0.030f);
-        private static Vec2F direction = new Vec2F(0.01f, 0.005f);
+        private static Vec2F direction = new Vec2F(0.0f, 0.0f);
 
         /// <summary>
         /// The extent (size) of the ball.
@@ -177,7 +177,7 @@ namespace Breakout {
         /// <summary>
         /// Handles wall collisions by changing the direction of the ball.
         /// </summary>
-        private void WallCollision() {
+        public void WallCollision() {
             var normal = new Vec2F(0.0f, 0.0f);
             Vec2F dir = this.GetDirection();
 
@@ -190,14 +190,14 @@ namespace Breakout {
             } else if (this.Shape.Position.X + this.Shape.Extent.X >= 0.98f) {
                 normal = new Vec2F(-1.0f, 0.0f);
                 this.ChangeDirection(VectorOperations.Reflection(dir, normal));
-            } else if (this.Shape.Position.Y + this.Shape.Extent.Y <= 0.1f) {
-                this.Shape.Position = new Vec2F(0.5f, 0.2f);
-                ChangeDirection(new Vec2F(0.1f * 10e-6f, 0.01f));
-                BreakoutBus.GetBus().RegisterEvent(new GameEvent {
-                    EventType = GameEventType.PlayerEvent,
-                    Message = "DECREASE_HEALTH",
-                    From = this
-                });
+            // } else if (this.Shape.Position.Y + this.Shape.Extent.Y <= 0.1f) {
+            //     this.Shape.Position = new Vec2F(0.5f, 0.2f);
+            //     ChangeDirection(new Vec2F(0.1f * 10e-6f, 0.01f));
+            //     BreakoutBus.GetBus().RegisterEvent(new GameEvent {
+            //         EventType = GameEventType.PlayerEvent,
+            //         Message = "DECREASE_HEALTH",
+            //         From = this
+            //     });
             }
         }
 
