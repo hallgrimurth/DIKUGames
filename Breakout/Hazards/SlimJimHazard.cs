@@ -12,8 +12,7 @@ namespace Breakout {
     /// Represents a hazard that narrows the player's paddle.
     /// </summary>
     public class SlimJimHazard : Hazard {
-        private double startTime;
-        private double endTime;
+
 
         /// <summary>
         /// Constructs a SlimJimHazard object.
@@ -38,13 +37,13 @@ namespace Breakout {
         /// The effect of the hazard when it is deactivated.
         /// </summary>
         public override void HazardDownEffect() {
-            if ((int)StaticTimer.GetElapsedSeconds() > endTime) {
+
                 GameEvent widenPaddleEvent = new GameEvent {
                     EventType = GameEventType.PlayerEvent,
                     Message = "WIDE_PADDLE"
                 };
                 BreakoutBus.GetBus().RegisterEvent(widenPaddleEvent);
-            }
+            
         }
     }
 }

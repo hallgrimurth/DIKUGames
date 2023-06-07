@@ -93,7 +93,7 @@ namespace Breakout {
         /// Updates the hazard.
         /// </summary>
         public void Update() {
-            if (IsDeleted()) {
+            if (activated) {
                 if (StaticTimer.GetElapsedSeconds() - startTime > 5.0f) {
                     HazardDownEffect();
                     DeleteEntity();

@@ -12,8 +12,7 @@ namespace Breakout {
     /// Represents a hazard that causes the game clock to count down faster.
     /// </summary>
     public class ClockDownHazard : Hazard {
-        private double startTime;
-        private double endTime;
+
 
         /// <summary>
         /// Constructs a ClockDownHazard object.

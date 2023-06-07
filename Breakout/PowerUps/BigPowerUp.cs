@@ -12,8 +12,6 @@ namespace Breakout {
     /// Represents a power-up that doubles the size of the ball.
     /// </summary>
     public class BigPowerUp : PowerUp {
-        private double startTime;
-        private double endTime;
 
         /// <summary>
         /// Constructs a BigPowerUp object.
